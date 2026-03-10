@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from src.agents.hydrologist import HydrologistAgent
 from src.agents.surveyor import SurveyorAgent
 
 
@@ -10,7 +11,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Brownfield Cartographer CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    analyze = subparsers.add_parser("analyze", help="Run Phase 1 Surveyor analysis")
+    analyze = subparsers.add_parser("analyze", help="Run Phase 1+2 analysis")
     analyze.add_argument("repo", nargs="?", default=".", help="Path to local repository")
     analyze.add_argument("--days", type=int, default=30, help="Git velocity lookback window")
 
@@ -24,6 +25,7 @@ def main() -> None:
     if args.command == "analyze":
         repo = Path(args.repo).resolve()
         result = SurveyorAgent(repo).run(days=args.days)
+        hydro = HydrologistAgent(repo).run()
 
         print("Phase 1 Surveyor completed")
         print(f"- Modules analyzed: {result['module_count']}")
@@ -47,6 +49,14 @@ def main() -> None:
                     f"  - {item['path']} (changes={item['change_count']}, "
                     f"cumulative_share={item['cumulative_share']})"
                 )
+
+        print("\nPhase 2 Hydrologist completed")
+        print(f"- Lineage events: {hydro['event_count']}")
+        print(f"- Lineage nodes: {hydro['node_count']}")
+        print(f"- Lineage edges: {hydro['edge_count']}")
+        print(f"- Lineage JSON: {hydro['lineage_graph_path']}")
+        print(f"- Sources discovered: {len(hydro['sources'])}")
+        print(f"- Sinks discovered: {len(hydro['sinks'])}")
 
 
 if __name__ == "__main__":
