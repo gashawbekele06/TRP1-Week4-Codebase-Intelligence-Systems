@@ -13,7 +13,19 @@
       "id": "src/agents/__init__.py"
     },
     {
+      "id": "src/agents/hydrologist.py"
+    },
+    {
       "id": "src/agents/surveyor.py"
+    },
+    {
+      "id": "src/analyzers/dag_config_parser.py"
+    },
+    {
+      "id": "src/analyzers/python_dataflow.py"
+    },
+    {
+      "id": "src/analyzers/sql_lineage.py"
     },
     {
       "id": "src/analyzers/tree_sitter_analyzer.py"
@@ -31,6 +43,9 @@
       "id": "src/models/__init__.py"
     },
     {
+      "id": "src/models/lineage.py"
+    },
+    {
       "id": "src/models/module.py"
     }
   ],
@@ -39,6 +54,26 @@
       "weight": 1,
       "source": "main.py",
       "target": "src/cli.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/agents/hydrologist.py",
+      "target": "src/analyzers/dag_config_parser.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/agents/hydrologist.py",
+      "target": "src/analyzers/python_dataflow.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/agents/hydrologist.py",
+      "target": "src/analyzers/sql_lineage.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/agents/hydrologist.py",
+      "target": "src/models/lineage.py"
     },
     {
       "weight": 1,
@@ -57,8 +92,33 @@
     },
     {
       "weight": 1,
+      "source": "src/analyzers/dag_config_parser.py",
+      "target": "src/models/lineage.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/analyzers/python_dataflow.py",
+      "target": "src/analyzers/tree_sitter_analyzer.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/analyzers/python_dataflow.py",
+      "target": "src/models/lineage.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/analyzers/sql_lineage.py",
+      "target": "src/models/lineage.py"
+    },
+    {
+      "weight": 1,
       "source": "src/analyzers/tree_sitter_analyzer.py",
       "target": "src/models/module.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/cli.py",
+      "target": "src/agents/hydrologist.py"
     },
     {
       "weight": 1,

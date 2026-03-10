@@ -1,0 +1,12 @@
+{
+  "graph": {
+    "directed": true,
+    "multigraph": false,
+    "graph": {},
+    "nodes": [],
+    "edges": []
+  },
+  "sources": [],
+  "sinks": [],
+  "warnings": []
+}
