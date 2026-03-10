@@ -29,6 +29,7 @@ class PythonDataFlowAnalyzer:
 
         source = file_path.read_text(encoding="utf-8")
         tree = ast.parse(source)
+        string_bindings = self._collect_string_bindings(tree)
 
         for node in ast.walk(tree):
             if not isinstance(node, ast.Call):
@@ -40,7 +41,12 @@ class PythonDataFlowAnalyzer:
 
             # pandas reads
             if call_name.endswith("read_csv"):
-                dataset, note = self._extract_arg_value(node, 0, {"filepath_or_buffer"})
+                dataset, note = self._extract_arg_value(
+                    node,
+                    0,
+                    {"filepath_or_buffer"},
+                    string_bindings,
+                )
                 event = self._build_read_event(
                     source_file=relative,
                     line=node.lineno,
@@ -51,7 +57,7 @@ class PythonDataFlowAnalyzer:
                 events.append(event)
 
             elif call_name.endswith("read_sql"):
-                sql_text, note = self._extract_arg_value(node, 0, {"sql"})
+                sql_text, note = self._extract_arg_value(node, 0, {"sql"}, string_bindings)
                 sources = self._extract_tables_from_sql(sql_text) if sql_text else []
                 event = TransformationEvent(
                     source_datasets=sources or (["dynamic reference, cannot resolve"] if note else []),
@@ -66,7 +72,12 @@ class PythonDataFlowAnalyzer:
 
             # SQLAlchemy execute
             elif call_name.endswith("execute"):
-                sql_text, note = self._extract_arg_value(node, 0, {"statement", "clause"})
+                sql_text, note = self._extract_arg_value(
+                    node,
+                    0,
+                    {"statement", "clause"},
+                    string_bindings,
+                )
                 sources = self._extract_tables_from_sql(sql_text) if sql_text else []
                 event = TransformationEvent(
                     source_datasets=sources or (["dynamic reference, cannot resolve"] if note else []),
@@ -84,7 +95,12 @@ class PythonDataFlowAnalyzer:
                 call_name.endswith(suffix)
                 for suffix in ("csv", "json", "parquet", "orc", "table", "load")
             ):
-                dataset, note = self._extract_arg_value(node, 0, {"path", "tableName"})
+                dataset, note = self._extract_arg_value(
+                    node,
+                    0,
+                    {"path", "tableName"},
+                    string_bindings,
+                )
                 event = self._build_read_event(
                     source_file=relative,
                     line=node.lineno,
@@ -99,7 +115,12 @@ class PythonDataFlowAnalyzer:
                 call_name.endswith(suffix)
                 for suffix in ("csv", "json", "parquet", "orc", "save", "saveAsTable")
             ):
-                dataset, note = self._extract_arg_value(node, 0, {"path", "name", "tableName"})
+                dataset, note = self._extract_arg_value(
+                    node,
+                    0,
+                    {"path", "name", "tableName"},
+                    string_bindings,
+                )
                 event = TransformationEvent(
                     source_datasets=[f"python_runtime:{relative}"],
                     target_datasets=[dataset or "dynamic reference, cannot resolve"],
@@ -148,6 +169,7 @@ class PythonDataFlowAnalyzer:
         call: ast.Call,
         position: int,
         keyword_names: set[str],
+        string_bindings: dict[str, str],
     ) -> tuple[str | None, str | None]:
         target: ast.AST | None = None
         if len(call.args) > position:
@@ -161,14 +183,46 @@ class PythonDataFlowAnalyzer:
         if target is None:
             return None, None
 
-        if isinstance(target, ast.Constant) and isinstance(target.value, str):
-            return target.value, None
+        return self._resolve_string_node(target, string_bindings)
 
-        if isinstance(target, ast.JoinedStr):
+    def _collect_string_bindings(self, tree: ast.AST) -> dict[str, str]:
+        """Collect straightforward variable -> string bindings for light name resolution."""
+        bindings: dict[str, str] = {}
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Assign):
+                resolved, note = self._resolve_string_node(node.value, bindings)
+                if resolved and not note:
+                    for target in node.targets:
+                        if isinstance(target, ast.Name):
+                            bindings[target.id] = resolved
+            elif isinstance(node, ast.AnnAssign):
+                if isinstance(node.target, ast.Name) and node.value is not None:
+                    resolved, note = self._resolve_string_node(node.value, bindings)
+                    if resolved and not note:
+                        bindings[node.target.id] = resolved
+        return bindings
+
+    def _resolve_string_node(
+        self,
+        node: ast.AST,
+        string_bindings: dict[str, str],
+    ) -> tuple[str | None, str | None]:
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            return node.value, None
+
+        if isinstance(node, ast.Name):
+            if node.id in string_bindings:
+                return string_bindings[node.id], None
             return None, "dynamic reference, cannot resolve"
 
-        if isinstance(target, ast.Name):
-            return None, "dynamic reference, cannot resolve"
+        if isinstance(node, ast.JoinedStr):
+            parts: list[str] = []
+            for value in node.values:
+                if isinstance(value, ast.Constant) and isinstance(value.value, str):
+                    parts.append(value.value)
+                else:
+                    return None, "dynamic reference, cannot resolve"
+            return "".join(parts), None
 
         return None, "dynamic reference, cannot resolve"
 
