@@ -1,5 +1,4 @@
-def main():
-    print("Hello from trp1-week3-codebase-intelligence-systems!")
+from src.cli import main
 
 
 if __name__ == "__main__":

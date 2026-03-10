@@ -4,4 +4,15 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+	"networkx>=3.4",
+	"numpy>=2.2",
+	"pydantic>=2.10",
+	"pyyaml>=6.0.2",
+	"sqlglot>=26.20.0",
+	"tree-sitter>=0.23",
+	"tree-sitter-language-pack>=0.6.0",
+]
+
+[project.scripts]
+cartographer = "src.cli:main"
