@@ -1,0 +1,69 @@
+{
+  "directed": true,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "id": "main.py"
+    },
+    {
+      "id": "src/__init__.py"
+    },
+    {
+      "id": "src/agents/__init__.py"
+    },
+    {
+      "id": "src/agents/surveyor.py"
+    },
+    {
+      "id": "src/analyzers/tree_sitter_analyzer.py"
+    },
+    {
+      "id": "src/cli.py"
+    },
+    {
+      "id": "src/graph/__init__.py"
+    },
+    {
+      "id": "src/graph/knowledge_graph.py"
+    },
+    {
+      "id": "src/models/__init__.py"
+    },
+    {
+      "id": "src/models/module.py"
+    }
+  ],
+  "edges": [
+    {
+      "weight": 1,
+      "source": "main.py",
+      "target": "src/cli.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/agents/surveyor.py",
+      "target": "src/analyzers/tree_sitter_analyzer.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/agents/surveyor.py",
+      "target": "src/graph/knowledge_graph.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/agents/surveyor.py",
+      "target": "src/models/module.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/analyzers/tree_sitter_analyzer.py",
+      "target": "src/models/module.py"
+    },
+    {
+      "weight": 1,
+      "source": "src/cli.py",
+      "target": "src/agents/surveyor.py"
+    }
+  ]
+}
