@@ -1,6 +1,9 @@
-# Brownfield Cartographer (Phase 1)
+# Brownfield Cartographer (Phase 1 + Phase 2)
 
-This repository now implements **Phase 1: Surveyor Agent (Static Structure)**.
+This repository now implements:
+
+- **Phase 1: Surveyor Agent (Static Structure)**
+- **Phase 2: Hydrologist Agent (Data Lineage)**
 
 ## What is implemented
 
@@ -20,6 +23,25 @@ This repository now implements **Phase 1: Surveyor Agent (Static Structure)**.
 	- Strongly connected components (circular dependencies)
 - Graph serialization to `.cartography/module_graph.json`
 
+### Phase 2 (Hydrologist)
+
+- Python data flow extraction for:
+	- pandas: `read_csv`, `read_sql`
+	- SQLAlchemy: `execute(...)`
+	- PySpark: common read/write paths (`read.csv/json/parquet/orc/table/load`, `write.*`, `saveAsTable`)
+- Dynamic string handling:
+	- f-strings / variable references are flagged as `dynamic reference, cannot resolve`
+- SQL lineage via `sqlglot` with dialect fallback:
+	- PostgreSQL, BigQuery, Snowflake, DuckDB
+	- Handles dbt `ref()` and `source()` normalization
+- YAML DAG/config topology extraction:
+	- dbt `schema.yml` model/source structures
+	- generic YAML `tasks` + `upstream` relationships
+- Unified `DataLineageGraph` (NetworkX DiGraph) with:
+	- `blast_radius(node)` downstream traversal support in agent
+	- `find_sources()` and `find_sinks()`
+- Graph serialization to `.cartography/lineage_graph.json`
+
 ## Run
 
 Install dependencies, then run analysis on any local repo path.
@@ -34,4 +56,5 @@ You can also use the script entrypoint:
 ## Output
 
 - `.cartography/module_graph.json`
+- `.cartography/lineage_graph.json`
 
