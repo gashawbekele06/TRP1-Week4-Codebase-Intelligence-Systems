@@ -21,11 +21,12 @@ class HydrologistAgent:
         self.lineage_graph = nx.DiGraph()
         self.warnings: list[str] = []
 
-    def run(self) -> dict:
+    def run(self, output_root: Path | None = None) -> dict:
         events = self._collect_events()
         self._build_lineage_graph(events)
 
-        output_path = self.repo_root / ".cartography" / "lineage_graph.json"
+        output_base = output_root.resolve() if output_root else self.repo_root
+        output_path = output_base / ".cartography" / "lineage_graph.json"
         self._write_graph_json(output_path)
 
         return {

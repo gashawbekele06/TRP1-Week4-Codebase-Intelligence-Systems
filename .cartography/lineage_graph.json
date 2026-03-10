@@ -3,10 +3,289 @@
     "directed": true,
     "multigraph": false,
     "graph": {},
-    "nodes": [],
-    "edges": []
+    "nodes": [
+      {
+        "id": "macros/cents_to_dollars"
+      },
+      {
+        "id": "macros/generate_schema_name"
+      },
+      {
+        "id": "stg_customers"
+      },
+      {
+        "id": "customers"
+      },
+      {
+        "id": "stg_locations"
+      },
+      {
+        "id": "locations"
+      },
+      {
+        "id": "metricflow_time_spine"
+      },
+      {
+        "id": "stg_order_items"
+      },
+      {
+        "id": "stg_orders"
+      },
+      {
+        "id": "stg_products"
+      },
+      {
+        "id": "stg_supplies"
+      },
+      {
+        "id": "order_items"
+      },
+      {
+        "id": "orders"
+      },
+      {
+        "id": "products"
+      },
+      {
+        "id": "supplies"
+      },
+      {
+        "id": "ecom.raw_customers"
+      },
+      {
+        "id": "ecom.raw_orders"
+      },
+      {
+        "id": "ecom.raw_items"
+      },
+      {
+        "id": "ecom.raw_stores"
+      },
+      {
+        "id": "ecom.raw_products"
+      },
+      {
+        "id": "ecom.raw_supplies"
+      }
+    ],
+    "edges": [
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/marts/customers.sql",
+        "line_range": [
+          1,
+          58
+        ],
+        "sql_query_if_applicable": "with\n\ncustomers as (\n\n    select * from {{ ref('stg_customers') }}\n\n),\n\norders as (\n\n    select * from {{ ref('orders') }}\n\n),\n\ncustomer_orders_summary as (\n\n    select\n        orders.customer_id,\n\n        count(distinct orders.order_id) as count_lifetime_orders,\n        count(distinct orders.order_id) > 1 as is_repeat_buyer,\n        min(orders.ordered_at) as first_ordered_at,\n        max(orders.ordered_at) as last_ordered_at,\n        sum(orders.subtotal) as lifetime_spend_pretax,\n        sum(orders.tax_paid) as lifetime_tax_paid,\n        sum(orders.order_total) as lifetime_spend\n\n    from orders\n\n    group by 1\n\n),\n\njoined as (\n\n    select\n        customers.*,\n\n        customer_orders_summary.count_lifetime_orders,\n        customer_orders_summary.first_ordered_at,\n        customer_orders_summary.last_ordered_at,\n        customer_orders_summary.lifetime_spend_pretax,\n        customer_orders_summary.lifetime_tax_paid,\n        customer_orders_summary.lifetime_spend,\n\n        case\n            when customer_orders_summary.is_repeat_buyer then 'returning'\n            else 'new'\n        end as customer_type\n\n    from customers\n\n    left join customer_orders_summary\n        on customers.customer_id = customer_orders_summary.customer_id\n\n)\n\nselect * from joined\n",
+        "notes": [],
+        "source": "stg_customers",
+        "target": "customers"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/marts/locations.sql",
+        "line_range": [
+          1,
+          9
+        ],
+        "sql_query_if_applicable": "with\n\nlocations as (\n\n    select * from {{ ref('stg_locations') }}\n\n)\n\nselect * from locations\n",
+        "notes": [],
+        "source": "stg_locations",
+        "target": "locations"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/marts/order_items.sql",
+        "line_range": [
+          1,
+          66
+        ],
+        "sql_query_if_applicable": "with\n\norder_items as (\n\n    select * from {{ ref('stg_order_items') }}\n\n),\n\n\norders as (\n\n    select * from {{ ref('stg_orders') }}\n\n),\n\nproducts as (\n\n    select * from {{ ref('stg_products') }}\n\n),\n\nsupplies as (\n\n    select * from {{ ref('stg_supplies') }}\n\n),\n\norder_supplies_summary as (\n\n    select\n        product_id,\n\n        sum(supply_cost) as supply_cost\n\n    from supplies\n\n    group by 1\n\n),\n\njoined as (\n\n    select\n        order_items.*,\n\n        orders.ordered_at,\n\n        products.product_name,\n        products.product_price,\n        products.is_food_item,\n        products.is_drink_item,\n\n        order_supplies_summary.supply_cost\n\n    from order_items\n\n    left join orders on order_items.order_id = orders.order_id\n\n    left join products on order_items.product_id = products.product_id\n\n    left join order_supplies_summary\n        on order_items.product_id = order_supplies_summary.product_id\n\n)\n\nselect * from joined\n",
+        "notes": [],
+        "source": "stg_order_items",
+        "target": "order_items"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/marts/order_items.sql",
+        "line_range": [
+          1,
+          66
+        ],
+        "sql_query_if_applicable": "with\n\norder_items as (\n\n    select * from {{ ref('stg_order_items') }}\n\n),\n\n\norders as (\n\n    select * from {{ ref('stg_orders') }}\n\n),\n\nproducts as (\n\n    select * from {{ ref('stg_products') }}\n\n),\n\nsupplies as (\n\n    select * from {{ ref('stg_supplies') }}\n\n),\n\norder_supplies_summary as (\n\n    select\n        product_id,\n\n        sum(supply_cost) as supply_cost\n\n    from supplies\n\n    group by 1\n\n),\n\njoined as (\n\n    select\n        order_items.*,\n\n        orders.ordered_at,\n\n        products.product_name,\n        products.product_price,\n        products.is_food_item,\n        products.is_drink_item,\n\n        order_supplies_summary.supply_cost\n\n    from order_items\n\n    left join orders on order_items.order_id = orders.order_id\n\n    left join products on order_items.product_id = products.product_id\n\n    left join order_supplies_summary\n        on order_items.product_id = order_supplies_summary.product_id\n\n)\n\nselect * from joined\n",
+        "notes": [],
+        "source": "stg_orders",
+        "target": "order_items"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/marts/orders.sql",
+        "line_range": [
+          1,
+          77
+        ],
+        "sql_query_if_applicable": "with\n\norders as (\n\n    select * from {{ ref('stg_orders') }}\n\n),\n\norder_items as (\n\n    select * from {{ ref('order_items') }}\n\n),\n\norder_items_summary as (\n\n    select\n        order_id,\n\n        sum(supply_cost) as order_cost,\n        sum(product_price) as order_items_subtotal,\n        count(order_item_id) as count_order_items,\n        sum(\n            case\n                when is_food_item then 1\n                else 0\n            end\n        ) as count_food_items,\n        sum(\n            case\n                when is_drink_item then 1\n                else 0\n            end\n        ) as count_drink_items\n\n    from order_items\n\n    group by 1\n\n),\n\ncompute_booleans as (\n\n    select\n        orders.*,\n\n        order_items_summary.order_cost,\n        order_items_summary.order_items_subtotal,\n        order_items_summary.count_food_items,\n        order_items_summary.count_drink_items,\n        order_items_summary.count_order_items,\n        order_items_summary.count_food_items > 0 as is_food_order,\n        order_items_summary.count_drink_items > 0 as is_drink_order\n\n    from orders\n\n    left join\n        order_items_summary\n        on orders.order_id = order_items_summary.order_id\n\n),\n\ncustomer_order_count as (\n\n    select\n        *,\n\n        row_number() over (\n            partition by customer_id\n            order by ordered_at asc\n        ) as customer_order_number\n\n    from compute_booleans\n\n)\n\nselect * from customer_order_count\n",
+        "notes": [],
+        "source": "stg_orders",
+        "target": "orders"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/marts/order_items.sql",
+        "line_range": [
+          1,
+          66
+        ],
+        "sql_query_if_applicable": "with\n\norder_items as (\n\n    select * from {{ ref('stg_order_items') }}\n\n),\n\n\norders as (\n\n    select * from {{ ref('stg_orders') }}\n\n),\n\nproducts as (\n\n    select * from {{ ref('stg_products') }}\n\n),\n\nsupplies as (\n\n    select * from {{ ref('stg_supplies') }}\n\n),\n\norder_supplies_summary as (\n\n    select\n        product_id,\n\n        sum(supply_cost) as supply_cost\n\n    from supplies\n\n    group by 1\n\n),\n\njoined as (\n\n    select\n        order_items.*,\n\n        orders.ordered_at,\n\n        products.product_name,\n        products.product_price,\n        products.is_food_item,\n        products.is_drink_item,\n\n        order_supplies_summary.supply_cost\n\n    from order_items\n\n    left join orders on order_items.order_id = orders.order_id\n\n    left join products on order_items.product_id = products.product_id\n\n    left join order_supplies_summary\n        on order_items.product_id = order_supplies_summary.product_id\n\n)\n\nselect * from joined\n",
+        "notes": [],
+        "source": "stg_products",
+        "target": "order_items"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/marts/products.sql",
+        "line_range": [
+          1,
+          9
+        ],
+        "sql_query_if_applicable": "with\n\nproducts as (\n\n    select * from {{ ref('stg_products') }}\n\n)\n\nselect * from products\n",
+        "notes": [],
+        "source": "stg_products",
+        "target": "products"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/marts/order_items.sql",
+        "line_range": [
+          1,
+          66
+        ],
+        "sql_query_if_applicable": "with\n\norder_items as (\n\n    select * from {{ ref('stg_order_items') }}\n\n),\n\n\norders as (\n\n    select * from {{ ref('stg_orders') }}\n\n),\n\nproducts as (\n\n    select * from {{ ref('stg_products') }}\n\n),\n\nsupplies as (\n\n    select * from {{ ref('stg_supplies') }}\n\n),\n\norder_supplies_summary as (\n\n    select\n        product_id,\n\n        sum(supply_cost) as supply_cost\n\n    from supplies\n\n    group by 1\n\n),\n\njoined as (\n\n    select\n        order_items.*,\n\n        orders.ordered_at,\n\n        products.product_name,\n        products.product_price,\n        products.is_food_item,\n        products.is_drink_item,\n\n        order_supplies_summary.supply_cost\n\n    from order_items\n\n    left join orders on order_items.order_id = orders.order_id\n\n    left join products on order_items.product_id = products.product_id\n\n    left join order_supplies_summary\n        on order_items.product_id = order_supplies_summary.product_id\n\n)\n\nselect * from joined\n",
+        "notes": [],
+        "source": "stg_supplies",
+        "target": "order_items"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/marts/supplies.sql",
+        "line_range": [
+          1,
+          9
+        ],
+        "sql_query_if_applicable": "with\n\nsupplies as (\n\n    select * from {{ ref('stg_supplies') }}\n\n)\n\nselect * from supplies\n",
+        "notes": [],
+        "source": "stg_supplies",
+        "target": "supplies"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/staging/stg_customers.sql",
+        "line_range": [
+          1,
+          23
+        ],
+        "sql_query_if_applicable": "with\n\nsource as (\n\n    select * from {{ source('ecom', 'raw_customers') }}\n\n),\n\nrenamed as (\n\n    select\n\n        ----------  ids\n        id as customer_id,\n\n        ---------- text\n        name as customer_name\n\n    from source\n\n)\n\nselect * from renamed\n",
+        "notes": [],
+        "source": "ecom.raw_customers",
+        "target": "stg_customers"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/staging/stg_orders.sql",
+        "line_range": [
+          1,
+          33
+        ],
+        "sql_query_if_applicable": "with\n\nsource as (\n\n    select * from {{ source('ecom', 'raw_orders') }}\n\n),\n\nrenamed as (\n\n    select\n\n        ----------  ids\n        id as order_id,\n        store_id as location_id,\n        customer as customer_id,\n\n        ---------- numerics\n        subtotal as subtotal_cents,\n        tax_paid as tax_paid_cents,\n        order_total as order_total_cents,\n        {{ cents_to_dollars('subtotal') }} as subtotal,\n        {{ cents_to_dollars('tax_paid') }} as tax_paid,\n        {{ cents_to_dollars('order_total') }} as order_total,\n\n        ---------- timestamps\n        {{ dbt.date_trunc('day','ordered_at') }} as ordered_at\n\n    from source\n\n)\n\nselect * from renamed\n",
+        "notes": [],
+        "source": "ecom.raw_orders",
+        "target": "stg_orders"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/staging/stg_order_items.sql",
+        "line_range": [
+          1,
+          22
+        ],
+        "sql_query_if_applicable": "with\n\nsource as (\n\n    select * from {{ source('ecom', 'raw_items') }}\n\n),\n\nrenamed as (\n\n    select\n\n        ----------  ids\n        id as order_item_id,\n        order_id,\n        sku as product_id\n\n    from source\n\n)\n\nselect * from renamed\n",
+        "notes": [],
+        "source": "ecom.raw_items",
+        "target": "stg_order_items"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/staging/stg_locations.sql",
+        "line_range": [
+          1,
+          29
+        ],
+        "sql_query_if_applicable": "with\n\nsource as (\n\n    select * from {{ source('ecom', 'raw_stores') }}\n\n),\n\nrenamed as (\n\n    select\n\n        ----------  ids\n        id as location_id,\n\n        ---------- text\n        name as location_name,\n\n        ---------- numerics\n        tax_rate,\n\n        ---------- timestamps\n        {{ dbt.date_trunc('day', 'opened_at') }} as opened_date\n\n    from source\n\n)\n\nselect * from renamed\n",
+        "notes": [],
+        "source": "ecom.raw_stores",
+        "target": "stg_locations"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/staging/stg_products.sql",
+        "line_range": [
+          1,
+          34
+        ],
+        "sql_query_if_applicable": "with\n\nsource as (\n\n    select * from {{ source('ecom', 'raw_products') }}\n\n),\n\nrenamed as (\n\n    select\n\n        ----------  ids\n        sku as product_id,\n\n        ---------- text\n        name as product_name,\n        type as product_type,\n        description as product_description,\n\n\n        ---------- numerics\n        {{ cents_to_dollars('price') }} as product_price,\n\n        ---------- booleans\n        coalesce(type = 'jaffle', false) as is_food_item,\n\n        coalesce(type = 'beverage', false) as is_drink_item\n\n    from source\n\n)\n\nselect * from renamed\n",
+        "notes": [],
+        "source": "ecom.raw_products",
+        "target": "stg_products"
+      },
+      {
+        "transformation_type": "sql:model_build",
+        "source_file": "models/staging/stg_supplies.sql",
+        "line_range": [
+          1,
+          31
+        ],
+        "sql_query_if_applicable": "with\n\nsource as (\n\n    select * from {{ source('ecom', 'raw_supplies') }}\n\n),\n\nrenamed as (\n\n    select\n\n        ----------  ids\n        {{ dbt_utils.generate_surrogate_key(['id', 'sku']) }} as supply_uuid,\n        id as supply_id,\n        sku as product_id,\n\n        ---------- text\n        name as supply_name,\n\n        ---------- numerics\n        {{ cents_to_dollars('cost') }} as supply_cost,\n\n        ---------- booleans\n        perishable as is_perishable_supply\n\n    from source\n\n)\n\nselect * from renamed\n",
+        "notes": [],
+        "source": "ecom.raw_supplies",
+        "target": "stg_supplies"
+      }
+    ]
   },
-  "sources": [],
-  "sinks": [],
-  "warnings": []
+  "sources": [
+    "ecom.raw_customers",
+    "ecom.raw_items",
+    "ecom.raw_orders",
+    "ecom.raw_products",
+    "ecom.raw_stores",
+    "ecom.raw_supplies",
+    "macros/cents_to_dollars",
+    "macros/generate_schema_name",
+    "metricflow_time_spine"
+  ],
+  "sinks": [
+    "customers",
+    "locations",
+    "macros/cents_to_dollars",
+    "macros/generate_schema_name",
+    "metricflow_time_spine",
+    "order_items",
+    "orders",
+    "products",
+    "supplies"
+  ],
+  "warnings": [
+    ".github/workflows/cd_prod.yml: no recognizable DAG topology extracted",
+    ".github/workflows/cd_staging.yml: no recognizable DAG topology extracted",
+    ".github/workflows/ci.yml: no recognizable DAG topology extracted",
+    ".pre-commit-config.yaml: no recognizable DAG topology extracted",
+    "Taskfile.yml: no recognizable DAG topology extracted",
+    "dbt_project.yml: no recognizable DAG topology extracted",
+    "macros/cents_to_dollars.sql: sqlglot parse failed across dialects",
+    "macros/generate_schema_name.sql: sqlglot parse failed across dialects",
+    "models/marts/locations.yml: no recognizable DAG topology extracted",
+    "models/marts/products.yml: no recognizable DAG topology extracted",
+    "models/marts/supplies.yml: no recognizable DAG topology extracted",
+    "package-lock.yml: no recognizable DAG topology extracted",
+    "packages.yml: no recognizable DAG topology extracted"
+  ]
 }

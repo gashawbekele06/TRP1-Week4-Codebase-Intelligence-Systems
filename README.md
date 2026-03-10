@@ -4,6 +4,7 @@ This repository now implements:
 
 - **Phase 1: Surveyor Agent (Static Structure)**
 - **Phase 2: Hydrologist Agent (Data Lineage)**
+- **Orchestrator** to run Surveyor -> Hydrologist in sequence
 
 ## What is implemented
 
@@ -21,6 +22,7 @@ This repository now implements:
 - Module import graph with:
 	- PageRank hubs
 	- Strongly connected components (circular dependencies)
+- Dead code candidate detection for exported Python symbols with no references
 - Graph serialization to `.cartography/module_graph.json`
 
 ### Phase 2 (Hydrologist)
@@ -44,10 +46,11 @@ This repository now implements:
 
 ## Run
 
-Install dependencies, then run analysis on any local repo path.
+Install dependencies, then run analysis on any local repo path or GitHub URL.
 
 - `python main.py analyze .`
 - `python main.py analyze /path/to/repo --days 90`
+- `python main.py analyze https://github.com/dbt-labs/jaffle-shop --days 90`
 
 You can also use the script entrypoint:
 
@@ -57,4 +60,8 @@ You can also use the script entrypoint:
 
 - `.cartography/module_graph.json`
 - `.cartography/lineage_graph.json`
+
+## Key files
+
+- `src/orchestrator.py`: Analysis orchestration and GitHub URL ingestion
 
