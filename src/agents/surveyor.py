@@ -3,6 +3,7 @@ from __future__ import annotations
 import subprocess
 from collections import Counter
 from pathlib import Path
+import ast
 
 import networkx as nx
 
@@ -19,9 +20,10 @@ class SurveyorAgent:
         self.analyzer = TreeSitterAnalyzer(self.repo_root)
         self.graph = KnowledgeGraph()
 
-    def run(self, days: int = 30) -> dict:
+    def run(self, days: int = 30, output_root: Path | None = None) -> dict:
         modules = self._analyze_modules()
         self._build_import_graph(modules)
+        dead_code_candidates = self.identify_dead_code_candidates(modules)
 
         pagerank = (
             self._pagerank_python(self.graph.module_graph)
@@ -37,7 +39,8 @@ class SurveyorAgent:
         velocity = self.extract_git_velocity(days=days)
         high_velocity_core = self.identify_high_velocity_core(velocity)
 
-        output_path = self.repo_root / ".cartography" / "module_graph.json"
+        output_base = output_root.resolve() if output_root else self.repo_root
+        output_path = output_base / ".cartography" / "module_graph.json"
         self.graph.write_json(output_path)
 
         return {
@@ -47,6 +50,7 @@ class SurveyorAgent:
             "strongly_connected_components": strongly_connected,
             "git_velocity": dict(velocity),
             "high_velocity_core": high_velocity_core,
+            "dead_code_candidates": dead_code_candidates,
             "module_graph_path": str(output_path),
         }
 
@@ -175,3 +179,45 @@ class SurveyorAgent:
                 break
 
         return rank
+
+    def identify_dead_code_candidates(self, modules: list[ModuleNode]) -> list[dict]:
+        """Find exported symbols with no internal/external usage references."""
+        symbol_defs: dict[str, tuple[str, int | None]] = {}
+        python_modules = [m for m in modules if m.language == "python" and m.path.endswith(".py")]
+
+        for module in python_modules:
+            for fn in module.public_functions:
+                symbol_defs[fn.name] = (module.path, fn.line_start)
+            for cls in module.classes:
+                symbol_defs[cls.name] = (module.path, cls.line_start)
+
+        references: Counter[str] = Counter()
+        for module in python_modules:
+            file_path = self.repo_root / module.path
+            try:
+                tree = ast.parse(file_path.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
+                    references[node.id] += 1
+                elif isinstance(node, ast.Attribute):
+                    references[node.attr] += 1
+                elif isinstance(node, ast.ImportFrom):
+                    for alias in node.names:
+                        references[alias.name] += 1
+
+        dead: list[dict] = []
+        for symbol, (module_path, line_start) in sorted(symbol_defs.items()):
+            if references.get(symbol, 0) == 0:
+                dead.append(
+                    {
+                        "symbol": symbol,
+                        "module": module_path,
+                        "line_start": line_start,
+                        "reason": "no internal or external references found",
+                    }
+                )
+
+        return dead
