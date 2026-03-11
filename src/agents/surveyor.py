@@ -73,7 +73,7 @@ class SurveyorAgent:
 
     def _build_import_graph(self, modules: list[ModuleNode]) -> None:
         for module in modules:
-            self.graph.add_module_node(module.path)
+            self.graph.add_module_node(module.path, language=module.language)
 
         known_paths = {module.path for module in modules}
         dotted_to_path = {
