@@ -63,21 +63,21 @@ class KnowledgeGraph:
         return json_graph.node_link_data(self.module_graph)
 
     @classmethod
-    def load_from_json(cls, input_path: Path) -> KnowledgeGraph:
-        payload = json.loads(input_path.read_text(encoding="utf-8"))
-        graph_data = json_graph.node_link_graph(payload)
+    def from_json_dict(cls, payload: dict[str, Any]) -> KnowledgeGraph:
+        graph_payload = cls._extract_node_link_payload(payload)
+        edge_key = "edges" if "edges" in graph_payload else "links"
+        graph_data = json_graph.node_link_graph(graph_payload, edges=edge_key)
 
         instance = cls()
-        instance.module_graph = nx.DiGraph(graph_data)
 
-        for node_id, attrs in instance.module_graph.nodes(data=True):
+        for node_id, attrs in graph_data.nodes(data=True):
             if isinstance(attrs, dict) and attrs.get("node_type"):
-                node_obj = instance._parse_node(attrs)
+                node_payload: NodeSchema | dict[str, Any] = attrs
             else:
-                node_obj = ModuleNodeSchema(path=str(node_id), language="unknown")
-            instance.node_objects[str(node_id)] = node_obj
+                node_payload = ModuleNodeSchema(path=str(node_id), language="unknown")
+            instance.add_node(str(node_id), node_payload)
 
-        for source, target, attrs in instance.module_graph.edges(data=True):
+        for source, target, attrs in graph_data.edges(data=True):
             edge_data: dict[str, Any] = {
                 "source": str(source),
                 "target": str(target),
@@ -85,11 +85,36 @@ class KnowledgeGraph:
                 "weight": attrs.get("weight", 1) if isinstance(attrs, dict) else 1,
                 "metadata": attrs.get("metadata", {}) if isinstance(attrs, dict) else {},
             }
-            edge_obj = EdgeSchema.model_validate(edge_data)
-            key = (edge_obj.source, edge_obj.target, edge_obj.edge_type)
-            instance.edge_objects[key] = edge_obj
+            instance.add_edge(edge_data)
 
         return instance
+
+    @classmethod
+    def load_from_json(cls, input_path: Path) -> KnowledgeGraph:
+        payload = json.loads(input_path.read_text(encoding="utf-8"))
+        return cls.from_json_dict(payload)
+
+    @staticmethod
+    def _extract_node_link_payload(payload: dict[str, Any]) -> dict[str, Any]:
+        """Support both raw node-link graphs and wrapped storage payloads.
+
+        Accepted shapes:
+        - {"nodes": [...], "links": [...]}  # raw node-link
+        - {"graph": {"nodes": [...], "links": [...]}, ...metadata }
+        """
+        has_node_link_keys = "nodes" in payload and ("links" in payload or "edges" in payload)
+        if has_node_link_keys:
+            return payload
+
+        graph_field = payload.get("graph")
+        if isinstance(graph_field, dict):
+            wrapped_has_node_link_keys = "nodes" in graph_field and (
+                "links" in graph_field or "edges" in graph_field
+            )
+            if wrapped_has_node_link_keys:
+                return graph_field
+
+        return payload
 
     def write_json(self, output_path: Path) -> None:
         output_path.parent.mkdir(parents=True, exist_ok=True)
