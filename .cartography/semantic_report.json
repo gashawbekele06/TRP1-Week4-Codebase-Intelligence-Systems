@@ -1,0 +1,575 @@
+{
+  "module_purpose_statements": [
+    {
+      "path": ".pytest_cache/README.md",
+      "language": "markdown",
+      "purpose_statement": "This module supports the codebase by owning line:# pytest cache directory #, line:This directory contains data from the pytest's cache plugin,, line:which provides the `--lf` and `--ff` options, as well as the `cache` fixture.. Its business value is enabling consistent system behavior for the capability represented by README.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "line:# pytest cache directory #",
+        "line:This directory contains data from the pytest's cache plugin,",
+        "line:which provides the `--lf` and `--ff` options, as well as the `cache` fixture.",
+        "line:**Do not** commit this to version control.",
+        "line:See [the docs](https://docs.pytest.org/en/stable/how-to/cache.html) for more inf",
+        "file:README.md"
+      ]
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "purpose_statement": "This module supports the codebase by owning line:# Brownfield Cartographer (Phase 1 + Phase 2 + Phase 3 + Phase 4), line:This repository now implements:, line:- **Phase 1: Surveyor Agent (Static Structure)**. Its business value is enabling consistent system behavior for the capability represented by README.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "line:# Brownfield Cartographer (Phase 1 + Phase 2 + Phase 3 + Phase 4)",
+        "line:This repository now implements:",
+        "line:- **Phase 1: Surveyor Agent (Static Structure)**",
+        "line:- **Phase 2: Hydrologist Agent (Data Lineage)**",
+        "line:- **Phase 3: Semanticist Agent (LLM-Powered Purpose Analyst)**",
+        "line:- **Phase 4: Archivist + Navigator (Living Context + Query Interface)**",
+        "file:README.md"
+      ]
+    },
+    {
+      "path": "RECONNAISSANCE.md",
+      "language": "markdown",
+      "purpose_statement": "This module supports the codebase by owning line:# RECONNAISSANCE: dbt-labs/jaffle-shop (classic), line:Target repo: https://github.com/dbt-labs/jaffle-shop-classic (redirected from ht, line:This is a small, self-contained dbt project that models a fictional e\u2011commerce s. Its business value is enabling consistent system behavior for the capability represented by RECONNAISSANCE.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "line:# RECONNAISSANCE: dbt-labs/jaffle-shop (classic)",
+        "line:Target repo: https://github.com/dbt-labs/jaffle-shop-classic (redirected from ht",
+        "line:This is a small, self-contained dbt project that models a fictional e\u2011commerce s",
+        "line:- `seeds/`: three CSVs (`raw_customers.csv`, `raw_orders.csv`, `raw_payments.csv",
+        "line:- `models/staging/`: three staging models (`stg_customers.sql`, `stg_orders.sql`",
+        "line:- `models/`: mart-level models (`customers.sql`, `orders.sql`), documentation fi",
+        "file:RECONNAISSANCE.md"
+      ]
+    },
+    {
+      "path": "main.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:src.cli, file:main.py. Its business value is enabling consistent system behavior for the capability represented by main.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:src.cli",
+        "file:main.py"
+      ]
+    },
+    {
+      "path": "src/__init__.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning line:\"\"\"Brownfield Cartographer source package.\"\"\", file:__init__.py. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+      "docstring": "Brownfield Cartographer source package.",
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "line:\"\"\"Brownfield Cartographer source package.\"\"\"",
+        "file:__init__.py"
+      ]
+    },
+    {
+      "path": "src/agents/__init__.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:src.agents.archivist, import_from:src.agents.hydrologist, import_from:src.agents.navigator. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+      "docstring": "Specialized analysis agents.",
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:src.agents.archivist",
+        "import_from:src.agents.hydrologist",
+        "import_from:src.agents.navigator",
+        "import_from:src.agents.semanticist",
+        "import_from:src.agents.surveyor",
+        "file:__init__.py"
+      ]
+    },
+    {
+      "path": "src/agents/archivist.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import_from:src.tracing. Its business value is enabling consistent system behavior for the capability represented by archivist.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:pathlib",
+        "import_from:src.tracing",
+        "class:ArchivistAgent",
+        "file:archivist.py"
+      ]
+    },
+    {
+      "path": "src/agents/hydrologist.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by hydrologist.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import_from:pathlib",
+        "import:networkx",
+        "import_from:networkx.readwrite",
+        "import_from:src.analyzers.dag_config_parser",
+        "import_from:src.analyzers.python_dataflow",
+        "import_from:src.analyzers.sql_lineage",
+        "import_from:src.models.lineage",
+        "import_from:src.tracing",
+        "class:HydrologistAgent",
+        "file:hydrologist.py"
+      ]
+    },
+    {
+      "path": "src/agents/navigator.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import_from:dataclasses. Its business value is enabling consistent system behavior for the capability represented by navigator.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import_from:dataclasses",
+        "import_from:pathlib",
+        "import_from:typing",
+        "import_from:src.tracing",
+        "class:EvidenceItem",
+        "class:NavigatorAgent",
+        "file:navigator.py"
+      ]
+    },
+    {
+      "path": "src/agents/semanticist.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:ast, import:json. Its business value is enabling consistent system behavior for the capability represented by semanticist.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "import_from:__future__",
+        "import:ast",
+        "import:json",
+        "import:math",
+        "import:os",
+        "import:re",
+        "import_from:dataclasses",
+        "import_from:pathlib",
+        "import_from:typing",
+        "import_from:urllib",
+        "import:numpy",
+        "import_from:src.tracing"
+      ]
+    },
+    {
+      "path": "src/agents/surveyor.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:subprocess, import_from:collections. Its business value is enabling consistent system behavior for the capability represented by surveyor.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import:subprocess",
+        "import_from:collections",
+        "import_from:pathlib",
+        "import:ast",
+        "import:networkx",
+        "import_from:src.analyzers.tree_sitter_analyzer",
+        "import_from:src.graph.knowledge_graph",
+        "import_from:src.models.module",
+        "import_from:src.tracing",
+        "class:SurveyorAgent",
+        "file:surveyor.py"
+      ]
+    },
+    {
+      "path": "src/analyzers/dag_config_parser.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import:yaml. Its business value is enabling consistent system behavior for the capability represented by dag_config_parser.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:pathlib",
+        "import:yaml",
+        "import_from:src.models.lineage",
+        "class:DAGConfigAnalyzer",
+        "file:dag_config_parser.py"
+      ]
+    },
+    {
+      "path": "src/analyzers/python_dataflow.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:ast, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by python_dataflow.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "import_from:__future__",
+        "import:ast",
+        "import_from:pathlib",
+        "import:sqlglot",
+        "import_from:sqlglot",
+        "import_from:src.analyzers.tree_sitter_analyzer",
+        "import_from:src.models.lineage",
+        "class:PythonDataFlowAnalyzer",
+        "file:python_dataflow.py"
+      ]
+    },
+    {
+      "path": "src/analyzers/sql_lineage.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:re, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by sql_lineage.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "import_from:__future__",
+        "import:re",
+        "import_from:pathlib",
+        "import:sqlglot",
+        "import_from:sqlglot",
+        "import_from:src.models.lineage",
+        "class:SQLLineageAnalyzer",
+        "file:sql_lineage.py"
+      ]
+    },
+    {
+      "path": "src/analyzers/tree_sitter_analyzer.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:ast, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by tree_sitter_analyzer.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "import_from:__future__",
+        "import:ast",
+        "import_from:pathlib",
+        "import_from:typing",
+        "import_from:tree_sitter_language_pack",
+        "import_from:src.models.module",
+        "class:LanguageRouter",
+        "class:TreeSitterAnalyzer",
+        "file:tree_sitter_analyzer.py"
+      ]
+    },
+    {
+      "path": "src/cli.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:argparse, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by cli.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import:argparse",
+        "import_from:pathlib",
+        "import_from:src.agents.navigator",
+        "import_from:src.orchestrator",
+        "function:build_parser",
+        "function:main",
+        "file:cli.py"
+      ]
+    },
+    {
+      "path": "src/graph/__init__.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning line:\"\"\"Knowledge graph utilities.\"\"\", file:__init__.py. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+      "docstring": "Knowledge graph utilities.",
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "line:\"\"\"Knowledge graph utilities.\"\"\"",
+        "file:__init__.py"
+      ]
+    },
+    {
+      "path": "src/graph/knowledge_graph.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by knowledge_graph.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import_from:pathlib",
+        "import_from:typing",
+        "import:networkx",
+        "import_from:networkx.readwrite",
+        "import_from:src.models.graph",
+        "class:KnowledgeGraph",
+        "file:knowledge_graph.py"
+      ]
+    },
+    {
+      "path": "src/models/__init__.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:src.models.graph, import_from:src.models.lineage, import_from:src.models.module. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+      "docstring": "Data models for cartography outputs.",
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "import_from:src.models.graph",
+        "import_from:src.models.lineage",
+        "import_from:src.models.module",
+        "file:__init__.py"
+      ]
+    },
+    {
+      "path": "src/models/graph.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:datetime, import_from:typing. Its business value is enabling consistent system behavior for the capability represented by graph.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:datetime",
+        "import_from:typing",
+        "import_from:pydantic",
+        "class:ModuleNodeSchema",
+        "class:DatasetNodeSchema",
+        "class:FunctionNodeSchema",
+        "class:TransformationNodeSchema",
+        "class:EdgeSchema",
+        "class:GraphSchema",
+        "file:graph.py"
+      ]
+    },
+    {
+      "path": "src/models/lineage.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:pydantic, class:TransformationEvent. Its business value is enabling consistent system behavior for the capability represented by lineage.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:pydantic",
+        "class:TransformationEvent",
+        "class:AnalyzerResult",
+        "file:lineage.py"
+      ]
+    },
+    {
+      "path": "src/models/module.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:pydantic, class:FunctionInfo. Its business value is enabling consistent system behavior for the capability represented by module.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:pydantic",
+        "class:FunctionInfo",
+        "class:ClassInfo",
+        "class:ModuleNode",
+        "file:module.py"
+      ]
+    },
+    {
+      "path": "src/orchestrator.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:shutil. Its business value is enabling consistent system behavior for the capability represented by orchestrator.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import:shutil",
+        "import:subprocess",
+        "import:tempfile",
+        "import_from:datetime",
+        "import_from:pathlib",
+        "import_from:urllib.parse",
+        "import_from:src.agents.archivist",
+        "import_from:src.agents.hydrologist",
+        "import_from:src.agents.navigator",
+        "import_from:src.agents.semanticist"
+      ]
+    },
+    {
+      "path": "src/tracing.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import_from:dataclasses. Its business value is enabling consistent system behavior for the capability represented by tracing.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import_from:dataclasses",
+        "import_from:datetime",
+        "import_from:pathlib",
+        "import_from:typing",
+        "class:CartographyTracer",
+        "file:tracing.py"
+      ]
+    },
+    {
+      "path": "tests/test_knowledge_graph_deserialization.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:tempfile. Its business value is enabling consistent system behavior for the capability represented by test_knowledge_graph_deserialization.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import:tempfile",
+        "import:unittest",
+        "import_from:pathlib",
+        "import_from:pydantic",
+        "import_from:src.graph.knowledge_graph",
+        "class:TestKnowledgeGraphDeserialization",
+        "file:test_knowledge_graph_deserialization.py"
+      ]
+    }
+  ],
+  "business_domain_boundaries": [
+    {
+      "cluster_id": 1,
+      "domain": "serving",
+      "module_count": 9,
+      "modules": [
+        "main.py",
+        "src/agents/__init__.py",
+        "src/agents/archivist.py",
+        "src/agents/hydrologist.py",
+        "src/agents/navigator.py",
+        "src/agents/surveyor.py",
+        "src/cli.py",
+        "src/graph/knowledge_graph.py",
+        "src/tracing.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning import_from:src.cli, file:main.py. Its business value is enabling consistent system behavior for the capability represented by main.",
+        "This module supports the codebase by owning import_from:src.agents.archivist, import_from:src.agents.hydrologist, import_from:src.agents.navigator. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+        "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import_from:src.tracing. Its business value is enabling consistent system behavior for the capability represented by archivist."
+      ]
+    },
+    {
+      "cluster_id": 3,
+      "domain": "transformation",
+      "module_count": 6,
+      "modules": [
+        "src/__init__.py",
+        "src/graph/__init__.py",
+        "src/models/__init__.py",
+        "src/models/graph.py",
+        "src/models/lineage.py",
+        "src/models/module.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning line:\"\"\"Brownfield Cartographer source package.\"\"\", file:__init__.py. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+        "This module supports the codebase by owning line:\"\"\"Knowledge graph utilities.\"\"\", file:__init__.py. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+        "This module supports the codebase by owning import_from:src.models.graph, import_from:src.models.lineage, import_from:src.models.module. Its business value is enabling consistent system behavior for the capability represented by __init__."
+      ]
+    },
+    {
+      "cluster_id": 2,
+      "domain": "transformation",
+      "module_count": 5,
+      "modules": [
+        "src/agents/semanticist.py",
+        "src/analyzers/dag_config_parser.py",
+        "src/analyzers/python_dataflow.py",
+        "src/analyzers/sql_lineage.py",
+        "src/analyzers/tree_sitter_analyzer.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning import_from:__future__, import:ast, import:json. Its business value is enabling consistent system behavior for the capability represented by semanticist.",
+        "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import:yaml. Its business value is enabling consistent system behavior for the capability represented by dag_config_parser.",
+        "This module supports the codebase by owning import_from:__future__, import:ast, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by python_dataflow."
+      ]
+    },
+    {
+      "cluster_id": 0,
+      "domain": "transformation",
+      "module_count": 3,
+      "modules": [
+        ".pytest_cache/README.md",
+        "README.md",
+        "RECONNAISSANCE.md"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning line:# pytest cache directory #, line:This directory contains data from the pytest's cache plugin,, line:which provides the `--lf` and `--ff` options, as well as the `cache` fixture.. Its business value is enabling consistent system behavior for the capability represented by README.",
+        "This module supports the codebase by owning line:# Brownfield Cartographer (Phase 1 + Phase 2 + Phase 3 + Phase 4), line:This repository now implements:, line:- **Phase 1: Surveyor Agent (Static Structure)**. Its business value is enabling consistent system behavior for the capability represented by README.",
+        "This module supports the codebase by owning line:# RECONNAISSANCE: dbt-labs/jaffle-shop (classic), line:Target repo: https://github.com/dbt-labs/jaffle-shop-classic (redirected from ht, line:This is a small, self-contained dbt project that models a fictional e\u2011commerce s. Its business value is enabling consistent system behavior for the capability represented by RECONNAISSANCE."
+      ]
+    },
+    {
+      "cluster_id": 4,
+      "domain": "serving",
+      "module_count": 2,
+      "modules": [
+        "src/orchestrator.py",
+        "tests/test_knowledge_graph_deserialization.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning import_from:__future__, import:json, import:shutil. Its business value is enabling consistent system behavior for the capability represented by orchestrator.",
+        "This module supports the codebase by owning import_from:__future__, import:json, import:tempfile. Its business value is enabling consistent system behavior for the capability represented by test_knowledge_graph_deserialization."
+      ]
+    }
+  ],
+  "five_fde_day_one_answers": {
+    "q1_primary_ingestion_path": "Primary ingestion appears to flow from source datasets not explicitly discovered into downstream transformations. Evidence: src/agents/navigator.py:L12-L12; tests/test_knowledge_graph_deserialization.py:L13-L13; src/tracing.py:L1-L200",
+    "q2_critical_outputs": "Most critical outputs are likely terminal lineage sinks not explicitly discovered and high-centrality modules from Surveyor PageRank. Evidence: src/agents/navigator.py:L12-L12; tests/test_knowledge_graph_deserialization.py:L13-L13; src/tracing.py:L1-L200",
+    "q3_blast_radius": "Blast radius is highest around sink-producing transformations and architectural hubs; recently active files include ['README.md', 'src/agents/surveyor.py', 'src/cli.py', 'src/__pycache__/cli.cpython-313.pyc', 'src/agents/hydrologist.py']. Evidence: src/agents/navigator.py:L12-L12; tests/test_knowledge_graph_deserialization.py:L13-L13; src/tracing.py:L1-L200",
+    "q4_logic_concentration": "Business logic is most concentrated in the inferred domain 'serving', with representative modules ['.pytest_cache/README.md', 'README.md', 'RECONNAISSANCE.md']. Evidence: src/agents/navigator.py:L12-L12; tests/test_knowledge_graph_deserialization.py:L13-L13; src/tracing.py:L1-L200",
+    "q5_git_velocity_map": "Git velocity hot spots are derived from Surveyor high-velocity core: ['README.md', 'src/agents/surveyor.py', 'src/cli.py', 'src/__pycache__/cli.cpython-313.pyc', 'src/agents/hydrologist.py']; dead-code candidates identified: 2. Evidence: src/agents/navigator.py:L12-L12; tests/test_knowledge_graph_deserialization.py:L13-L13; src/tracing.py:L1-L200"
+  },
+  "warnings": [
+    "OPENROUTER_API_KEY not configured; Semanticist is running in heuristic mode."
+  ],
+  "model_policy": {
+    "bulk_semantics_model": "google/gemini-2.0-flash-001",
+    "synthesis_model": "anthropic/claude-3.5-sonnet",
+    "bulk_vs_synthesis_strategy": "Use Gemini Flash for per-module purpose extraction; reserve Claude/GPT-4 tier for five-answer synthesis."
+  },
+  "context_window_budget": {
+    "max_tokens": 120000,
+    "max_spend_usd": 5.0,
+    "estimated_tokens_total": 0,
+    "actual_input_tokens_total": 0,
+    "actual_output_tokens_total": 0,
+    "estimated_spend_usd": 0.0,
+    "actual_spend_usd": 0.0
+  }
+}

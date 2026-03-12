@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+	"langgraph>=0.2.45",
 	"networkx>=3.4",
 	"numpy>=2.2",
 	"pydantic>=2.10",

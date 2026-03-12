@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from src.agents.navigator import NavigatorAgent
 from src.orchestrator import AnalysisOrchestrator
 
 
@@ -19,6 +20,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     analyze.add_argument("--days", type=int, default=30, help="Git velocity lookback window")
 
+    ask = subparsers.add_parser("ask", help="Ask Navigator a question using existing .cartography artifacts")
+    ask.add_argument("question", help="Natural language question about the codebase")
+
     return parser
 
 
@@ -32,6 +36,7 @@ def main() -> None:
         surveyor = result["surveyor"]
         hydro = result["hydrologist"]
         semantic = result["semanticist"]
+        archivist = result["archivist"]
 
         print("Phase 1 Surveyor completed")
         print(f"- Target analyzed: {result['target']}")
@@ -98,6 +103,22 @@ def main() -> None:
         print(f"3) {fde['q3_blast_radius']}")
         print(f"4) {fde['q4_logic_concentration']}")
         print(f"5) {fde['q5_git_velocity_map']}")
+
+        incremental = result.get("incremental", {})
+        print("\nPhase 4 Archivist completed")
+        print(f"- Living context file: {archivist['codebase_md_path']}")
+        print(f"- Navigator manifest: {result['navigator']['manifest_path']}")
+        print(f"- Trace log: {result['trace']['path']}")
+        print(
+            "- Incremental mode: "
+            f"{incremental.get('incremental_mode', False)} "
+            f"(changed_files={len(incremental.get('changed_files', []))})"
+        )
+
+    if args.command == "ask":
+        cwd = Path.cwd().resolve()
+        navigator = NavigatorAgent(cwd)
+        print(navigator.answer(args.question))
 
 
 if __name__ == "__main__":

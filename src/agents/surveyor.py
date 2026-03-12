@@ -84,6 +84,8 @@ class SurveyorAgent:
         for path in sorted(self.repo_root.rglob("*")):
             if not path.is_file():
                 continue
+            if "__pycache__" in path.parts or any(part.startswith(".") for part in path.parts):
+                continue
             if ".git" in path.parts or ".venv" in path.parts or path.parts.count(".cartography"):
                 continue
             if path.suffix.lower() not in self.ANALYZABLE_SUFFIXES:
