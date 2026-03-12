@@ -10,7 +10,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Brownfield Cartographer CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    analyze = subparsers.add_parser("analyze", help="Run Phase 1+2 analysis")
+    analyze = subparsers.add_parser("analyze", help="Run Phase 1+2+3 analysis")
     analyze.add_argument(
         "repo",
         nargs="?",
@@ -31,6 +31,7 @@ def main() -> None:
         result = AnalysisOrchestrator(cwd).run(target=args.repo, days=args.days)
         surveyor = result["surveyor"]
         hydro = result["hydrologist"]
+        semantic = result["semanticist"]
 
         print("Phase 1 Surveyor completed")
         print(f"- Target analyzed: {result['target']}")
@@ -69,6 +70,34 @@ def main() -> None:
         print(f"- Lineage JSON: {hydro['lineage_graph_path']}")
         print(f"- Sources discovered: {len(hydro['sources'])}")
         print(f"- Sinks discovered: {len(hydro['sinks'])}")
+
+        print("\nPhase 3 Semanticist completed")
+        print(f"- Modules semantically analyzed: {semantic['module_count']}")
+        print(f"- Inferred business domains: {semantic['domain_count']}")
+        print(f"- Semantic report JSON: {semantic['semantic_report_path']}")
+        print(
+            "- Model policy: "
+            f"bulk={semantic['model_policy']['bulk_extraction_model']}, "
+            f"synthesis={semantic['model_policy']['synthesis_model']}"
+        )
+
+        print("- Inferred domain boundaries:")
+        for domain in semantic["domain_boundaries"]:
+            print(f"  - {domain['domain']} ({domain['module_count']} modules)")
+
+        warnings = semantic.get("warnings", [])
+        if warnings:
+            print("- Semanticist warnings:")
+            for warning in warnings:
+                print(f"  - {warning}")
+
+        fde = semantic["five_fde_answers"]
+        print("\nFive FDE Day-One Answers")
+        print(f"1) {fde['q1_primary_ingestion_path']}")
+        print(f"2) {fde['q2_critical_outputs']}")
+        print(f"3) {fde['q3_blast_radius']}")
+        print(f"4) {fde['q4_logic_concentration']}")
+        print(f"5) {fde['q5_git_velocity_map']}")
 
 
 if __name__ == "__main__":
