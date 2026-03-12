@@ -1,10 +1,11 @@
-# Brownfield Cartographer (Phase 1 + Phase 2)
+# Brownfield Cartographer (Phase 1 + Phase 2 + Phase 3)
 
 This repository now implements:
 
 - **Phase 1: Surveyor Agent (Static Structure)**
 - **Phase 2: Hydrologist Agent (Data Lineage)**
-- **Orchestrator** to run Surveyor -> Hydrologist in sequence
+- **Phase 3: Semanticist Agent (LLM-Powered Purpose Analyst)**
+- **Orchestrator** to run Surveyor -> Hydrologist -> Semanticist in sequence
 
 ## What is implemented
 
@@ -44,6 +45,21 @@ This repository now implements:
 	- `find_sources()` and `find_sinks()`
 - Graph serialization to `.cartography/lineage_graph.json`
 
+### Phase 3 (Semanticist)
+
+- Per-module **Purpose Statement** generation based on implementation evidence
+	(not module docstrings).
+- Docstring contradiction detection:
+	- flags modules whose stated docstring intent appears inconsistent with implementation.
+- Business Domain boundary inference:
+	- clusters modules into inferred domains (for example, ingestion/transformation/serving/monitoring/orchestration).
+- Five FDE Day-One answer synthesis:
+	- combines Surveyor + Hydrologist outputs with semantic reasoning over the repository context.
+- Cost discipline:
+	- fast/cheap model for bulk module extraction
+	- larger model reserved for final synthesis only
+	- graceful heuristic fallback if no API key is configured.
+
 ## Run
 
 Install dependencies, then run analysis on any local repo path or GitHub URL.
@@ -56,12 +72,24 @@ You can also use the script entrypoint:
 
 - `cartographer analyze .`
 
+### Optional LLM configuration
+
+Create or edit `.env` in the repository root:
+
+- `OPENROUTER_API_KEY=<your key>`
+- `OPENROUTER_FAST_MODEL=google/gemini-2.0-flash-001`
+- `OPENROUTER_SYNTHESIS_MODEL=mistralai/mistral-large-latest`
+
+If `OPENROUTER_API_KEY` is missing, Semanticist runs in heuristic mode and records warnings.
+
 ## Output
 
 - `.cartography/module_graph.json`
 - `.cartography/lineage_graph.json`
+- `.cartography/semantic_report.json`
 
 ## Key files
 
 - `src/orchestrator.py`: Analysis orchestration and GitHub URL ingestion
+- `src/agents/semanticist.py`: Semantic purpose extraction, domain inference, and FDE synthesis
 

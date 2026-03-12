@@ -7,6 +7,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from src.agents.hydrologist import HydrologistAgent
+from src.agents.semanticist import SemanticistAgent
 from src.agents.surveyor import SurveyorAgent
 
 
@@ -23,11 +24,19 @@ class AnalysisOrchestrator:
             hydrologist = HydrologistAgent(repo_path)
             hydrologist_result = hydrologist.run(output_root=self.artifact_root)
 
+            semanticist = SemanticistAgent(repo_path)
+            semanticist_result = semanticist.run(
+                surveyor_result=surveyor_result,
+                hydrologist_result=hydrologist_result,
+                output_root=self.artifact_root,
+            )
+
             return {
                 "target": target,
                 "resolved_repo": str(repo_path),
                 "surveyor": surveyor_result,
                 "hydrologist": hydrologist_result,
+                "semanticist": semanticist_result,
             }
         finally:
             if temp_dir is not None and temp_dir.exists():
