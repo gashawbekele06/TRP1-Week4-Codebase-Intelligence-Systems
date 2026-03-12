@@ -49,15 +49,18 @@ This repository now implements:
 
 - Per-module **Purpose Statement** generation based on implementation evidence
 	(not module docstrings).
-- Docstring contradiction detection:
-	- flags modules whose stated docstring intent appears inconsistent with implementation.
+- Documentation Drift detection:
+	- flags modules whose docstring intent appears inconsistent with implementation evidence.
 - Business Domain boundary inference:
-	- clusters modules into inferred domains (for example, ingestion/transformation/serving/monitoring/orchestration).
+	- embeds all purpose statements and performs k-means clustering to produce a Domain Architecture Map
+	- target cluster range is 5-8 where module count supports it.
 - Five FDE Day-One answer synthesis:
 	- combines Surveyor + Hydrologist outputs with semantic reasoning over the repository context.
+	- includes evidence citations (`file_path:line-range`) in synthesized answers.
 - Cost discipline:
-	- fast/cheap model for bulk module extraction
-	- larger model reserved for final synthesis only
+	- fast/cheap model (Gemini Flash) for bulk module extraction
+	- higher-capability model (Claude/GPT-4 tier) reserved for final synthesis only
+	- ContextWindowBudget enforces pre-call token/spend admission checks and tracks cumulative estimated + actual usage.
 	- graceful heuristic fallback if no API key is configured.
 
 ## Run
@@ -78,7 +81,9 @@ Create or edit `.env` in the repository root:
 
 - `OPENROUTER_API_KEY=<your key>`
 - `OPENROUTER_FAST_MODEL=google/gemini-2.0-flash-001`
-- `OPENROUTER_SYNTHESIS_MODEL=mistralai/mistral-large-latest`
+- `OPENROUTER_SYNTHESIS_MODEL=anthropic/claude-3.5-sonnet`
+- `SEMANTICIST_MAX_TOKENS=120000`
+- `SEMANTICIST_MAX_SPEND_USD=5.0`
 
 If `OPENROUTER_API_KEY` is missing, Semanticist runs in heuristic mode and records warnings.
 
