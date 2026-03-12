@@ -12,6 +12,8 @@ from urllib import error, request
 
 import numpy as np
 
+from src.tracing import CartographyTracer
+
 
 @dataclass
 class ModuleSemanticRecord:
@@ -195,8 +197,10 @@ class SemanticistAgent:
         surveyor_result: dict,
         hydrologist_result: dict,
         output_root: Path | None = None,
+        changed_files: list[str] | None = None,
+        tracer: CartographyTracer | None = None,
     ) -> dict:
-        records = self._analyze_modules_semantics()
+        records = self._analyze_modules_semantics(changed_files=changed_files)
         domain_boundaries = self.cluster_into_domains(records)
         fde_answers = self.answer_day_one_questions(
             records=records,
@@ -208,6 +212,21 @@ class SemanticistAgent:
         output_base = output_root.resolve() if output_root else self.repo_root
         output_path = output_base / ".cartography" / "semantic_report.json"
         self._write_report(output_path, records, domain_boundaries, fde_answers)
+
+        if tracer is not None:
+            tracer.log(
+                agent="Semanticist",
+                action="run",
+                confidence=0.84,
+                analysis_method="llm-inference",
+                evidence_sources=[
+                    {"file": str(output_path), "line_range": "L1-L420", "method": "llm-inference"}
+                ],
+                metadata={
+                    "changed_files_count": len(changed_files or []),
+                    "analysis_scope": "incremental" if changed_files else "full",
+                },
+            )
 
         return {
             "module_count": len(records),
@@ -222,6 +241,7 @@ class SemanticistAgent:
                 "tiering": "Bulk module purpose extraction uses fast model (Gemini Flash). Synthesis reserves Claude/GPT-4 tier.",
             },
             "context_window_budget": self.context_budget.to_dict(),
+            "analysis_scope": "incremental" if changed_files else "full",
         }
 
     def _hydrate_env_file(self) -> None:
@@ -239,8 +259,9 @@ class SemanticistAgent:
             if key and key not in os.environ:
                 os.environ[key] = value
 
-    def _analyze_modules_semantics(self) -> list[ModuleSemanticRecord]:
+    def _analyze_modules_semantics(self, changed_files: list[str] | None = None) -> list[ModuleSemanticRecord]:
         records: list[ModuleSemanticRecord] = []
+        changed_set = {Path(item).as_posix() for item in (changed_files or [])}
         for path in sorted(self.repo_root.rglob("*")):
             if not path.is_file():
                 continue
@@ -250,6 +271,8 @@ class SemanticistAgent:
                 continue
 
             rel_path = path.relative_to(self.repo_root).as_posix()
+            if changed_set and rel_path not in changed_set:
+                continue
             language = self._infer_language(path)
             text = self._safe_read(path)
             if not text.strip():

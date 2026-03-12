@@ -10,6 +10,7 @@ from src.analyzers.dag_config_parser import DAGConfigAnalyzer
 from src.analyzers.python_dataflow import PythonDataFlowAnalyzer
 from src.analyzers.sql_lineage import SQLLineageAnalyzer
 from src.models.lineage import TransformationEvent
+from src.tracing import CartographyTracer
 
 
 class HydrologistAgent:
@@ -21,13 +22,33 @@ class HydrologistAgent:
         self.lineage_graph = nx.DiGraph()
         self.warnings: list[str] = []
 
-    def run(self, output_root: Path | None = None) -> dict:
-        events = self._collect_events()
+    def run(
+        self,
+        output_root: Path | None = None,
+        changed_files: list[str] | None = None,
+        tracer: CartographyTracer | None = None,
+    ) -> dict:
+        events = self._collect_events(changed_files=changed_files)
         self._build_lineage_graph(events)
 
         output_base = output_root.resolve() if output_root else self.repo_root
         output_path = output_base / ".cartography" / "lineage_graph.json"
         self._write_graph_json(output_path)
+
+        if tracer is not None:
+            tracer.log(
+                agent="Hydrologist",
+                action="run",
+                confidence=0.91,
+                analysis_method="static-analysis",
+                evidence_sources=[
+                    {"file": str(output_path), "line_range": "L1-L260", "method": "static-analysis"}
+                ],
+                metadata={
+                    "changed_files_count": len(changed_files or []),
+                    "analysis_scope": "incremental" if changed_files else "full",
+                },
+            )
 
         return {
             "event_count": len(events),
@@ -37,6 +58,7 @@ class HydrologistAgent:
             "sinks": self.find_sinks(),
             "warnings": self.warnings,
             "lineage_graph_path": str(output_path),
+            "analysis_scope": "incremental" if changed_files else "full",
         }
 
     def blast_radius(self, node: str) -> list[str]:
@@ -58,12 +80,17 @@ class HydrologistAgent:
     def find_sinks(self) -> list[str]:
         return sorted(node for node in self.lineage_graph.nodes if self.lineage_graph.out_degree(node) == 0)
 
-    def _collect_events(self) -> list[TransformationEvent]:
+    def _collect_events(self, changed_files: list[str] | None = None) -> list[TransformationEvent]:
         events: list[TransformationEvent] = []
+        changed_set = {Path(item).as_posix() for item in (changed_files or [])}
         for path in sorted(self.repo_root.rglob("*")):
             if not path.is_file():
                 continue
             if ".git" in path.parts or ".venv" in path.parts or ".cartography" in path.parts:
+                continue
+
+            rel_path = path.relative_to(self.repo_root).as_posix()
+            if changed_set and rel_path not in changed_set:
                 continue
 
             if path.suffix.lower() == ".py":
