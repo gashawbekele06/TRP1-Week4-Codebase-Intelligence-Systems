@@ -2,10 +2,10 @@
   "agent": "Navigator",
   "framework": "LangGraph (fallback pipeline when unavailable)",
   "tools": [
-    "module_graph_lookup",
-    "lineage_lookup",
-    "semantic_lookup",
-    "codebase_lookup"
+    "find_implementation",
+    "trace_lineage",
+    "blast_radius",
+    "explain_module"
   ],
   "citation_policy": "Every answer includes source file, line range, and method attribution."
 }

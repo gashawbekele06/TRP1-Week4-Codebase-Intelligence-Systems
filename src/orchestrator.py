@@ -88,6 +88,7 @@ class AnalysisOrchestrator:
                 metadata={
                     "incremental": incremental_info["incremental_mode"],
                     "changed_files_count": len(incremental_info.get("changed_files", [])),
+                    "onboarding_brief": archivist_result.get("onboarding_brief_path"),
                 },
             )
 
@@ -195,10 +196,10 @@ class AnalysisOrchestrator:
             "agent": "Navigator",
             "framework": "LangGraph (fallback pipeline when unavailable)",
             "tools": [
-                "module_graph_lookup",
-                "lineage_lookup",
-                "semantic_lookup",
-                "codebase_lookup",
+                "find_implementation",
+                "trace_lineage",
+                "blast_radius",
+                "explain_module",
             ],
             "citation_policy": "Every answer includes source file, line range, and method attribution.",
         }

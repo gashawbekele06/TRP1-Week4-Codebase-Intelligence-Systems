@@ -20,10 +20,10 @@ class NavigatorAgent:
     """Query agent over Cartographer artifacts.
 
     Tools:
-    1) module graph lookup
-    2) lineage lookup
-    3) semantic lookup
-    4) CODEBASE context lookup
+    1) find_implementation
+    2) trace_lineage
+    3) blast_radius
+    4) explain_module
     """
 
     def __init__(self, artifact_root: Path, tracer: CartographyTracer | None = None) -> None:
@@ -78,10 +78,10 @@ class NavigatorAgent:
     def _fallback_pipeline(self, state: dict[str, Any]) -> dict[str, Any]:
         question = state.get("question", "")
         findings: list[dict[str, Any]] = []
-        findings.extend(self.tool_module_graph_lookup(question))
-        findings.extend(self.tool_lineage_lookup(question))
-        findings.extend(self.tool_semantic_lookup(question))
-        findings.extend(self.tool_codebase_lookup(question))
+        findings.extend(self.find_implementation(question))
+        findings.extend(self.trace_lineage(question))
+        findings.extend(self.blast_radius(question))
+        findings.extend(self.explain_module(question))
 
         # De-duplicate by core citation identity.
         deduped: list[dict[str, Any]] = []
@@ -102,36 +102,36 @@ class NavigatorAgent:
         except Exception:
             return None
 
-        def module_node(state: dict[str, Any]) -> dict[str, Any]:
-            state["findings"] = state.get("findings", []) + self.tool_module_graph_lookup(state.get("question", ""))
+        def find_implementation_node(state: dict[str, Any]) -> dict[str, Any]:
+            state["findings"] = state.get("findings", []) + self.find_implementation(state.get("question", ""))
             return state
 
-        def lineage_node(state: dict[str, Any]) -> dict[str, Any]:
-            state["findings"] = state.get("findings", []) + self.tool_lineage_lookup(state.get("question", ""))
+        def trace_lineage_node(state: dict[str, Any]) -> dict[str, Any]:
+            state["findings"] = state.get("findings", []) + self.trace_lineage(state.get("question", ""))
             return state
 
-        def semantic_node(state: dict[str, Any]) -> dict[str, Any]:
-            state["findings"] = state.get("findings", []) + self.tool_semantic_lookup(state.get("question", ""))
+        def blast_radius_node(state: dict[str, Any]) -> dict[str, Any]:
+            state["findings"] = state.get("findings", []) + self.blast_radius(state.get("question", ""))
             return state
 
-        def context_node(state: dict[str, Any]) -> dict[str, Any]:
-            state["findings"] = state.get("findings", []) + self.tool_codebase_lookup(state.get("question", ""))
+        def explain_module_node(state: dict[str, Any]) -> dict[str, Any]:
+            state["findings"] = state.get("findings", []) + self.explain_module(state.get("question", ""))
             return state
 
         workflow = StateGraph(dict)
-        workflow.add_node("module_graph_tool", module_node)
-        workflow.add_node("lineage_tool", lineage_node)
-        workflow.add_node("semantic_tool", semantic_node)
-        workflow.add_node("context_tool", context_node)
+        workflow.add_node("find_implementation", find_implementation_node)
+        workflow.add_node("trace_lineage", trace_lineage_node)
+        workflow.add_node("blast_radius", blast_radius_node)
+        workflow.add_node("explain_module", explain_module_node)
 
-        workflow.set_entry_point("module_graph_tool")
-        workflow.add_edge("module_graph_tool", "lineage_tool")
-        workflow.add_edge("lineage_tool", "semantic_tool")
-        workflow.add_edge("semantic_tool", "context_tool")
-        workflow.add_edge("context_tool", END)
+        workflow.set_entry_point("find_implementation")
+        workflow.add_edge("find_implementation", "trace_lineage")
+        workflow.add_edge("trace_lineage", "blast_radius")
+        workflow.add_edge("blast_radius", "explain_module")
+        workflow.add_edge("explain_module", END)
         return workflow.compile()
 
-    def tool_module_graph_lookup(self, question: str) -> list[dict[str, Any]]:
+    def find_implementation(self, question: str) -> list[dict[str, Any]]:
         path = self.cartography_root / "module_graph.json"
         if not path.exists():
             return []
@@ -147,7 +147,7 @@ class NavigatorAgent:
                     "file": str(path),
                     "line_range": "L1-L260",
                     "method": "static-analysis",
-                    "fact": f"Top architectural hub is {top[0]} with PageRank {top[1]:.4f}",
+                    "fact": f"Implementation hotspot: {top[0]} has the highest PageRank ({top[1]:.4f})",
                 }
             )
 
@@ -157,13 +157,13 @@ class NavigatorAgent:
                     "file": str(path),
                     "line_range": "L1-L260",
                     "method": "static-analysis",
-                    "fact": f"Circular dependency group: {group}",
+                    "fact": f"Implementation coupling detected via circular dependency group: {group}",
                 }
             )
 
         return findings
 
-    def tool_lineage_lookup(self, question: str) -> list[dict[str, Any]]:
+    def trace_lineage(self, question: str) -> list[dict[str, Any]]:
         path = self.cartography_root / "lineage_graph.json"
         if not path.exists():
             return []
@@ -179,7 +179,7 @@ class NavigatorAgent:
                     "file": str(path),
                     "line_range": "L1-L260",
                     "method": "static-analysis",
-                    "fact": f"Primary lineage sources include {sources}",
+                    "fact": f"Lineage trace identifies primary source datasets: {sources}",
                 }
             )
         if sinks:
@@ -188,12 +188,12 @@ class NavigatorAgent:
                     "file": str(path),
                     "line_range": "L1-L260",
                     "method": "static-analysis",
-                    "fact": f"Primary lineage sinks include {sinks}",
+                    "fact": f"Lineage trace identifies primary sink datasets: {sinks}",
                 }
             )
         return findings
 
-    def tool_semantic_lookup(self, question: str) -> list[dict[str, Any]]:
+    def blast_radius(self, question: str) -> list[dict[str, Any]]:
         path = self.cartography_root / "semantic_report.json"
         if not path.exists():
             return []
@@ -208,7 +208,7 @@ class NavigatorAgent:
                     "file": str(path),
                     "line_range": "L1-L420",
                     "method": "llm-inference",
-                    "fact": f"Largest inferred domain is {domains[0].get('domain')} ({domains[0].get('module_count')} modules)",
+                    "fact": f"Blast-radius concentration likely highest in domain {domains[0].get('domain')} ({domains[0].get('module_count')} modules)",
                 }
             )
 
@@ -223,13 +223,13 @@ class NavigatorAgent:
                     "file": item.get("path", str(path)),
                     "line_range": "L1-L120",
                     "method": "llm-inference",
-                    "fact": f"Documentation Drift flagged: {item.get('path')} ({item.get('documentation_drift_reason')})",
+                    "fact": f"Documentation Drift increases blast-radius uncertainty in {item.get('path')} ({item.get('documentation_drift_reason')})",
                 }
             )
 
         return findings
 
-    def tool_codebase_lookup(self, question: str) -> list[dict[str, Any]]:
+    def explain_module(self, question: str) -> list[dict[str, Any]]:
         path = self.cartography_root / "CODEBASE.md"
         if not path.exists():
             return []
@@ -237,9 +237,9 @@ class NavigatorAgent:
         text = path.read_text(encoding="utf-8")
         facts: list[str] = []
         if "## Critical Path" in text:
-            facts.append("Living context includes a curated Critical Path section")
+            facts.append("Module explanation context includes a curated Critical Path section")
         if "## Known Debt" in text:
-            facts.append("Living context captures Known Debt including circular dependencies and documentation drift")
+            facts.append("Module explanation context captures Known Debt including circular dependencies and documentation drift")
 
         return [
             {
@@ -250,3 +250,16 @@ class NavigatorAgent:
             }
             for fact in facts
         ]
+
+    # Backward-compatible aliases for older callers.
+    def tool_module_graph_lookup(self, question: str) -> list[dict[str, Any]]:
+        return self.find_implementation(question)
+
+    def tool_lineage_lookup(self, question: str) -> list[dict[str, Any]]:
+        return self.trace_lineage(question)
+
+    def tool_semantic_lookup(self, question: str) -> list[dict[str, Any]]:
+        return self.blast_radius(question)
+
+    def tool_codebase_lookup(self, question: str) -> list[dict[str, Any]]:
+        return self.explain_module(question)

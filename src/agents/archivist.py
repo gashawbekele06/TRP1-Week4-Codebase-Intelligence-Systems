@@ -20,6 +20,7 @@ class ArchivistAgent:
     ) -> dict:
         output_base = output_root.resolve() if output_root else self.repo_root
         output_path = output_base / ".cartography" / "CODEBASE.md"
+        onboarding_path = output_base / ".cartography" / "onboarding_brief.md"
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
         top_hubs = surveyor_result.get("pagerank", [])[:5]
@@ -100,6 +101,17 @@ class ArchivistAgent:
         lines.append("")
 
         output_path.write_text("\n".join(lines), encoding="utf-8")
+        onboarding_path.write_text(
+            self._build_onboarding_brief(
+                architecture_overview=architecture_overview,
+                top_hubs=top_hubs,
+                sources=sources,
+                sinks=sinks,
+                high_velocity=high_velocity,
+                drift_entries=drift_entries,
+            ),
+            encoding="utf-8",
+        )
 
         if tracer is not None:
             tracer.log(
@@ -112,10 +124,58 @@ class ArchivistAgent:
                     {"file": hydrologist_result.get("lineage_graph_path"), "line_range": "L1-L200", "method": "static-analysis"},
                     {"file": semantic_report_path, "line_range": "L1-L300", "method": "llm-inference"},
                 ],
-                metadata={"output_path": str(output_path)},
+                metadata={
+                    "output_path": str(output_path),
+                    "onboarding_brief_path": str(onboarding_path),
+                },
             )
 
-        return {"codebase_md_path": str(output_path)}
+        return {
+            "codebase_md_path": str(output_path),
+            "onboarding_brief_path": str(onboarding_path),
+        }
+
+    def _build_onboarding_brief(
+        self,
+        *,
+        architecture_overview: str,
+        top_hubs: list,
+        sources: list,
+        sinks: list,
+        high_velocity: list,
+        drift_entries: list,
+    ) -> str:
+        lines: list[str] = []
+        lines.append("# Onboarding Brief")
+        lines.append("")
+        lines.append("## First 15 Minutes")
+        lines.append(architecture_overview)
+        lines.append("")
+        lines.append("## Critical Modules to Read First")
+        if top_hubs:
+            for path, score in top_hubs[:5]:
+                lines.append(f"- `{path}` (PageRank={score:.4f})")
+        else:
+            lines.append("- No critical hubs detected.")
+        lines.append("")
+        lines.append("## Data Orientation")
+        lines.append(f"- Sources: {sources[:8] if sources else 'none discovered'}")
+        lines.append(f"- Sinks: {sinks[:8] if sinks else 'none discovered'}")
+        lines.append("")
+        lines.append("## Likely Pain Points")
+        if high_velocity:
+            for item in high_velocity[:8]:
+                lines.append(f"- `{item['path']}` (changes={item['change_count']})")
+        else:
+            lines.append("- No recent high-velocity files in current lookback window.")
+        if drift_entries:
+            lines.append("- Documentation Drift flags present; prioritize validating docs vs behavior.")
+        lines.append("")
+        lines.append("## Week-One Focus")
+        lines.append("1. Validate critical path modules and their dependencies.")
+        lines.append("2. Confirm lineage sources/sinks against production expectations.")
+        lines.append("3. Address top debt items (cycles + documentation drift).")
+        return "\n".join(lines)
 
     def _build_architecture_overview(
         self,

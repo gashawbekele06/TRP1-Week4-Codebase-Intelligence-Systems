@@ -10,6 +10,8 @@ This repository now implements:
 
 ## What is implemented
 
+### Phase 1 (Surveyor)
+
 - Tree-sitter language routing for:
 	- Python (`.py`)
 	- SQL (`.sql`)
@@ -72,9 +74,10 @@ This repository now implements:
 	- Data Sources & Sinks
 	- Known Debt (circular dependencies + documentation drift)
 	- High-Velocity Files
-- Navigator query agent (`ask` command):
+- Archivist also produces `.cartography/onboarding_brief.md` for day-one onboarding.
+- Navigator query agent (`query` command):
 	- built with LangGraph workflow when available, deterministic fallback otherwise
-	- uses 4 tools (module graph, lineage, semantic, CODEBASE context)
+	- uses 4 tools (`find_implementation`, `trace_lineage`, `blast_radius`, `explain_module`)
 	- enforces citations containing file, line range, and analysis method attribution
 		(`static-analysis` vs `llm-inference`)
 - Audit trail:
@@ -92,12 +95,18 @@ Install dependencies, then run analysis on any local repo path or GitHub URL.
 - `python main.py analyze .`
 - `python main.py analyze /path/to/repo --days 90`
 - `python main.py analyze https://github.com/dbt-labs/jaffle-shop --days 90`
-- `python main.py ask "What is the riskiest module and why?"`
+- `python main.py query "What is the riskiest module and why?"`
+- `python main.py query` (interactive mode)
 
 You can also use the script entrypoint:
 
 - `cartographer analyze .`
-- `cartographer ask "Where is business logic concentrated?"`
+- `cartographer query "Where is business logic concentrated?"`
+- `cartographer query` (interactive mode)
+
+Backward-compatible alias:
+
+- `ask` still works as an alias for `query`.
 
 ### Optional LLM configuration
 
@@ -117,6 +126,7 @@ If `OPENROUTER_API_KEY` is missing, Semanticist runs in heuristic mode and recor
 - `.cartography/lineage_graph.json`
 - `.cartography/semantic_report.json`
 - `.cartography/CODEBASE.md`
+- `.cartography/onboarding_brief.md`
 - `.cartography/cartography_trace.jsonl`
 - `.cartography/run_state.json`
 - `.cartography/navigator_agent.json`
@@ -125,7 +135,7 @@ If `OPENROUTER_API_KEY` is missing, Semanticist runs in heuristic mode and recor
 
 - `src/orchestrator.py`: Analysis orchestration and GitHub URL ingestion
 - `src/agents/semanticist.py`: Semantic purpose extraction, domain inference, and FDE synthesis
-- `src/agents/archivist.py`: Living context generation (`CODEBASE.md`)
+- `src/agents/archivist.py`: Living context generation (`CODEBASE.md`) + onboarding brief
 - `src/agents/navigator.py`: Query interface with citation-backed responses
 - `src/tracing.py`: JSONL trace/audit logging utility
 
