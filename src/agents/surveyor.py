@@ -10,6 +10,7 @@ import networkx as nx
 from src.analyzers.tree_sitter_analyzer import TreeSitterAnalyzer
 from src.graph.knowledge_graph import KnowledgeGraph
 from src.models.module import ModuleNode
+from src.tracing import CartographyTracer
 
 
 class SurveyorAgent:
@@ -20,8 +21,14 @@ class SurveyorAgent:
         self.analyzer = TreeSitterAnalyzer(self.repo_root)
         self.graph = KnowledgeGraph()
 
-    def run(self, days: int = 30, output_root: Path | None = None) -> dict:
-        modules = self._analyze_modules()
+    def run(
+        self,
+        days: int = 30,
+        output_root: Path | None = None,
+        changed_files: list[str] | None = None,
+        tracer: CartographyTracer | None = None,
+    ) -> dict:
+        modules = self._analyze_modules(changed_files=changed_files)
         self._build_import_graph(modules)
         dead_code_candidates = self.identify_dead_code_candidates(modules)
 
@@ -43,6 +50,21 @@ class SurveyorAgent:
         output_path = output_base / ".cartography" / "module_graph.json"
         self.graph.write_json(output_path)
 
+        if tracer is not None:
+            tracer.log(
+                agent="Surveyor",
+                action="run",
+                confidence=0.92,
+                analysis_method="static-analysis",
+                evidence_sources=[
+                    {"file": str(output_path), "line_range": "L1-L260", "method": "static-analysis"}
+                ],
+                metadata={
+                    "changed_files_count": len(changed_files or []),
+                    "analysis_scope": "incremental" if changed_files else "full",
+                },
+            )
+
         return {
             "module_count": len(modules),
             "edge_count": self.graph.module_graph.number_of_edges(),
@@ -52,16 +74,25 @@ class SurveyorAgent:
             "high_velocity_core": high_velocity_core,
             "dead_code_candidates": dead_code_candidates,
             "module_graph_path": str(output_path),
+            "analysis_scope": "incremental" if changed_files else "full",
+            "analyzed_files": [m.path for m in modules],
         }
 
-    def _analyze_modules(self) -> list[ModuleNode]:
+    def _analyze_modules(self, changed_files: list[str] | None = None) -> list[ModuleNode]:
         modules: list[ModuleNode] = []
+        changed_set = {Path(item).as_posix() for item in (changed_files or [])}
         for path in sorted(self.repo_root.rglob("*")):
             if not path.is_file():
+                continue
+            if "__pycache__" in path.parts or any(part.startswith(".") for part in path.parts):
                 continue
             if ".git" in path.parts or ".venv" in path.parts or path.parts.count(".cartography"):
                 continue
             if path.suffix.lower() not in self.ANALYZABLE_SUFFIXES:
+                continue
+
+            rel_path = path.relative_to(self.repo_root).as_posix()
+            if changed_set and rel_path not in changed_set:
                 continue
 
             try:

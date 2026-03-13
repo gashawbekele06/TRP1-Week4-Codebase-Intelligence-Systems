@@ -1,0 +1,184 @@
+{
+  "module_purpose_statements": [
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "purpose_statement": "This module supports the codebase by owning line:# Brownfield Cartographer (Phase 1 + Phase 2 + Phase 3 + Phase 4), line:This repository now implements:, line:- **Phase 1: Surveyor Agent (Static Structure)**. Its business value is enabling consistent system behavior for the capability represented by README.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "ingestion",
+      "evidence": [
+        "line:# Brownfield Cartographer (Phase 1 + Phase 2 + Phase 3 + Phase 4)",
+        "line:This repository now implements:",
+        "line:- **Phase 1: Surveyor Agent (Static Structure)**",
+        "line:- **Phase 2: Hydrologist Agent (Data Lineage)**",
+        "line:- **Phase 3: Semanticist Agent (LLM-Powered Purpose Analyst)**",
+        "line:- **Phase 4: Archivist + Navigator (Living Context + Query Interface)**",
+        "file:README.md"
+      ]
+    },
+    {
+      "path": "src/agents/archivist.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import_from:src.tracing. Its business value is enabling consistent system behavior for the capability represented by archivist.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "analysis",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:pathlib",
+        "import_from:src.tracing",
+        "class:ArchivistAgent",
+        "file:archivist.py"
+      ]
+    },
+    {
+      "path": "src/agents/navigator.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:re. Its business value is enabling consistent system behavior for the capability represented by navigator.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "analysis",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import:re",
+        "import_from:dataclasses",
+        "import_from:pathlib",
+        "import_from:typing",
+        "import:networkx",
+        "import_from:networkx.readwrite",
+        "import_from:src.tracing",
+        "class:EvidenceItem",
+        "class:NavigatorAgent",
+        "file:navigator.py"
+      ]
+    },
+    {
+      "path": "src/cli.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:argparse, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by cli.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "orchestration",
+      "evidence": [
+        "import_from:__future__",
+        "import:argparse",
+        "import_from:pathlib",
+        "import_from:src.agents.navigator",
+        "import_from:src.orchestrator",
+        "function:build_parser",
+        "function:main",
+        "file:cli.py"
+      ]
+    },
+    {
+      "path": "src/orchestrator.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:shutil. Its business value is enabling consistent system behavior for the capability represented by orchestrator.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "orchestration",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import:shutil",
+        "import:subprocess",
+        "import:tempfile",
+        "import_from:datetime",
+        "import_from:pathlib",
+        "import_from:urllib.parse",
+        "import_from:src.agents.archivist",
+        "import_from:src.agents.hydrologist",
+        "import_from:src.agents.navigator",
+        "import_from:src.agents.semanticist"
+      ]
+    }
+  ],
+  "business_domain_boundaries": [
+    {
+      "cluster_id": 1,
+      "domain": "analysis",
+      "module_count": 1,
+      "modules": [
+        "src/agents/archivist.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import_from:src.tracing. Its business value is enabling consistent system behavior for the capability represented by archivist."
+      ]
+    },
+    {
+      "cluster_id": 2,
+      "domain": "analysis",
+      "module_count": 1,
+      "modules": [
+        "src/agents/navigator.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning import_from:__future__, import:json, import:re. Its business value is enabling consistent system behavior for the capability represented by navigator."
+      ]
+    },
+    {
+      "cluster_id": 0,
+      "domain": "ingestion",
+      "module_count": 1,
+      "modules": [
+        "README.md"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning line:# Brownfield Cartographer (Phase 1 + Phase 2 + Phase 3 + Phase 4), line:This repository now implements:, line:- **Phase 1: Surveyor Agent (Static Structure)**. Its business value is enabling consistent system behavior for the capability represented by README."
+      ]
+    },
+    {
+      "cluster_id": 3,
+      "domain": "orchestration",
+      "module_count": 1,
+      "modules": [
+        "src/cli.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning import_from:__future__, import:argparse, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by cli."
+      ]
+    },
+    {
+      "cluster_id": 4,
+      "domain": "orchestration",
+      "module_count": 1,
+      "modules": [
+        "src/orchestrator.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning import_from:__future__, import:json, import:shutil. Its business value is enabling consistent system behavior for the capability represented by orchestrator."
+      ]
+    }
+  ],
+  "five_fde_day_one_answers": {
+    "q1_primary_ingestion_path": "Primary ingestion appears to flow from source datasets not explicitly discovered into downstream transformations. Evidence: src/agents/navigator.py:L16-L16; src/agents/navigator.py:L1-L200; src/agents/archivist.py:L1-L200",
+    "q2_critical_outputs": "Most critical outputs are likely terminal lineage sinks not explicitly discovered and high-centrality modules from Surveyor PageRank. Evidence: src/agents/navigator.py:L16-L16; src/agents/navigator.py:L1-L200; src/agents/archivist.py:L1-L200",
+    "q3_blast_radius": "Blast radius is highest around sink-producing transformations and architectural hubs; recently active files include ['README.md', 'src/cli.py', '.cartography/module_graph.json', 'src/agents/surveyor.py', 'src/orchestrator.py']. Evidence: src/agents/navigator.py:L16-L16; src/agents/navigator.py:L1-L200; src/agents/archivist.py:L1-L200",
+    "q4_logic_concentration": "Business logic is most concentrated in the inferred domain 'analysis', with representative modules ['README.md', 'src/agents/archivist.py', 'src/agents/navigator.py']. Evidence: src/agents/navigator.py:L16-L16; src/agents/navigator.py:L1-L200; src/agents/archivist.py:L1-L200",
+    "q5_git_velocity_map": "Git velocity hot spots are derived from Surveyor high-velocity core: ['README.md', 'src/cli.py', '.cartography/module_graph.json', 'src/agents/surveyor.py', 'src/orchestrator.py']; dead-code candidates identified: 1. Evidence: src/agents/navigator.py:L16-L16; src/agents/navigator.py:L1-L200; src/agents/archivist.py:L1-L200"
+  },
+  "warnings": [
+    "OPENROUTER_API_KEY not configured; Semanticist is running in heuristic mode."
+  ],
+  "model_policy": {
+    "bulk_semantics_model": "google/gemini-2.0-flash-001",
+    "synthesis_model": "anthropic/claude-3.5-sonnet",
+    "bulk_vs_synthesis_strategy": "Use Gemini Flash for per-module purpose extraction; reserve Claude/GPT-4 tier for five-answer synthesis."
+  },
+  "context_window_budget": {
+    "max_tokens": 120000,
+    "max_spend_usd": 5.0,
+    "estimated_tokens_total": 0,
+    "actual_input_tokens_total": 0,
+    "actual_output_tokens_total": 0,
+    "estimated_spend_usd": 0.0,
+    "actual_spend_usd": 0.0
+  }
+}

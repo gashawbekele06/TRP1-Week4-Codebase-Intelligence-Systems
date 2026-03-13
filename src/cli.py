@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from src.agents.navigator import NavigatorAgent
 from src.orchestrator import AnalysisOrchestrator
 
 
@@ -10,7 +11,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Brownfield Cartographer CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    analyze = subparsers.add_parser("analyze", help="Run Phase 1+2+3 analysis")
+    analyze = subparsers.add_parser("analyze", help="Run full pipeline (Phase 1+2+3+4)")
     analyze.add_argument(
         "repo",
         nargs="?",
@@ -18,6 +19,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Path to local repository or GitHub URL",
     )
     analyze.add_argument("--days", type=int, default=30, help="Git velocity lookback window")
+
+    query = subparsers.add_parser("query", help="Navigator interactive/query mode over .cartography artifacts")
+    query.add_argument("question", nargs="?", help="Optional one-shot natural language question")
+
+    ask = subparsers.add_parser("ask", help="Alias for query (backward compatibility)")
+    ask.add_argument("question", nargs="?", help="Optional one-shot natural language question")
 
     return parser
 
@@ -32,6 +39,7 @@ def main() -> None:
         surveyor = result["surveyor"]
         hydro = result["hydrologist"]
         semantic = result["semanticist"]
+        archivist = result["archivist"]
 
         print("Phase 1 Surveyor completed")
         print(f"- Target analyzed: {result['target']}")
@@ -98,6 +106,38 @@ def main() -> None:
         print(f"3) {fde['q3_blast_radius']}")
         print(f"4) {fde['q4_logic_concentration']}")
         print(f"5) {fde['q5_git_velocity_map']}")
+
+        incremental = result.get("incremental", {})
+        print("\nPhase 4 Archivist completed")
+        print(f"- Living context file: {archivist['codebase_md_path']}")
+        print(f"- Onboarding brief: {archivist['onboarding_brief_path']}")
+        print(f"- Navigator manifest: {result['navigator']['manifest_path']}")
+        print(f"- Trace log: {result['trace']['path']}")
+        print(
+            "- Incremental mode: "
+            f"{incremental.get('incremental_mode', False)} "
+            f"(changed_files={len(incremental.get('changed_files', []))})"
+        )
+
+    if args.command in {"query", "ask"}:
+        cwd = Path.cwd().resolve()
+        navigator = NavigatorAgent(cwd)
+
+        if args.question:
+            print(navigator.answer(args.question))
+            return
+
+        print("Navigator interactive mode. Type 'exit' to quit.")
+        while True:
+            try:
+                question = input("query> ").strip()
+            except EOFError:
+                break
+            if not question:
+                continue
+            if question.lower() in {"exit", "quit", ":q"}:
+                break
+            print(navigator.answer(question))
 
 
 if __name__ == "__main__":
