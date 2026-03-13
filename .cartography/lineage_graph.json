@@ -4,9 +4,12 @@
     "multigraph": false,
     "graph": {},
     "nodes": [],
-    "edges": []
+    "edges": [],
+    "links": []
   },
   "sources": [],
   "sinks": [],
+  "dataset_nodes": [],
+  "transformation_nodes": [],
   "warnings": []
 }

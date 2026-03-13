@@ -31,6 +31,8 @@ class ArchivistAgent:
 
         semantic_report_path = semanticist_result.get("semantic_report_path")
         drift_entries = self._extract_documentation_drift_entries(semantic_report_path)
+        module_purpose_index = self._extract_module_purpose_index(semantic_report_path)
+        day_one_answers = semanticist_result.get("five_fde_answers", {})
 
         architecture_overview = self._build_architecture_overview(
             surveyor_result=surveyor_result,
@@ -100,6 +102,17 @@ class ArchivistAgent:
             lines.append("- No high-velocity files in selected lookback window.")
         lines.append("")
 
+        lines.append("## Module Purpose Index")
+        if module_purpose_index:
+            for item in module_purpose_index:
+                lines.append(
+                    f"- `{item['path']}` [domain={item['domain']}] — {item['purpose']} "
+                    f"[method={item['method']}]"
+                )
+        else:
+            lines.append("- No module purpose entries available.")
+        lines.append("")
+
         output_path.write_text("\n".join(lines), encoding="utf-8")
         onboarding_path.write_text(
             self._build_onboarding_brief(
@@ -109,6 +122,7 @@ class ArchivistAgent:
                 sinks=sinks,
                 high_velocity=high_velocity,
                 drift_entries=drift_entries,
+                day_one_answers=day_one_answers,
             ),
             encoding="utf-8",
         )
@@ -144,6 +158,7 @@ class ArchivistAgent:
         sinks: list,
         high_velocity: list,
         drift_entries: list,
+        day_one_answers: dict,
     ) -> str:
         lines: list[str] = []
         lines.append("# Onboarding Brief")
@@ -175,6 +190,28 @@ class ArchivistAgent:
         lines.append("1. Validate critical path modules and their dependencies.")
         lines.append("2. Confirm lineage sources/sinks against production expectations.")
         lines.append("3. Address top debt items (cycles + documentation drift).")
+        lines.append("")
+        lines.append("## Five FDE Day-One Answers")
+        lines.append(
+            "1. Primary Ingestion Path: "
+            + str(day_one_answers.get("q1_primary_ingestion_path", "Unavailable"))
+        )
+        lines.append(
+            "2. Most Critical Outputs: "
+            + str(day_one_answers.get("q2_critical_outputs", "Unavailable"))
+        )
+        lines.append(
+            "3. Blast Radius if Critical Module Fails: "
+            + str(day_one_answers.get("q3_blast_radius", "Unavailable"))
+        )
+        lines.append(
+            "4. Logic Concentration vs Distribution: "
+            + str(day_one_answers.get("q4_logic_concentration", "Unavailable"))
+        )
+        lines.append(
+            "5. Git Velocity Hotspots: "
+            + str(day_one_answers.get("q5_git_velocity_map", "Unavailable"))
+        )
         return "\n".join(lines)
 
     def _build_architecture_overview(
@@ -223,3 +260,30 @@ class ArchivistAgent:
                     }
                 )
         return entries[:50]
+
+    def _extract_module_purpose_index(self, semantic_report_path: str | None) -> list[dict]:
+        if not semantic_report_path:
+            return []
+
+        path = Path(semantic_report_path)
+        if not path.exists():
+            return []
+
+        try:
+            import json
+
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return []
+
+        rows: list[dict] = []
+        for item in payload.get("module_purpose_statements", [])[:80]:
+            rows.append(
+                {
+                    "path": item.get("path", "unknown"),
+                    "domain": item.get("inferred_domain", "unknown"),
+                    "purpose": item.get("purpose_statement", "Purpose unavailable"),
+                    "method": "llm-inference",
+                }
+            )
+        return rows

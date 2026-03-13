@@ -74,10 +74,16 @@ This repository now implements:
 	- Data Sources & Sinks
 	- Known Debt (circular dependencies + documentation drift)
 	- High-Velocity Files
-- Archivist also produces `.cartography/onboarding_brief.md` for day-one onboarding.
+- 	- Module Purpose Index (from Semanticist purpose statements)
+- Archivist also produces `.cartography/onboarding_brief.md` for day-one onboarding,
+	including explicit answers to the five FDE Day-One questions.
 - Navigator query agent (`query` command):
 	- built with LangGraph workflow when available, deterministic fallback otherwise
-	- uses 4 tools (`find_implementation`, `trace_lineage`, `blast_radius`, `explain_module`)
+	- uses 4 tools:
+		- `find_implementation(concept)`
+		- `trace_lineage(dataset, direction)`
+		- `blast_radius(module_path)`
+		- `explain_module(path)`
 	- enforces citations containing file, line range, and analysis method attribution
 		(`static-analysis` vs `llm-inference`)
 - Audit trail:

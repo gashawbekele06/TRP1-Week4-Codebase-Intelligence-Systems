@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
 
 import networkx as nx
 from networkx.readwrite import json_graph
@@ -9,8 +10,80 @@ from networkx.readwrite import json_graph
 from src.analyzers.dag_config_parser import DAGConfigAnalyzer
 from src.analyzers.python_dataflow import PythonDataFlowAnalyzer
 from src.analyzers.sql_lineage import SQLLineageAnalyzer
+from src.models.graph import DatasetNodeSchema, TransformationNodeSchema
 from src.models.lineage import TransformationEvent
 from src.tracing import CartographyTracer
+
+
+class DataLineageGraph:
+    """Typed lineage graph with explicit dataset and transformation nodes."""
+
+    def __init__(self) -> None:
+        self.graph = nx.DiGraph()
+
+    def add_dataset(self, dataset_name: str) -> None:
+        dataset = DatasetNodeSchema(
+            name=dataset_name,
+            storage_type="table",
+        )
+        self.graph.add_node(
+            dataset_name,
+            id=dataset_name,
+            node_type=dataset.node_type,
+            **dataset.model_dump(mode="json"),
+        )
+
+    def add_transformation(self, event: TransformationEvent, ordinal: int) -> str:
+        line_start = event.line_range[0] if event.line_range else 1
+        trans_id = f"transformation::{event.source_file}:{line_start}:{ordinal}"
+        trans = TransformationNodeSchema(
+            source_datasets=list(event.source_datasets),
+            target_datasets=list(event.target_datasets),
+            transformation_type=event.transformation_type,
+            source_file=event.source_file,
+            line_range=event.line_range,
+            sql_query_if_applicable=event.sql_query_if_applicable,
+        )
+        self.graph.add_node(
+            trans_id,
+            id=trans_id,
+            node_type=trans.node_type,
+            **trans.model_dump(mode="json"),
+            notes=list(event.notes),
+        )
+        return trans_id
+
+    def add_flow(self, src: str, trans_id: str, dst: str, event: TransformationEvent) -> None:
+        self.graph.add_edge(
+            src,
+            trans_id,
+            edge_type="CONSUMES",
+            source_file=event.source_file,
+            line_range=event.line_range,
+        )
+        self.graph.add_edge(
+            trans_id,
+            dst,
+            edge_type="PRODUCES",
+            source_file=event.source_file,
+            line_range=event.line_range,
+            sql_query_if_applicable=event.sql_query_if_applicable,
+            notes=list(event.notes),
+        )
+
+    def dataset_nodes(self) -> list[str]:
+        return sorted(
+            node
+            for node, attrs in self.graph.nodes(data=True)
+            if isinstance(attrs, dict) and attrs.get("node_type") == "dataset"
+        )
+
+    def transformation_nodes(self) -> list[str]:
+        return sorted(
+            node
+            for node, attrs in self.graph.nodes(data=True)
+            if isinstance(attrs, dict) and attrs.get("node_type") == "transformation"
+        )
 
 
 class HydrologistAgent:
@@ -19,7 +92,8 @@ class HydrologistAgent:
         self.python_analyzer = PythonDataFlowAnalyzer(self.repo_root)
         self.sql_analyzer = SQLLineageAnalyzer(self.repo_root)
         self.config_analyzer = DAGConfigAnalyzer(self.repo_root)
-        self.lineage_graph = nx.DiGraph()
+        self.data_lineage_graph = DataLineageGraph()
+        self.lineage_graph = self.data_lineage_graph.graph
         self.warnings: list[str] = []
 
     def run(
@@ -54,6 +128,8 @@ class HydrologistAgent:
             "event_count": len(events),
             "node_count": self.lineage_graph.number_of_nodes(),
             "edge_count": self.lineage_graph.number_of_edges(),
+            "dataset_node_count": len(self.data_lineage_graph.dataset_nodes()),
+            "transformation_node_count": len(self.data_lineage_graph.transformation_nodes()),
             "sources": self.find_sources(),
             "sinks": self.find_sinks(),
             "warnings": self.warnings,
@@ -72,13 +148,25 @@ class HydrologistAgent:
                 if nxt not in visited:
                     visited.add(nxt)
                     stack.append(nxt)
-        return sorted(visited)
+        return sorted(
+            item
+            for item in visited
+            if self.lineage_graph.nodes[item].get("node_type") == "dataset"
+        )
 
     def find_sources(self) -> list[str]:
-        return sorted(node for node in self.lineage_graph.nodes if self.lineage_graph.in_degree(node) == 0)
+        return sorted(
+            node
+            for node in self.data_lineage_graph.dataset_nodes()
+            if self.lineage_graph.in_degree(node) == 0
+        )
 
     def find_sinks(self) -> list[str]:
-        return sorted(node for node in self.lineage_graph.nodes if self.lineage_graph.out_degree(node) == 0)
+        return sorted(
+            node
+            for node in self.data_lineage_graph.dataset_nodes()
+            if self.lineage_graph.out_degree(node) == 0
+        )
 
     def _collect_events(self, changed_files: list[str] | None = None) -> list[TransformationEvent]:
         events: list[TransformationEvent] = []
@@ -110,36 +198,60 @@ class HydrologistAgent:
         return events
 
     def _build_lineage_graph(self, events: list[TransformationEvent]) -> None:
-        for event in events:
-            for dataset in event.source_datasets + event.target_datasets:
-                if dataset and dataset != "dynamic reference, cannot resolve":
-                    self.lineage_graph.add_node(dataset)
+        for ordinal, event in enumerate(events, start=1):
+            trans_id = self.data_lineage_graph.add_transformation(event, ordinal)
 
-            for src in event.source_datasets:
-                for dst in event.target_datasets:
-                    if (
-                        not src
-                        or not dst
-                        or src == "dynamic reference, cannot resolve"
-                        or dst == "dynamic reference, cannot resolve"
-                    ):
-                        continue
-                    self.lineage_graph.add_edge(
-                        src,
-                        dst,
-                        transformation_type=event.transformation_type,
-                        source_file=event.source_file,
-                        line_range=event.line_range,
-                        sql_query_if_applicable=event.sql_query_if_applicable,
-                        notes=event.notes,
-                    )
+            sources = [
+                src
+                for src in event.source_datasets
+                if src and src != "dynamic reference, cannot resolve"
+            ]
+            targets = [
+                dst
+                for dst in event.target_datasets
+                if dst and dst != "dynamic reference, cannot resolve"
+            ]
+
+            for dataset in sources + targets:
+                self.data_lineage_graph.add_dataset(dataset)
+
+            if not sources or not targets:
+                # Keep transformation node for auditability even when one side is dynamic.
+                continue
+
+            for src in sources:
+                for dst in targets:
+                    self.data_lineage_graph.add_flow(src, trans_id, dst, event)
 
     def _write_graph_json(self, output_path: Path) -> None:
         output_path.parent.mkdir(parents=True, exist_ok=True)
+        links: list[dict[str, Any]] = []
+        for source, target, attrs in self.lineage_graph.edges(data=True):
+            edge_payload = dict(attrs)
+            edge_payload["source"] = source
+            edge_payload["target"] = target
+            if edge_payload.get("edge_type") == "PRODUCES":
+                if self.lineage_graph.nodes[source].get("node_type") == "transformation":
+                    trans = self.lineage_graph.nodes[source]
+                    edge_payload.setdefault("transformation_type", trans.get("transformation_type"))
+                    edge_payload.setdefault("source_file", trans.get("source_file"))
+                    edge_payload.setdefault("line_range", trans.get("line_range"))
+                    edge_payload.setdefault(
+                        "sql_query_if_applicable",
+                        trans.get("sql_query_if_applicable"),
+                    )
+                    edge_payload.setdefault("notes", trans.get("notes", []))
+            links.append(edge_payload)
+
         payload = {
-            "graph": json_graph.node_link_data(self.lineage_graph),
+            "graph": {
+                **json_graph.node_link_data(self.lineage_graph),
+                "links": links,
+            },
             "sources": self.find_sources(),
             "sinks": self.find_sinks(),
+            "dataset_nodes": self.data_lineage_graph.dataset_nodes(),
+            "transformation_nodes": self.data_lineage_graph.transformation_nodes(),
             "warnings": self.warnings,
         }
         output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")

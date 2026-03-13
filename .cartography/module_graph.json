@@ -5,7 +5,7 @@
   "nodes": [
     {
       "node_type": "module",
-      "path": "src/agents/__init__.py",
+      "path": "src/agents/archivist.py",
       "language": "python",
       "purpose_statement": null,
       "domain_cluster": null,
@@ -13,11 +13,11 @@
       "change_velocity_30d": null,
       "is_dead_code_candidate": false,
       "last_modified": null,
-      "id": "src/agents/__init__.py"
+      "id": "src/agents/archivist.py"
     },
     {
       "node_type": "module",
-      "path": "src/agents/hydrologist.py",
+      "path": "src/agents/navigator.py",
       "language": "python",
       "purpose_statement": null,
       "domain_cluster": null,
@@ -25,31 +25,7 @@
       "change_velocity_30d": null,
       "is_dead_code_candidate": false,
       "last_modified": null,
-      "id": "src/agents/hydrologist.py"
-    },
-    {
-      "node_type": "module",
-      "path": "src/agents/semanticist.py",
-      "language": "python",
-      "purpose_statement": null,
-      "domain_cluster": null,
-      "complexity_score": null,
-      "change_velocity_30d": null,
-      "is_dead_code_candidate": false,
-      "last_modified": null,
-      "id": "src/agents/semanticist.py"
-    },
-    {
-      "node_type": "module",
-      "path": "src/agents/surveyor.py",
-      "language": "python",
-      "purpose_statement": null,
-      "domain_cluster": null,
-      "complexity_score": null,
-      "change_velocity_30d": null,
-      "is_dead_code_candidate": false,
-      "last_modified": null,
-      "id": "src/agents/surveyor.py"
+      "id": "src/agents/navigator.py"
     },
     {
       "node_type": "module",
@@ -81,22 +57,8 @@
       "edge_type": "IMPORTS",
       "weight": 1,
       "metadata": {},
-      "source": "src/agents/__init__.py",
-      "target": "src/agents/hydrologist.py"
-    },
-    {
-      "edge_type": "IMPORTS",
-      "weight": 1,
-      "metadata": {},
-      "source": "src/agents/__init__.py",
-      "target": "src/agents/semanticist.py"
-    },
-    {
-      "edge_type": "IMPORTS",
-      "weight": 1,
-      "metadata": {},
-      "source": "src/agents/__init__.py",
-      "target": "src/agents/surveyor.py"
+      "source": "src/cli.py",
+      "target": "src/agents/navigator.py"
     },
     {
       "edge_type": "IMPORTS",
@@ -110,21 +72,14 @@
       "weight": 1,
       "metadata": {},
       "source": "src/orchestrator.py",
-      "target": "src/agents/hydrologist.py"
+      "target": "src/agents/archivist.py"
     },
     {
       "edge_type": "IMPORTS",
       "weight": 1,
       "metadata": {},
       "source": "src/orchestrator.py",
-      "target": "src/agents/semanticist.py"
-    },
-    {
-      "edge_type": "IMPORTS",
-      "weight": 1,
-      "metadata": {},
-      "source": "src/orchestrator.py",
-      "target": "src/agents/surveyor.py"
+      "target": "src/agents/navigator.py"
     }
   ]
 }

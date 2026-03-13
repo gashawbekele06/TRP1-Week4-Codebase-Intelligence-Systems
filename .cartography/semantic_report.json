@@ -19,89 +19,42 @@
       ]
     },
     {
-      "path": "src/agents/__init__.py",
+      "path": "src/agents/archivist.py",
       "language": "python",
-      "purpose_statement": "This module supports the codebase by owning import_from:src.agents.archivist, import_from:src.agents.hydrologist, import_from:src.agents.navigator. Its business value is enabling consistent system behavior for the capability represented by __init__.",
-      "docstring": "Specialized analysis agents.",
-      "documentation_drift": false,
-      "documentation_drift_reason": null,
-      "inferred_domain": "analysis",
-      "evidence": [
-        "import_from:src.agents.archivist",
-        "import_from:src.agents.hydrologist",
-        "import_from:src.agents.navigator",
-        "import_from:src.agents.semanticist",
-        "import_from:src.agents.surveyor",
-        "file:__init__.py"
-      ]
-    },
-    {
-      "path": "src/agents/hydrologist.py",
-      "language": "python",
-      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by hydrologist.",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import_from:src.tracing. Its business value is enabling consistent system behavior for the capability represented by archivist.",
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
       "inferred_domain": "analysis",
       "evidence": [
         "import_from:__future__",
-        "import:json",
         "import_from:pathlib",
-        "import:networkx",
-        "import_from:networkx.readwrite",
-        "import_from:src.analyzers.dag_config_parser",
-        "import_from:src.analyzers.python_dataflow",
-        "import_from:src.analyzers.sql_lineage",
-        "import_from:src.models.lineage",
         "import_from:src.tracing",
-        "class:HydrologistAgent",
-        "file:hydrologist.py"
+        "class:ArchivistAgent",
+        "file:archivist.py"
       ]
     },
     {
-      "path": "src/agents/semanticist.py",
+      "path": "src/agents/navigator.py",
       "language": "python",
-      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:ast, import:json. Its business value is enabling consistent system behavior for the capability represented by semanticist.",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:re. Its business value is enabling consistent system behavior for the capability represented by navigator.",
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
       "inferred_domain": "analysis",
       "evidence": [
         "import_from:__future__",
-        "import:ast",
         "import:json",
-        "import:math",
-        "import:os",
         "import:re",
         "import_from:dataclasses",
         "import_from:pathlib",
         "import_from:typing",
-        "import_from:urllib",
-        "import:numpy",
-        "import_from:src.tracing"
-      ]
-    },
-    {
-      "path": "src/agents/surveyor.py",
-      "language": "python",
-      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:subprocess, import_from:collections. Its business value is enabling consistent system behavior for the capability represented by surveyor.",
-      "docstring": null,
-      "documentation_drift": false,
-      "documentation_drift_reason": null,
-      "inferred_domain": "orchestration",
-      "evidence": [
-        "import_from:__future__",
-        "import:subprocess",
-        "import_from:collections",
-        "import_from:pathlib",
-        "import:ast",
         "import:networkx",
-        "import_from:src.analyzers.tree_sitter_analyzer",
-        "import_from:src.graph.knowledge_graph",
-        "import_from:src.models.module",
+        "import_from:networkx.readwrite",
         "import_from:src.tracing",
-        "class:SurveyorAgent",
-        "file:surveyor.py"
+        "class:EvidenceItem",
+        "class:NavigatorAgent",
+        "file:navigator.py"
       ]
     },
     {
@@ -151,27 +104,12 @@
     {
       "cluster_id": 1,
       "domain": "analysis",
-      "module_count": 2,
+      "module_count": 1,
       "modules": [
-        "src/agents/__init__.py",
-        "src/agents/hydrologist.py"
+        "src/agents/archivist.py"
       ],
       "sample_purposes": [
-        "This module supports the codebase by owning import_from:src.agents.archivist, import_from:src.agents.hydrologist, import_from:src.agents.navigator. Its business value is enabling consistent system behavior for the capability represented by __init__.",
-        "This module supports the codebase by owning import_from:__future__, import:json, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by hydrologist."
-      ]
-    },
-    {
-      "cluster_id": 3,
-      "domain": "orchestration",
-      "module_count": 2,
-      "modules": [
-        "src/agents/surveyor.py",
-        "src/cli.py"
-      ],
-      "sample_purposes": [
-        "This module supports the codebase by owning import_from:__future__, import:subprocess, import_from:collections. Its business value is enabling consistent system behavior for the capability represented by surveyor.",
-        "This module supports the codebase by owning import_from:__future__, import:argparse, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by cli."
+        "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import_from:src.tracing. Its business value is enabling consistent system behavior for the capability represented by archivist."
       ]
     },
     {
@@ -179,10 +117,10 @@
       "domain": "analysis",
       "module_count": 1,
       "modules": [
-        "src/agents/semanticist.py"
+        "src/agents/navigator.py"
       ],
       "sample_purposes": [
-        "This module supports the codebase by owning import_from:__future__, import:ast, import:json. Its business value is enabling consistent system behavior for the capability represented by semanticist."
+        "This module supports the codebase by owning import_from:__future__, import:json, import:re. Its business value is enabling consistent system behavior for the capability represented by navigator."
       ]
     },
     {
@@ -194,6 +132,17 @@
       ],
       "sample_purposes": [
         "This module supports the codebase by owning line:# Brownfield Cartographer (Phase 1 + Phase 2 + Phase 3 + Phase 4), line:This repository now implements:, line:- **Phase 1: Surveyor Agent (Static Structure)**. Its business value is enabling consistent system behavior for the capability represented by README."
+      ]
+    },
+    {
+      "cluster_id": 3,
+      "domain": "orchestration",
+      "module_count": 1,
+      "modules": [
+        "src/cli.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning import_from:__future__, import:argparse, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by cli."
       ]
     },
     {
@@ -209,11 +158,11 @@
     }
   ],
   "five_fde_day_one_answers": {
-    "q1_primary_ingestion_path": "Primary ingestion appears to flow from source datasets not explicitly discovered into downstream transformations. Evidence: src/orchestrator.py:L1-L200; src/agents/hydrologist.py:L1-L200; src/agents/semanticist.py:L1-L200",
-    "q2_critical_outputs": "Most critical outputs are likely terminal lineage sinks not explicitly discovered and high-centrality modules from Surveyor PageRank. Evidence: src/orchestrator.py:L1-L200; src/agents/hydrologist.py:L1-L200; src/agents/semanticist.py:L1-L200",
-    "q3_blast_radius": "Blast radius is highest around sink-producing transformations and architectural hubs; recently active files include ['README.md', 'src/agents/surveyor.py', 'src/cli.py', 'src/graph/__pycache__/knowledge_graph.cpython-313.pyc', 'src/agents/__pycache__/hydrologist.cpython-313.pyc']. Evidence: src/orchestrator.py:L1-L200; src/agents/hydrologist.py:L1-L200; src/agents/semanticist.py:L1-L200",
-    "q4_logic_concentration": "Business logic is most concentrated in the inferred domain 'analysis', with representative modules ['README.md', 'src/agents/__init__.py', 'src/agents/hydrologist.py']. Evidence: src/orchestrator.py:L1-L200; src/agents/hydrologist.py:L1-L200; src/agents/semanticist.py:L1-L200",
-    "q5_git_velocity_map": "Git velocity hot spots are derived from Surveyor high-velocity core: ['README.md', 'src/agents/surveyor.py', 'src/cli.py', 'src/graph/__pycache__/knowledge_graph.cpython-313.pyc', 'src/agents/__pycache__/hydrologist.cpython-313.pyc']; dead-code candidates identified: 0. Evidence: src/orchestrator.py:L1-L200; src/agents/hydrologist.py:L1-L200; src/agents/semanticist.py:L1-L200"
+    "q1_primary_ingestion_path": "Primary ingestion appears to flow from source datasets not explicitly discovered into downstream transformations. Evidence: src/agents/navigator.py:L16-L16; src/agents/navigator.py:L1-L200; src/agents/archivist.py:L1-L200",
+    "q2_critical_outputs": "Most critical outputs are likely terminal lineage sinks not explicitly discovered and high-centrality modules from Surveyor PageRank. Evidence: src/agents/navigator.py:L16-L16; src/agents/navigator.py:L1-L200; src/agents/archivist.py:L1-L200",
+    "q3_blast_radius": "Blast radius is highest around sink-producing transformations and architectural hubs; recently active files include ['README.md', 'src/cli.py', '.cartography/module_graph.json', 'src/agents/surveyor.py', 'src/orchestrator.py']. Evidence: src/agents/navigator.py:L16-L16; src/agents/navigator.py:L1-L200; src/agents/archivist.py:L1-L200",
+    "q4_logic_concentration": "Business logic is most concentrated in the inferred domain 'analysis', with representative modules ['README.md', 'src/agents/archivist.py', 'src/agents/navigator.py']. Evidence: src/agents/navigator.py:L16-L16; src/agents/navigator.py:L1-L200; src/agents/archivist.py:L1-L200",
+    "q5_git_velocity_map": "Git velocity hot spots are derived from Surveyor high-velocity core: ['README.md', 'src/cli.py', '.cartography/module_graph.json', 'src/agents/surveyor.py', 'src/orchestrator.py']; dead-code candidates identified: 1. Evidence: src/agents/navigator.py:L16-L16; src/agents/navigator.py:L1-L200; src/agents/archivist.py:L1-L200"
   },
   "warnings": [
     "OPENROUTER_API_KEY not configured; Semanticist is running in heuristic mode."
