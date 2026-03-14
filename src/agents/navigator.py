@@ -256,30 +256,77 @@ class NavigatorAgent:
         return findings
 
     def blast_radius(self, module_path: str) -> list[dict[str, Any]]:
-        path = self.cartography_root / "module_graph.json"
-        if not path.exists():
-            return []
-
-        payload = json.loads(path.read_text(encoding="utf-8"))
-        graph = json_graph.node_link_graph(payload)
         findings: list[dict[str, Any]] = []
 
-        module = self._best_module_match(graph, module_path)
-        if not module:
-            return findings
+        # 1) Data-lineage blast (critical for SQL/dbt-style repositories).
+        lineage_path = self.cartography_root / "lineage_graph.json"
+        if lineage_path.exists() and module_path.strip():
+            lineage_payload = json.loads(lineage_path.read_text(encoding="utf-8"))
+            lineage_graph_payload = lineage_payload.get("graph", lineage_payload)
+            lineage_graph = json_graph.node_link_graph(lineage_graph_payload)
 
-        impacted = sorted(nx.descendants(graph, module))
-        findings.append(
-            {
-                "file": str(path),
-                "line_range": "L1-L260",
-                "method": "static-analysis",
-                "fact": (
-                    f"Blast radius for {module}: "
-                    f"{impacted[:12] if impacted else 'no downstream dependent modules detected'}"
-                ),
-            }
-        )
+            module_norm = module_path.strip().lower()
+            trans_nodes = [
+                node
+                for node, attrs in lineage_graph.nodes(data=True)
+                if attrs.get("node_type") == "transformation"
+                and str(attrs.get("source_file", "")).lower() == module_norm
+            ]
+
+            if trans_nodes:
+                impacted_datasets: set[str] = set()
+                impacted_transformations: set[str] = set()
+                produced_datasets: set[str] = set()
+
+                for trans in trans_nodes:
+                    for succ in lineage_graph.successors(trans):
+                        edge_attrs = lineage_graph.edges[trans, succ]
+                        if edge_attrs.get("edge_type") == "PRODUCES":
+                            produced_datasets.add(str(succ))
+
+                    for produced in produced_datasets:
+                        for desc in nx.descendants(lineage_graph, produced):
+                            node_type = lineage_graph.nodes[desc].get("node_type")
+                            if node_type == "dataset":
+                                impacted_datasets.add(str(desc))
+                            elif node_type == "transformation":
+                                impacted_transformations.add(str(desc))
+
+                findings.append(
+                    {
+                        "file": str(lineage_path),
+                        "line_range": "L1-L320",
+                        "method": "static-analysis",
+                        "fact": (
+                            f"Blast radius (lineage) for {module_path}: "
+                            f"produced={sorted(produced_datasets)}; "
+                            f"downstream_datasets={sorted(impacted_datasets) if impacted_datasets else 'none'}; "
+                            f"downstream_transformations={sorted(impacted_transformations) if impacted_transformations else 'none'}; "
+                            "dependency_types=data_consumption, transformation_propagation"
+                        ),
+                    }
+                )
+
+        # 2) Module import blast (still useful for code-level interface changes).
+        module_graph_path = self.cartography_root / "module_graph.json"
+        if module_graph_path.exists():
+            payload = json.loads(module_graph_path.read_text(encoding="utf-8"))
+            module_graph = json_graph.node_link_graph(payload)
+            module = self._best_module_match(module_graph, module_path)
+            if module:
+                impacted = sorted(nx.descendants(module_graph, module))
+                findings.append(
+                    {
+                        "file": str(module_graph_path),
+                        "line_range": "L1-L260",
+                        "method": "static-analysis",
+                        "fact": (
+                            f"Blast radius (imports) for {module}: "
+                            f"{impacted[:12] if impacted else 'no downstream dependent modules detected'}; "
+                            "dependency_types=import"
+                        ),
+                    }
+                )
 
         return findings
 

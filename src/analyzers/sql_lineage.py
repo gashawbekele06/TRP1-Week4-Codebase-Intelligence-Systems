@@ -22,6 +22,8 @@ class SQLLineageAnalyzer:
         raw_sql = file_path.read_text(encoding="utf-8")
         normalized_sql = self._normalize_dbt_refs(raw_sql)
         relative = str(file_path.relative_to(self.repo_root))
+        target_dataset = self._infer_target_dataset(file_path)
+        dbt_dependencies = self._extract_dbt_dependencies(raw_sql)
 
         warnings: list[str] = []
         tables: set[str] = set()
@@ -50,9 +52,13 @@ class SQLLineageAnalyzer:
         if not parsed_success:
             warnings.append(f"{relative}: sqlglot parse failed across dialects")
 
-        target_dataset = self._infer_target_dataset(file_path)
+        source_datasets = sorted((tables | dbt_dependencies) - {target_dataset})
+
+        if not tables and dbt_dependencies:
+            warnings.append(f"{relative}: used dbt ref/source fallback extraction for lineage dependencies")
+
         event = TransformationEvent(
-            source_datasets=sorted(tables),
+            source_datasets=source_datasets,
             target_datasets=[target_dataset],
             transformation_type="sql:model_build",
             source_file=relative,
@@ -87,3 +93,29 @@ class SQLLineageAnalyzer:
         if "models" in relative.parts:
             return file_path.stem
         return str(relative.with_suffix(""))
+
+    def _extract_dbt_dependencies(self, raw_sql: str) -> set[str]:
+        dependencies: set[str] = set()
+
+        for match in re.findall(
+            r"\{\{\s*ref\(['\"]([^'\"]+)['\"]\)\s*\}\}",
+            raw_sql,
+            flags=re.IGNORECASE,
+        ):
+            name = match.strip()
+            if name:
+                dependencies.add(name)
+
+        for source_name, table_name in re.findall(
+            r"\{\{\s*source\(['\"]([^'\"]+)['\"]\s*,\s*['\"]([^'\"]+)['\"]\)\s*\}\}",
+            raw_sql,
+            flags=re.IGNORECASE,
+        ):
+            source_name = source_name.strip()
+            table_name = table_name.strip()
+            if source_name and table_name:
+                dependencies.add(f"{source_name}.{table_name}")
+            elif table_name:
+                dependencies.add(table_name)
+
+        return dependencies
