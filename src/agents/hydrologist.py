@@ -26,11 +26,11 @@ class DataLineageGraph:
             name=dataset_name,
             storage_type="table",
         )
+        dataset_data = dataset.model_dump(mode="json")
         self.graph.add_node(
             dataset_name,
             id=dataset_name,
-            node_type=dataset.node_type,
-            **dataset.model_dump(mode="json"),
+            **dataset_data,
         )
 
     def add_transformation(self, event: TransformationEvent, ordinal: int) -> str:
@@ -44,11 +44,11 @@ class DataLineageGraph:
             line_range=event.line_range,
             sql_query_if_applicable=event.sql_query_if_applicable,
         )
+        trans_data = trans.model_dump(mode="json")
         self.graph.add_node(
             trans_id,
             id=trans_id,
-            node_type=trans.node_type,
-            **trans.model_dump(mode="json"),
+            **trans_data,
             notes=list(event.notes),
         )
         return trans_id

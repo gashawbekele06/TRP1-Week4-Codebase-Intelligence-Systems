@@ -1,4 +1,48 @@
-# Brownfield Cartographer (Phase 1 + Phase 2 + Phase 3 + Phase 4)
+# TRP1 Week 4: Brownfield Cartographer
+
+A multi-agent codebase intelligence system that ingests any GitHub repository or local path and produces a **living, queryable knowledge graph** of the system's architecture, data flows, and semantic structure.
+
+## Quick Start
+
+```bash
+# Install
+pip install networkx numpy pydantic pyyaml sqlglot tree-sitter tree-sitter-language-pack langgraph
+
+# Optional: set API key for LLM semantic analysis (Phase 3)
+# Create .env with: OPENROUTER_API_KEY=your_key_here
+
+# Analyze a local repo
+python main.py analyze .
+
+# Analyze from a GitHub URL
+python main.py analyze https://github.com/dbt-labs/jaffle_shop
+
+# Set git velocity lookback window
+python main.py analyze . --days 90
+
+# Query the generated artifacts
+python main.py query "What upstream sources feed the orders dataset?"
+python main.py query  # interactive mode
+
+# Run tests
+python -m pytest tests/ -v
+```
+
+## Four-Agent Pipeline
+
+```
+[Surveyor] → [Hydrologist] → [Semanticist] → [Archivist]
+                                                    ↓
+                                            .cartography/
+                                            ├── CODEBASE.md
+                                            ├── onboarding_brief.md
+                                            ├── module_graph.json
+                                            ├── lineage_graph.json
+                                            ├── semantic_report.json
+                                            └── cartography_trace.jsonl
+                                                    ↓
+                                            [Navigator] ← query / ask
+```
 
 This repository now implements:
 
@@ -6,7 +50,8 @@ This repository now implements:
 - **Phase 2: Hydrologist Agent (Data Lineage)**
 - **Phase 3: Semanticist Agent (LLM-Powered Purpose Analyst)**
 - **Phase 4: Archivist + Navigator (Living Context + Query Interface)**
-- **Orchestrator** to run Surveyor -> Hydrologist -> Semanticist -> Archivist in sequence
+- **Orchestrator** to run Surveyor → Hydrologist → Semanticist → Archivist in sequence
+- **Incremental update mode**: re-analyzes only changed files on subsequent runs
 
 ## What is implemented
 

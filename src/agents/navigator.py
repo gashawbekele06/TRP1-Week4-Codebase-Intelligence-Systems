@@ -181,7 +181,11 @@ class NavigatorAgent:
             if any(token in str(node).lower() for token in concept_tokens)
         ]
         if not matches:
-            centrality = nx.pagerank(graph) if graph.number_of_nodes() else {}
+            try:
+                centrality = nx.pagerank(graph) if graph.number_of_nodes() else {}
+            except Exception:
+                # pagerank may require scipy; fall back to degree centrality
+                centrality = nx.degree_centrality(graph) if graph.number_of_nodes() else {}
             matches = [node for node, _ in sorted(centrality.items(), key=lambda item: item[1], reverse=True)[:3]]
 
         for node in matches[:3]:
