@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import type { TraceEntry } from "@/lib/types";
 
 interface Props { entries: TraceEntry[]; }
@@ -41,9 +41,8 @@ export function TraceLog({ entries }: Props) {
               const ts = new Date(e.timestamp_utc).toLocaleTimeString();
               const methodColor = METHOD_COLORS[e.analysis_method] ?? "text-gray-400";
               return (
-                <>
+                <Fragment key={i}>
                   <tr
-                    key={i}
                     className="border-b border-gray-800/50 hover:bg-gray-800/30 cursor-pointer transition-colors"
                     onClick={() => setExpanded(expanded === i ? null : i)}
                   >
@@ -60,7 +59,7 @@ export function TraceLog({ entries }: Props) {
                     </td>
                   </tr>
                   {expanded === i && (
-                    <tr key={`exp-${i}`} className="bg-gray-800/50">
+                    <tr className="bg-gray-800/50">
                       <td colSpan={5} className="px-4 py-3">
                         <div className="space-y-1">
                           {e.evidence_sources?.map((ev, j) => (
@@ -77,7 +76,7 @@ export function TraceLog({ entries }: Props) {
                       </td>
                     </tr>
                   )}
-                </>
+                </Fragment>
               );
             })}
           </tbody>

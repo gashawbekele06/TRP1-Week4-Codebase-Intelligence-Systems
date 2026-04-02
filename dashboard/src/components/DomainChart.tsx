@@ -23,8 +23,8 @@ export function DomainChart({ domains }: Props) {
   }));
 
   return (
-    <div className="bg-gray-900 rounded-xl border border-gray-800 p-4" style={{ height: 380 }}>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="bg-gray-900 rounded-xl border border-gray-800 p-4" style={{ minWidth: 0 }}>
+      <ResponsiveContainer width="100%" height={350} minWidth={0} debounce={50}>
         <PieChart>
           <Pie
             data={data}
@@ -52,3 +52,4 @@ export function DomainChart({ domains }: Props) {
     </div>
   );
 }
+
