@@ -1,7 +1,7 @@
 [project]
-name = "trp1-week3-codebase-intelligence-systems"
+name = "trp1-week4-brownfield-cartographer"
 version = "0.1.0"
-description = "Add your description here"
+description = "Brownfield Cartographer — multi-agent codebase intelligence system for rapid FDE onboarding"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -15,5 +15,15 @@ dependencies = [
 	"tree-sitter-language-pack>=0.6.0",
 ]
 
+[project.optional-dependencies]
+dev = [
+	"pytest>=8.0",
+	"pytest-cov>=5.0",
+]
+
 [project.scripts]
 cartographer = "src.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
