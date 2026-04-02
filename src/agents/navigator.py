@@ -165,6 +165,13 @@ class NavigatorAgent:
         workflow.add_edge("explain_module", END)
         return workflow.compile()
 
+    def _rel(self, path: Path) -> str:
+        """Return a short relative citation path for display."""
+        try:
+            return path.relative_to(self.artifact_root).as_posix()
+        except ValueError:
+            return path.name
+
     def find_implementation(self, concept: str) -> list[dict[str, Any]]:
         path = self.cartography_root / "module_graph.json"
         if not path.exists():
@@ -192,7 +199,7 @@ class NavigatorAgent:
             score = float(graph.out_degree(node) + graph.in_degree(node))
             findings.append(
                 {
-                    "file": str(path),
+                    "file": self._rel(path),
                     "line_range": "L1-L260",
                     "method": "static-analysis",
                     "fact": f"Implementation match: {node} (connectivity score={score:.1f})",
@@ -218,7 +225,7 @@ class NavigatorAgent:
             if sources:
                 findings.append(
                     {
-                        "file": str(path),
+                        "file": self._rel(path),
                         "line_range": "L1-L260",
                         "method": "static-analysis",
                         "fact": f"Lineage trace identifies primary source datasets: {sources}",
@@ -227,7 +234,7 @@ class NavigatorAgent:
             if sinks:
                 findings.append(
                     {
-                        "file": str(path),
+                        "file": self._rel(path),
                         "line_range": "L1-L260",
                         "method": "static-analysis",
                         "fact": f"Lineage trace identifies primary sink datasets: {sinks}",
@@ -248,7 +255,7 @@ class NavigatorAgent:
 
         findings.append(
             {
-                "file": str(path),
+                "file": self._rel(path),
                 "line_range": "L1-L260",
                 "method": "static-analysis",
                 "fact": (
@@ -275,7 +282,7 @@ class NavigatorAgent:
         impacted = sorted(nx.descendants(graph, module))
         findings.append(
             {
-                "file": str(path),
+                "file": self._rel(path),
                 "line_range": "L1-L260",
                 "method": "static-analysis",
                 "fact": (
@@ -316,7 +323,7 @@ class NavigatorAgent:
             if "## Module Purpose Index" in text:
                 findings.append(
                     {
-                        "file": str(codebase_path),
+                        "file": self._rel(codebase_path),
                         "line_range": "L1-L320",
                         "method": "hybrid-static-llm",
                         "fact": "CODEBASE includes Module Purpose Index for rapid module-level explanation.",
