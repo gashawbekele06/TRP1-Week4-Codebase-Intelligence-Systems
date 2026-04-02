@@ -1,149 +1,408 @@
 {
   "module_purpose_statements": [
     {
-      "path": "README.md",
+      "path": "dashboard/AGENTS.md",
       "language": "markdown",
-      "purpose_statement": "This module supports the codebase by owning line:# TRP1 Week 4: Brownfield Cartographer, line:A multi-agent codebase intelligence system that ingests any GitHub repository or, line:## Quick Start. Its business value is enabling consistent system behavior for the capability represented by README.",
+      "purpose_statement": "This module supports the codebase by owning line:<!-- BEGIN:nextjs-agent-rules -->, line:# This is NOT the Next.js you know, line:This version has breaking changes \u2014 APIs, conventions, and file structure may al. Its business value is enabling consistent system behavior for the capability represented by AGENTS.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "analysis",
+      "evidence": [
+        "line:<!-- BEGIN:nextjs-agent-rules -->",
+        "line:# This is NOT the Next.js you know",
+        "line:This version has breaking changes \u2014 APIs, conventions, and file structure may al",
+        "line:<!-- END:nextjs-agent-rules -->",
+        "file:AGENTS.md"
+      ]
+    },
+    {
+      "path": "dashboard/CLAUDE.md",
+      "language": "markdown",
+      "purpose_statement": "This module supports the codebase by owning line:@AGENTS.md, file:CLAUDE.md. Its business value is enabling consistent system behavior for the capability represented by CLAUDE.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "analysis",
+      "evidence": [
+        "line:@AGENTS.md",
+        "file:CLAUDE.md"
+      ]
+    },
+    {
+      "path": "dashboard/next.config.ts",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:import type { NextConfig } from \"next\";, line:const nextConfig: NextConfig = {, line:/* config options here */. Its business value is enabling consistent system behavior for the capability represented by next.config.",
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
       "inferred_domain": "ingestion",
       "evidence": [
-        "line:# TRP1 Week 4: Brownfield Cartographer",
-        "line:A multi-agent codebase intelligence system that ingests any GitHub repository or",
-        "line:## Quick Start",
+        "line:import type { NextConfig } from \"next\";",
+        "line:const nextConfig: NextConfig = {",
+        "line:/* config options here */",
+        "line:};",
+        "line:export default nextConfig;",
+        "file:next.config.ts"
+      ]
+    },
+    {
+      "path": "dashboard/README.md",
+      "language": "markdown",
+      "purpose_statement": "This module supports the codebase by owning line:This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-, line:## Getting Started, line:First, run the development server:. Its business value is enabling consistent system behavior for the capability represented by README.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "ingestion",
+      "evidence": [
+        "line:This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-",
+        "line:## Getting Started",
+        "line:First, run the development server:",
         "line:```bash",
-        "line:# Install",
-        "line:pip install networkx numpy pydantic pyyaml sqlglot tree-sitter tree-sitter-langu",
+        "line:npm run dev",
+        "line:# or",
         "file:README.md"
       ]
     },
     {
-      "path": "src/agents/hydrologist.py",
-      "language": "python",
-      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by hydrologist.",
+      "path": "dashboard/src/app/api/cartography/route.ts",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:import { NextResponse } from \"next/server\";, line:import fs from \"fs\";, line:import path from \"path\";. Its business value is enabling consistent system behavior for the capability represented by route.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "ingestion",
+      "evidence": [
+        "line:import { NextResponse } from \"next/server\";",
+        "line:import fs from \"fs\";",
+        "line:import path from \"path\";",
+        "line:const CART_DIR = path.join(process.cwd(), \"..\", \".cartography\");",
+        "line:function readJson(file: string) {",
+        "line:const p = path.join(CART_DIR, file);",
+        "file:route.ts"
+      ]
+    },
+    {
+      "path": "dashboard/src/app/api/query/route.ts",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:import { NextRequest, NextResponse } from \"next/server\";, line:import { exec } from \"child_process\";, line:import path from \"path\";. Its business value is enabling consistent system behavior for the capability represented by route.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "ingestion",
+      "evidence": [
+        "line:import { NextRequest, NextResponse } from \"next/server\";",
+        "line:import { exec } from \"child_process\";",
+        "line:import path from \"path\";",
+        "line:export async function POST(req: NextRequest) {",
+        "line:const { question } = await req.json();",
+        "line:if (!question?.trim()) {",
+        "file:route.ts"
+      ]
+    },
+    {
+      "path": "dashboard/src/app/layout.tsx",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:import type { Metadata } from \"next\";, line:import { Geist_Mono } from \"next/font/google\";, line:import \"./globals.css\";. Its business value is enabling consistent system behavior for the capability represented by layout.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "ingestion",
+      "evidence": [
+        "line:import type { Metadata } from \"next\";",
+        "line:import { Geist_Mono } from \"next/font/google\";",
+        "line:import \"./globals.css\";",
+        "line:const mono = Geist_Mono({ variable: \"--font-mono\", subsets: [\"latin\"] });",
+        "line:export const metadata: Metadata = {",
+        "line:title: \"Brownfield Cartographer \u2014 Codebase Intelligence\",",
+        "file:layout.tsx"
+      ]
+    },
+    {
+      "path": "dashboard/src/app/page.tsx",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:\"use client\";, line:import { useCartographyData } from \"@/lib/hooks\";, line:import { OverviewCards } from \"@/components/OverviewCards\";. Its business value is enabling consistent system behavior for the capability represented by page.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "ingestion",
+      "evidence": [
+        "line:\"use client\";",
+        "line:import { useCartographyData } from \"@/lib/hooks\";",
+        "line:import { OverviewCards } from \"@/components/OverviewCards\";",
+        "line:import { FDEAnswers } from \"@/components/FDEAnswers\";",
+        "line:import { ModuleGraph } from \"@/components/ModuleGraph\";",
+        "line:import { DomainChart } from \"@/components/DomainChart\";",
+        "file:page.tsx"
+      ]
+    },
+    {
+      "path": "dashboard/src/components/DomainChart.tsx",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:\"use client\";, line:import {, line:PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend,. Its business value is enabling consistent system behavior for the capability represented by DomainChart.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "line:\"use client\";",
+        "line:import {",
+        "line:PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend,",
+        "line:} from \"recharts\";",
+        "line:import type { DomainBoundary } from \"@/lib/types\";",
+        "line:const COLORS = [\"#06b6d4\",\"#a855f7\",\"#f97316\",\"#22c55e\",\"#eab308\",\"#3b82f6\",\"#ec",
+        "file:DomainChart.tsx"
+      ]
+    },
+    {
+      "path": "dashboard/src/components/FDEAnswers.tsx",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:\"use client\";, line:import type { FDEAnswers as FDEAnswersType } from \"@/lib/types\";, line:interface Props { answers: FDEAnswersType | null; }. Its business value is enabling consistent system behavior for the capability represented by FDEAnswers.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "line:\"use client\";",
+        "line:import type { FDEAnswers as FDEAnswersType } from \"@/lib/types\";",
+        "line:interface Props { answers: FDEAnswersType | null; }",
+        "line:const QUESTIONS = [",
+        "line:{ key: \"q1_primary_ingestion_path\", label: \"Primary Ingestion Path\", icon: \"\ud83d\udce5\" }",
+        "line:{ key: \"q2_critical_outputs\",       label: \"Critical Outputs\",        icon: \"\ud83d\udce4\" ",
+        "file:FDEAnswers.tsx"
+      ]
+    },
+    {
+      "path": "dashboard/src/components/ModuleGraph.tsx",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:\"use client\";, line:import { useMemo } from \"react\";, line:import ReactFlow, {. Its business value is enabling consistent system behavior for the capability represented by ModuleGraph.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "line:\"use client\";",
+        "line:import { useMemo } from \"react\";",
+        "line:import ReactFlow, {",
+        "line:Background,",
+        "line:Controls,",
+        "line:MiniMap,",
+        "file:ModuleGraph.tsx"
+      ]
+    },
+    {
+      "path": "dashboard/src/components/ModuleTable.tsx",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:\"use client\";, line:import { useState } from \"react\";, line:import type { ModulePurpose } from \"@/lib/types\";. Its business value is enabling consistent system behavior for the capability represented by ModuleTable.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "line:\"use client\";",
+        "line:import { useState } from \"react\";",
+        "line:import type { ModulePurpose } from \"@/lib/types\";",
+        "line:interface Props { modules: ModulePurpose[]; }",
+        "line:export function ModuleTable({ modules }: Props) {",
+        "line:const [search, setSearch] = useState(\"\");",
+        "file:ModuleTable.tsx"
+      ]
+    },
+    {
+      "path": "dashboard/src/components/NavBar.tsx",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:\"use client\";, line:export function NavBar() {, line:const links = [. Its business value is enabling consistent system behavior for the capability represented by NavBar.",
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
       "inferred_domain": "analysis",
       "evidence": [
-        "import_from:__future__",
-        "import:json",
-        "import_from:pathlib",
-        "import_from:typing",
-        "import:networkx",
-        "import_from:networkx.readwrite",
-        "import_from:src.analyzers.dag_config_parser",
-        "import_from:src.analyzers.python_dataflow",
-        "import_from:src.analyzers.sql_lineage",
-        "import_from:src.models.graph",
-        "import_from:src.models.lineage",
-        "import_from:src.tracing"
+        "line:\"use client\";",
+        "line:export function NavBar() {",
+        "line:const links = [",
+        "line:{ href: \"#fde\", label: \"FDE Answers\" },",
+        "line:{ href: \"#graph\", label: \"Module Graph\" },",
+        "line:{ href: \"#lineage\", label: \"Lineage\" },",
+        "file:NavBar.tsx"
       ]
     },
     {
-      "path": "src/agents/navigator.py",
-      "language": "python",
-      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:re. Its business value is enabling consistent system behavior for the capability represented by navigator.",
+      "path": "dashboard/src/components/OverviewCards.tsx",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:\"use client\";, line:import type { CartographyData } from \"@/lib/types\";, line:interface Props { data: CartographyData; }. Its business value is enabling consistent system behavior for the capability represented by OverviewCards.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "line:\"use client\";",
+        "line:import type { CartographyData } from \"@/lib/types\";",
+        "line:interface Props { data: CartographyData; }",
+        "line:export function OverviewCards({ data }: Props) {",
+        "line:const moduleCount = data.moduleGraph?.nodes?.length ?? 0;",
+        "line:const edgeCount = (data.moduleGraph?.edges ?? data.moduleGraph?.links ?? []).len",
+        "file:OverviewCards.tsx"
+      ]
+    },
+    {
+      "path": "dashboard/src/components/QueryPanel.tsx",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:\"use client\";, line:import { useState } from \"react\";, line:const EXAMPLES = [. Its business value is enabling consistent system behavior for the capability represented by QueryPanel.",
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
       "inferred_domain": "analysis",
       "evidence": [
-        "import_from:__future__",
-        "import:json",
-        "import:re",
-        "import_from:dataclasses",
-        "import_from:pathlib",
-        "import_from:typing",
-        "import:networkx",
-        "import_from:networkx.readwrite",
-        "import_from:src.tracing",
-        "class:EvidenceItem",
-        "class:NavigatorAgent",
-        "file:navigator.py"
+        "line:\"use client\";",
+        "line:import { useState } from \"react\";",
+        "line:const EXAMPLES = [",
+        "line:\"Where is the ingestion logic implemented?\",",
+        "line:\"What upstream sources feed the orders dataset?\",",
+        "line:\"What is the blast radius of src/agents/hydrologist.py?\",",
+        "file:QueryPanel.tsx"
       ]
     },
     {
-      "path": "tests/test_agents.py",
-      "language": "python",
-      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:tempfile. Its business value is enabling consistent system behavior for the capability represented by test_agents.",
-      "docstring": "Unit tests for the Brownfield Cartographer agents.\n\nTests cover:\n- Surveyor: module parsing, dead code detection, git velocity\n- Hydrologist: lineage event construction, blast_radius, sources/sinks\n- Navigator: all 4 tools, intent inference, parameter extraction\n- Archivist: CODEBASE.md generation\n- KnowledgeGraph: schema validation (see test_knowledge_graph_deserialization.py)",
+      "path": "dashboard/src/components/TraceLog.tsx",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:\"use client\";, line:import { Fragment, useState } from \"react\";, line:import type { TraceEntry } from \"@/lib/types\";. Its business value is enabling consistent system behavior for the capability represented by TraceLog.",
+      "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "monitoring",
+      "inferred_domain": "serving",
       "evidence": [
-        "import_from:__future__",
-        "import:json",
-        "import:tempfile",
-        "import:unittest",
-        "import_from:pathlib",
-        "import_from:unittest.mock",
-        "function:_make_temp_repo",
-        "class:TestSurveyorAgent",
-        "class:TestHydrologistAgent",
-        "class:TestNavigatorAgent",
-        "class:TestNavigatorIntentInference",
-        "class:TestArchivistAgent"
+        "line:\"use client\";",
+        "line:import { Fragment, useState } from \"react\";",
+        "line:import type { TraceEntry } from \"@/lib/types\";",
+        "line:interface Props { entries: TraceEntry[]; }",
+        "line:const METHOD_COLORS: Record<string, string> = {",
+        "line:\"static-analysis\": \"text-blue-400\",",
+        "file:TraceLog.tsx"
+      ]
+    },
+    {
+      "path": "dashboard/src/lib/hooks.ts",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:\"use client\";, line:import { useEffect, useState } from \"react\";, line:import type { CartographyData } from \"./types\";. Its business value is enabling consistent system behavior for the capability represented by hooks.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "line:\"use client\";",
+        "line:import { useEffect, useState } from \"react\";",
+        "line:import type { CartographyData } from \"./types\";",
+        "line:export function useCartographyData() {",
+        "line:const [data, setData] = useState<CartographyData | null>(null);",
+        "line:const [loading, setLoading] = useState(true);",
+        "file:hooks.ts"
+      ]
+    },
+    {
+      "path": "dashboard/src/lib/types.ts",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:export interface GraphNode {, line:id: string;, line:node_type?: string;. Its business value is enabling consistent system behavior for the capability represented by types.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "line:export interface GraphNode {",
+        "line:id: string;",
+        "line:node_type?: string;",
+        "line:path?: string;",
+        "line:language?: string;",
+        "line:purpose_statement?: string;",
+        "file:types.ts"
       ]
     }
   ],
   "business_domain_boundaries": [
     {
       "cluster_id": 1,
-      "domain": "analysis",
-      "module_count": 1,
+      "domain": "ingestion",
+      "module_count": 6,
       "modules": [
-        "src/agents/hydrologist.py"
+        "dashboard/README.md",
+        "dashboard/next.config.ts",
+        "dashboard/src/app/api/cartography/route.ts",
+        "dashboard/src/app/api/query/route.ts",
+        "dashboard/src/app/layout.tsx",
+        "dashboard/src/app/page.tsx"
       ],
       "sample_purposes": [
-        "This module supports the codebase by owning import_from:__future__, import:json, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by hydrologist."
+        "This module supports the codebase by owning line:import type { NextConfig } from \"next\";, line:const nextConfig: NextConfig = {, line:/* config options here */. Its business value is enabling consistent system behavior for the capability represented by next.config.",
+        "This module supports the codebase by owning line:This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-, line:## Getting Started, line:First, run the development server:. Its business value is enabling consistent system behavior for the capability represented by README.",
+        "This module supports the codebase by owning line:import { NextResponse } from \"next/server\";, line:import fs from \"fs\";, line:import path from \"path\";. Its business value is enabling consistent system behavior for the capability represented by route."
       ]
     },
     {
-      "cluster_id": 2,
-      "domain": "analysis",
-      "module_count": 1,
+      "cluster_id": 4,
+      "domain": "serving",
+      "module_count": 6,
       "modules": [
-        "src/agents/navigator.py"
+        "dashboard/src/components/FDEAnswers.tsx",
+        "dashboard/src/components/ModuleTable.tsx",
+        "dashboard/src/components/OverviewCards.tsx",
+        "dashboard/src/components/TraceLog.tsx",
+        "dashboard/src/lib/hooks.ts",
+        "dashboard/src/lib/types.ts"
       ],
       "sample_purposes": [
-        "This module supports the codebase by owning import_from:__future__, import:json, import:re. Its business value is enabling consistent system behavior for the capability represented by navigator."
+        "This module supports the codebase by owning line:\"use client\";, line:import type { FDEAnswers as FDEAnswersType } from \"@/lib/types\";, line:interface Props { answers: FDEAnswersType | null; }. Its business value is enabling consistent system behavior for the capability represented by FDEAnswers.",
+        "This module supports the codebase by owning line:\"use client\";, line:import { useState } from \"react\";, line:import type { ModulePurpose } from \"@/lib/types\";. Its business value is enabling consistent system behavior for the capability represented by ModuleTable.",
+        "This module supports the codebase by owning line:\"use client\";, line:import type { CartographyData } from \"@/lib/types\";, line:interface Props { data: CartographyData; }. Its business value is enabling consistent system behavior for the capability represented by OverviewCards."
       ]
     },
     {
       "cluster_id": 0,
-      "domain": "ingestion",
-      "module_count": 1,
+      "domain": "analysis",
+      "module_count": 2,
       "modules": [
-        "README.md"
+        "dashboard/AGENTS.md",
+        "dashboard/CLAUDE.md"
       ],
       "sample_purposes": [
-        "This module supports the codebase by owning line:# TRP1 Week 4: Brownfield Cartographer, line:A multi-agent codebase intelligence system that ingests any GitHub repository or, line:## Quick Start. Its business value is enabling consistent system behavior for the capability represented by README."
+        "This module supports the codebase by owning line:<!-- BEGIN:nextjs-agent-rules -->, line:# This is NOT the Next.js you know, line:This version has breaking changes \u2014 APIs, conventions, and file structure may al. Its business value is enabling consistent system behavior for the capability represented by AGENTS.",
+        "This module supports the codebase by owning line:@AGENTS.md, file:CLAUDE.md. Its business value is enabling consistent system behavior for the capability represented by CLAUDE."
       ]
     },
     {
       "cluster_id": 3,
-      "domain": "monitoring",
-      "module_count": 1,
+      "domain": "analysis",
+      "module_count": 2,
       "modules": [
-        "tests/test_agents.py"
+        "dashboard/src/components/NavBar.tsx",
+        "dashboard/src/components/QueryPanel.tsx"
       ],
       "sample_purposes": [
-        "This module supports the codebase by owning import_from:__future__, import:json, import:tempfile. Its business value is enabling consistent system behavior for the capability represented by test_agents."
+        "This module supports the codebase by owning line:\"use client\";, line:export function NavBar() {, line:const links = [. Its business value is enabling consistent system behavior for the capability represented by NavBar.",
+        "This module supports the codebase by owning line:\"use client\";, line:import { useState } from \"react\";, line:const EXAMPLES = [. Its business value is enabling consistent system behavior for the capability represented by QueryPanel."
+      ]
+    },
+    {
+      "cluster_id": 2,
+      "domain": "serving",
+      "module_count": 2,
+      "modules": [
+        "dashboard/src/components/DomainChart.tsx",
+        "dashboard/src/components/ModuleGraph.tsx"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning line:\"use client\";, line:import {, line:PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend,. Its business value is enabling consistent system behavior for the capability represented by DomainChart.",
+        "This module supports the codebase by owning line:\"use client\";, line:import { useMemo } from \"react\";, line:import ReactFlow, {. Its business value is enabling consistent system behavior for the capability represented by ModuleGraph."
       ]
     }
   ],
   "five_fde_day_one_answers": {
-    "q1_primary_ingestion_path": "Primary ingestion appears to flow from source datasets not explicitly discovered into downstream transformations. Evidence: src\\agents\\navigator.py:L16-L16; tests\\test_agents.py:L432-L432; tests\\test_agents.py:L551-L551",
-    "q2_critical_outputs": "Most critical outputs are likely terminal lineage sinks not explicitly discovered and high-centrality modules from Surveyor PageRank. Evidence: src\\agents\\navigator.py:L16-L16; tests\\test_agents.py:L432-L432; tests\\test_agents.py:L551-L551",
-    "q3_blast_radius": "Blast radius is highest around sink-producing transformations and architectural hubs; recently active files include ['README.md', '.cartography/module_graph.json', 'pyproject.toml', 'src/agents/hydrologist.py', 'src/cli.py']. Evidence: src\\agents\\navigator.py:L16-L16; tests\\test_agents.py:L432-L432; tests\\test_agents.py:L551-L551",
-    "q4_logic_concentration": "Business logic is most concentrated in the inferred domain 'analysis', with representative modules ['README.md', 'src/agents/hydrologist.py', 'src/agents/navigator.py']. Evidence: src\\agents\\navigator.py:L16-L16; tests\\test_agents.py:L432-L432; tests\\test_agents.py:L551-L551",
-    "q5_git_velocity_map": "Git velocity hot spots are derived from Surveyor high-velocity core: ['README.md', '.cartography/module_graph.json', 'pyproject.toml', 'src/agents/hydrologist.py', 'src/cli.py']; dead-code candidates identified: 7. Evidence: src\\agents\\navigator.py:L16-L16; tests\\test_agents.py:L432-L432; tests\\test_agents.py:L551-L551"
+    "q1_primary_ingestion_path": "Primary ingestion appears to flow from source datasets not explicitly discovered into downstream transformations. Evidence: dashboard\\next.config.ts:L1-L200; dashboard\\src\\app\\api\\cartography\\route.ts:L1-L200; dashboard\\src\\app\\api\\query\\route.ts:L1-L200",
+    "q2_critical_outputs": "Most critical outputs are likely terminal lineage sinks not explicitly discovered and high-centrality modules from Surveyor PageRank. Evidence: dashboard\\next.config.ts:L1-L200; dashboard\\src\\app\\api\\cartography\\route.ts:L1-L200; dashboard\\src\\app\\api\\query\\route.ts:L1-L200",
+    "q3_blast_radius": "Blast radius is highest around sink-producing transformations and architectural hubs; recently active files include ['README.md', '.cartography/module_graph.json', 'pyproject.toml', 'src/agents/hydrologist.py', 'src/cli.py']. Evidence: dashboard\\next.config.ts:L1-L200; dashboard\\src\\app\\api\\cartography\\route.ts:L1-L200; dashboard\\src\\app\\api\\query\\route.ts:L1-L200",
+    "q4_logic_concentration": "Business logic is most concentrated in the inferred domain 'ingestion', with representative modules ['dashboard/AGENTS.md', 'dashboard/CLAUDE.md', 'dashboard/next.config.ts']. Evidence: dashboard\\next.config.ts:L1-L200; dashboard\\src\\app\\api\\cartography\\route.ts:L1-L200; dashboard\\src\\app\\api\\query\\route.ts:L1-L200",
+    "q5_git_velocity_map": "Git velocity hot spots are derived from Surveyor high-velocity core: ['README.md', '.cartography/module_graph.json', 'pyproject.toml', 'src/agents/hydrologist.py', 'src/cli.py']; dead-code candidates identified: 0. Evidence: dashboard\\next.config.ts:L1-L200; dashboard\\src\\app\\api\\cartography\\route.ts:L1-L200; dashboard\\src\\app\\api\\query\\route.ts:L1-L200"
   },
   "warnings": [
-    "OPENROUTER_API_KEY not configured; Semanticist is running in heuristic mode.",
-    "Insufficient modules for 5-8 cluster target; using reduced cluster count equal to module count."
+    "OPENROUTER_API_KEY not configured; Semanticist is running in heuristic mode."
   ],
   "model_policy": {
     "bulk_semantics_model": "google/gemini-2.0-flash-001",
