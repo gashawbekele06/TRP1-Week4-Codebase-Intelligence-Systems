@@ -46,19 +46,19 @@ export async function GET() {
   const onboardingBrief = readText("onboarding_brief.md");
   const traceLog = readJsonL("cartography_trace.jsonl");
 
-  // Normalise edge key (networkx changed links→edges in v3.4)
+  // NetworkX node-link JSON: nodes/edges are at the root, g.graph is metadata only.
   function normaliseGraph(g: Record<string, unknown> | null) {
     if (!g) return null;
-    const raw = (g.graph ?? g) as Record<string, unknown>;
+    // Support both root-level nodes (NetworkX default) and nested under .graph
+    const raw = (Array.isArray(g.nodes) ? g : (g.graph as Record<string, unknown>) ?? g) as Record<string, unknown>;
+    // NetworkX <3.4 used "links", >=3.4 uses "edges"
     if (!raw.edges && raw.links) raw.edges = raw.links;
     return raw;
   }
 
   return NextResponse.json({
     moduleGraph: normaliseGraph(moduleGraph),
-    lineageGraph: normaliseGraph(
-      lineageGraph?.graph ? lineageGraph : { graph: lineageGraph }
-    ),
+    lineageGraph: normaliseGraph(lineageGraph),
     lineageMeta: {
       sources: lineageGraph?.sources ?? [],
       sinks: lineageGraph?.sinks ?? [],

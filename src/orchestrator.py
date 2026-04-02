@@ -113,6 +113,18 @@ class AnalysisOrchestrator:
             if temp_dir is not None and temp_dir.exists():
                 shutil.rmtree(temp_dir, ignore_errors=True)
 
+    # Extensions the Surveyor actually analyzes (mirrors SurveyorAgent.ANALYZABLE_SUFFIXES)
+    _ANALYZABLE_SUFFIXES = {".py", ".sql", ".yml", ".yaml", ".js", ".jsx", ".ts", ".tsx"}
+
+    # Path segments that are never analyzed
+    _EXCLUDED_DIRS = {".git", ".venv", ".cartography", ".next", "__pycache__", "node_modules"}
+
+    def _is_analyzable_source_file(self, rel_path: str) -> bool:
+        parts = Path(rel_path).parts
+        if any(p.startswith(".") or p in self._EXCLUDED_DIRS for p in parts):
+            return False
+        return Path(rel_path).suffix.lower() in self._ANALYZABLE_SUFFIXES
+
     def _detect_incremental_scope(self, repo_path: Path) -> dict:
         head_commit = self._head_commit(repo_path)
         last_commit = self._load_last_commit(repo_path)
@@ -125,7 +137,10 @@ class AnalysisOrchestrator:
             }
 
         changed_files = self._changed_files(repo_path, last_commit, head_commit)
-        if not changed_files:
+        # Only treat as incremental when actual source files changed.
+        # Artifact-only diffs (e.g. .cartography/ updates) must trigger a full scan.
+        source_changed = [f for f in changed_files if self._is_analyzable_source_file(f)]
+        if not source_changed:
             return {
                 "incremental_mode": False,
                 "changed_files": [],
@@ -135,7 +150,7 @@ class AnalysisOrchestrator:
 
         return {
             "incremental_mode": True,
-            "changed_files": changed_files,
+            "changed_files": source_changed,
             "head_commit": head_commit,
             "last_commit": last_commit,
         }

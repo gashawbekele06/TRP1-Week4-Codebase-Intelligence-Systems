@@ -55,7 +55,7 @@ class TreeSitterAnalyzer:
 
         language = self.router.get_language_for_path(module_path) or "unknown"
         try:
-            module_rel_path = str(module_path.relative_to(self.repo_root))
+            module_rel_path = module_path.relative_to(self.repo_root).as_posix()
         except ValueError:
             module_rel_path = module_path.name
 

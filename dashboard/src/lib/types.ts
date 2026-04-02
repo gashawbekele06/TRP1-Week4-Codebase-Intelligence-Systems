@@ -69,7 +69,7 @@ export interface TraceEntry {
 
 export interface CartographyData {
   moduleGraph: RawGraph | null;
-  lineageGraph: { graph?: RawGraph } | null;
+  lineageGraph: RawGraph | null;
   lineageMeta: { sources: string[]; sinks: string[] };
   semanticReport: SemanticReport | null;
   codebaseMd: string | null;

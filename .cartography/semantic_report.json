@@ -7,7 +7,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "analysis",
+      "inferred_domain": "analysis-1",
       "evidence": [
         "line:<!-- BEGIN:nextjs-agent-rules -->",
         "line:# This is NOT the Next.js you know",
@@ -23,10 +23,27 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "analysis",
+      "inferred_domain": "analysis-1",
       "evidence": [
         "line:@AGENTS.md",
         "file:CLAUDE.md"
+      ]
+    },
+    {
+      "path": "dashboard/next-env.d.ts",
+      "language": "javascript",
+      "purpose_statement": "This module supports the codebase by owning line:/// <reference types=\"next\" />, line:/// <reference types=\"next/image-types/global\" />, line:import \"./.next/dev/types/routes.d.ts\";. Its business value is enabling consistent system behavior for the capability represented by next-env.d.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "ingestion-1",
+      "evidence": [
+        "line:/// <reference types=\"next\" />",
+        "line:/// <reference types=\"next/image-types/global\" />",
+        "line:import \"./.next/dev/types/routes.d.ts\";",
+        "line:// NOTE: This file should not be edited",
+        "line:// see https://nextjs.org/docs/app/api-reference/config/typescript for more info",
+        "file:next-env.d.ts"
       ]
     },
     {
@@ -36,7 +53,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "ingestion",
+      "inferred_domain": "ingestion-1",
       "evidence": [
         "line:import type { NextConfig } from \"next\";",
         "line:const nextConfig: NextConfig = {",
@@ -53,7 +70,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "ingestion",
+      "inferred_domain": "ingestion-1",
       "evidence": [
         "line:This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-",
         "line:## Getting Started",
@@ -71,7 +88,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "ingestion",
+      "inferred_domain": "ingestion-1",
       "evidence": [
         "line:import { NextResponse } from \"next/server\";",
         "line:import fs from \"fs\";",
@@ -89,7 +106,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "ingestion",
+      "inferred_domain": "ingestion-1",
       "evidence": [
         "line:import { NextRequest, NextResponse } from \"next/server\";",
         "line:import { exec } from \"child_process\";",
@@ -107,7 +124,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "ingestion",
+      "inferred_domain": "ingestion-1",
       "evidence": [
         "line:import type { Metadata } from \"next\";",
         "line:import { Geist_Mono } from \"next/font/google\";",
@@ -125,7 +142,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "ingestion",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:\"use client\";",
         "line:import { useCartographyData } from \"@/lib/hooks\";",
@@ -143,7 +160,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "serving",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:\"use client\";",
         "line:import {",
@@ -161,7 +178,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "serving",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:\"use client\";",
         "line:import type { FDEAnswers as FDEAnswersType } from \"@/lib/types\";",
@@ -179,7 +196,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "serving",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:\"use client\";",
         "line:import { useMemo } from \"react\";",
@@ -197,7 +214,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "serving",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:\"use client\";",
         "line:import { useState } from \"react\";",
@@ -215,7 +232,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "analysis",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:\"use client\";",
         "line:export function NavBar() {",
@@ -233,7 +250,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "serving",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:\"use client\";",
         "line:import type { CartographyData } from \"@/lib/types\";",
@@ -251,7 +268,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "analysis",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:\"use client\";",
         "line:import { useState } from \"react\";",
@@ -269,7 +286,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "serving",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:\"use client\";",
         "line:import { Fragment, useState } from \"react\";",
@@ -287,7 +304,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "serving",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:\"use client\";",
         "line:import { useEffect, useState } from \"react\";",
@@ -305,7 +322,7 @@
       "docstring": null,
       "documentation_drift": false,
       "documentation_drift_reason": null,
-      "inferred_domain": "serving",
+      "inferred_domain": "ingestion-2",
       "evidence": [
         "line:export interface GraphNode {",
         "line:id: string;",
@@ -315,48 +332,569 @@
         "line:purpose_statement?: string;",
         "file:types.ts"
       ]
+    },
+    {
+      "path": "main.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:src.cli, file:main.py. Its business value is enabling consistent system behavior for the capability represented by main.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:src.cli",
+        "file:main.py"
+      ]
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "purpose_statement": "This module supports the codebase by owning line:# TRP1 Week 4: Brownfield Cartographer, line:A multi-agent codebase intelligence system that ingests any GitHub repository or, line:## Quick Start. Its business value is enabling consistent system behavior for the capability represented by README.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "ingestion-2",
+      "evidence": [
+        "line:# TRP1 Week 4: Brownfield Cartographer",
+        "line:A multi-agent codebase intelligence system that ingests any GitHub repository or",
+        "line:## Quick Start",
+        "line:```bash",
+        "line:# Install",
+        "line:pip install networkx numpy pydantic pyyaml sqlglot tree-sitter tree-sitter-langu",
+        "file:README.md"
+      ]
+    },
+    {
+      "path": "RECONNAISSANCE.md",
+      "language": "markdown",
+      "purpose_statement": "This module supports the codebase by owning line:# RECONNAISSANCE: dbt-labs/jaffle-shop (classic), line:Target repo: https://github.com/dbt-labs/jaffle-shop-classic (redirected from ht, line:This is a small, self-contained dbt project that models a fictional e\u2011commerce s. Its business value is enabling consistent system behavior for the capability represented by RECONNAISSANCE.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-1",
+      "evidence": [
+        "line:# RECONNAISSANCE: dbt-labs/jaffle-shop (classic)",
+        "line:Target repo: https://github.com/dbt-labs/jaffle-shop-classic (redirected from ht",
+        "line:This is a small, self-contained dbt project that models a fictional e\u2011commerce s",
+        "line:- `seeds/`: three CSVs (`raw_customers.csv`, `raw_orders.csv`, `raw_payments.csv",
+        "line:- `models/staging/`: three staging models (`stg_customers.sql`, `stg_orders.sql`",
+        "line:- `models/`: mart-level models (`customers.sql`, `orders.sql`), documentation fi",
+        "file:RECONNAISSANCE.md"
+      ]
+    },
+    {
+      "path": "src/__init__.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning line:\"\"\"Brownfield Cartographer source package.\"\"\", file:__init__.py. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+      "docstring": "Brownfield Cartographer source package.",
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "ingestion-2",
+      "evidence": [
+        "line:\"\"\"Brownfield Cartographer source package.\"\"\"",
+        "file:__init__.py"
+      ]
+    },
+    {
+      "path": "src/agents/__init__.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:src.agents.archivist, import_from:src.agents.hydrologist, import_from:src.agents.navigator. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+      "docstring": "Specialized analysis agents.",
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "analysis-2",
+      "evidence": [
+        "import_from:src.agents.archivist",
+        "import_from:src.agents.hydrologist",
+        "import_from:src.agents.navigator",
+        "import_from:src.agents.semanticist",
+        "import_from:src.agents.surveyor",
+        "file:__init__.py"
+      ]
+    },
+    {
+      "path": "src/agents/archivist.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import_from:src.tracing. Its business value is enabling consistent system behavior for the capability represented by archivist.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:pathlib",
+        "import_from:src.tracing",
+        "class:ArchivistAgent",
+        "file:archivist.py"
+      ]
+    },
+    {
+      "path": "src/agents/hydrologist.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by hydrologist.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import_from:pathlib",
+        "import_from:typing",
+        "import:networkx",
+        "import_from:networkx.readwrite",
+        "import_from:src.analyzers.dag_config_parser",
+        "import_from:src.analyzers.python_dataflow",
+        "import_from:src.analyzers.sql_lineage",
+        "import_from:src.models.graph",
+        "import_from:src.models.lineage",
+        "import_from:src.tracing"
+      ]
+    },
+    {
+      "path": "src/agents/navigator.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:re. Its business value is enabling consistent system behavior for the capability represented by navigator.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "analysis-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import:re",
+        "import_from:dataclasses",
+        "import_from:pathlib",
+        "import_from:typing",
+        "import:networkx",
+        "import_from:networkx.readwrite",
+        "import_from:src.tracing",
+        "class:EvidenceItem",
+        "class:NavigatorAgent",
+        "file:navigator.py"
+      ]
+    },
+    {
+      "path": "src/agents/semanticist.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:ast, import:json. Its business value is enabling consistent system behavior for the capability represented by semanticist.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "analysis-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:ast",
+        "import:json",
+        "import:math",
+        "import:os",
+        "import:re",
+        "import_from:dataclasses",
+        "import_from:pathlib",
+        "import_from:typing",
+        "import_from:urllib",
+        "import:numpy",
+        "import_from:src.tracing"
+      ]
+    },
+    {
+      "path": "src/agents/surveyor.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:subprocess, import_from:collections. Its business value is enabling consistent system behavior for the capability represented by surveyor.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "analysis-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:subprocess",
+        "import_from:collections",
+        "import_from:pathlib",
+        "import:ast",
+        "import:networkx",
+        "import_from:src.analyzers.tree_sitter_analyzer",
+        "import_from:src.graph.knowledge_graph",
+        "import_from:src.models.module",
+        "import_from:src.tracing",
+        "class:SurveyorAgent",
+        "file:surveyor.py"
+      ]
+    },
+    {
+      "path": "src/analyzers/dag_config_parser.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import:yaml. Its business value is enabling consistent system behavior for the capability represented by dag_config_parser.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:pathlib",
+        "import:yaml",
+        "import_from:src.models.lineage",
+        "class:DAGConfigAnalyzer",
+        "file:dag_config_parser.py"
+      ]
+    },
+    {
+      "path": "src/analyzers/python_dataflow.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:ast, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by python_dataflow.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:ast",
+        "import_from:pathlib",
+        "import:sqlglot",
+        "import_from:sqlglot",
+        "import_from:src.analyzers.tree_sitter_analyzer",
+        "import_from:src.models.lineage",
+        "class:PythonDataFlowAnalyzer",
+        "file:python_dataflow.py"
+      ]
+    },
+    {
+      "path": "src/analyzers/sql_lineage.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:re, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by sql_lineage.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:re",
+        "import_from:pathlib",
+        "import:sqlglot",
+        "import_from:sqlglot",
+        "import_from:src.models.lineage",
+        "class:SQLLineageAnalyzer",
+        "file:sql_lineage.py"
+      ]
+    },
+    {
+      "path": "src/analyzers/tree_sitter_analyzer.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:ast, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by tree_sitter_analyzer.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:ast",
+        "import_from:pathlib",
+        "import_from:typing",
+        "import_from:tree_sitter_language_pack",
+        "import_from:src.models.module",
+        "class:LanguageRouter",
+        "class:TreeSitterAnalyzer",
+        "file:tree_sitter_analyzer.py"
+      ]
+    },
+    {
+      "path": "src/cli.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:argparse, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by cli.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:argparse",
+        "import_from:pathlib",
+        "import_from:src.agents.navigator",
+        "import_from:src.orchestrator",
+        "function:build_parser",
+        "function:main",
+        "file:cli.py"
+      ]
+    },
+    {
+      "path": "src/graph/__init__.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning line:\"\"\"Knowledge graph utilities.\"\"\", file:__init__.py. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+      "docstring": "Knowledge graph utilities.",
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "line:\"\"\"Knowledge graph utilities.\"\"\"",
+        "file:__init__.py"
+      ]
+    },
+    {
+      "path": "src/graph/knowledge_graph.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by knowledge_graph.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import_from:pathlib",
+        "import_from:typing",
+        "import:networkx",
+        "import_from:networkx.readwrite",
+        "import_from:src.models.graph",
+        "class:KnowledgeGraph",
+        "file:knowledge_graph.py"
+      ]
+    },
+    {
+      "path": "src/models/__init__.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:src.models.graph, import_from:src.models.lineage, import_from:src.models.module. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+      "docstring": "Data models for cartography outputs.",
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:src.models.graph",
+        "import_from:src.models.lineage",
+        "import_from:src.models.module",
+        "file:__init__.py"
+      ]
+    },
+    {
+      "path": "src/models/graph.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:datetime, import_from:typing. Its business value is enabling consistent system behavior for the capability represented by graph.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:datetime",
+        "import_from:typing",
+        "import_from:pydantic",
+        "class:ModuleNodeSchema",
+        "class:DatasetNodeSchema",
+        "class:FunctionNodeSchema",
+        "class:TransformationNodeSchema",
+        "class:EdgeSchema",
+        "class:GraphSchema",
+        "file:graph.py"
+      ]
+    },
+    {
+      "path": "src/models/lineage.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:pydantic, class:TransformationEvent. Its business value is enabling consistent system behavior for the capability represented by lineage.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:pydantic",
+        "class:TransformationEvent",
+        "class:AnalyzerResult",
+        "file:lineage.py"
+      ]
+    },
+    {
+      "path": "src/models/module.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import_from:pydantic, class:FunctionInfo. Its business value is enabling consistent system behavior for the capability represented by module.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import_from:pydantic",
+        "class:FunctionInfo",
+        "class:ClassInfo",
+        "class:ModuleNode",
+        "file:module.py"
+      ]
+    },
+    {
+      "path": "src/orchestrator.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:shutil. Its business value is enabling consistent system behavior for the capability represented by orchestrator.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import:shutil",
+        "import:subprocess",
+        "import:tempfile",
+        "import_from:datetime",
+        "import_from:pathlib",
+        "import_from:urllib.parse",
+        "import_from:src.agents.archivist",
+        "import_from:src.agents.hydrologist",
+        "import_from:src.agents.navigator",
+        "import_from:src.agents.semanticist"
+      ]
+    },
+    {
+      "path": "src/tracing.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import_from:dataclasses. Its business value is enabling consistent system behavior for the capability represented by tracing.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "transformation-2",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import_from:dataclasses",
+        "import_from:datetime",
+        "import_from:pathlib",
+        "import_from:typing",
+        "class:CartographyTracer",
+        "file:tracing.py"
+      ]
+    },
+    {
+      "path": "tests/test_agents.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:tempfile. Its business value is enabling consistent system behavior for the capability represented by test_agents.",
+      "docstring": "Unit tests for the Brownfield Cartographer agents.\n\nTests cover:\n- Surveyor: module parsing, dead code detection, git velocity\n- Hydrologist: lineage event construction, blast_radius, sources/sinks\n- Navigator: all 4 tools, intent inference, parameter extraction\n- Archivist: CODEBASE.md generation\n- KnowledgeGraph: schema validation (see test_knowledge_graph_deserialization.py)",
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import:tempfile",
+        "import:unittest",
+        "import_from:pathlib",
+        "import_from:unittest.mock",
+        "function:_make_temp_repo",
+        "class:TestSurveyorAgent",
+        "class:TestHydrologistAgent",
+        "class:TestNavigatorAgent",
+        "class:TestNavigatorIntentInference",
+        "class:TestArchivistAgent"
+      ]
+    },
+    {
+      "path": "tests/test_knowledge_graph_deserialization.py",
+      "language": "python",
+      "purpose_statement": "This module supports the codebase by owning import_from:__future__, import:json, import:tempfile. Its business value is enabling consistent system behavior for the capability represented by test_knowledge_graph_deserialization.",
+      "docstring": null,
+      "documentation_drift": false,
+      "documentation_drift_reason": null,
+      "inferred_domain": "serving",
+      "evidence": [
+        "import_from:__future__",
+        "import:json",
+        "import:tempfile",
+        "import:unittest",
+        "import_from:pathlib",
+        "import_from:pydantic",
+        "import_from:src.graph.knowledge_graph",
+        "class:TestKnowledgeGraphDeserialization",
+        "file:test_knowledge_graph_deserialization.py"
+      ]
     }
   ],
   "business_domain_boundaries": [
     {
+      "cluster_id": 5,
+      "domain": "transformation-2",
+      "module_count": 16,
+      "modules": [
+        "main.py",
+        "src/agents/archivist.py",
+        "src/agents/hydrologist.py",
+        "src/analyzers/dag_config_parser.py",
+        "src/analyzers/python_dataflow.py",
+        "src/analyzers/sql_lineage.py",
+        "src/analyzers/tree_sitter_analyzer.py",
+        "src/cli.py",
+        "src/graph/__init__.py",
+        "src/graph/knowledge_graph.py",
+        "src/models/__init__.py",
+        "src/models/graph.py",
+        "src/models/lineage.py",
+        "src/models/module.py",
+        "src/orchestrator.py",
+        "src/tracing.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning import_from:src.cli, file:main.py. Its business value is enabling consistent system behavior for the capability represented by main.",
+        "This module supports the codebase by owning import_from:__future__, import_from:pathlib, import_from:src.tracing. Its business value is enabling consistent system behavior for the capability represented by archivist.",
+        "This module supports the codebase by owning import_from:__future__, import:json, import_from:pathlib. Its business value is enabling consistent system behavior for the capability represented by hydrologist."
+      ]
+    },
+    {
+      "cluster_id": 2,
+      "domain": "ingestion-2",
+      "module_count": 13,
+      "modules": [
+        "README.md",
+        "dashboard/src/app/page.tsx",
+        "dashboard/src/components/DomainChart.tsx",
+        "dashboard/src/components/FDEAnswers.tsx",
+        "dashboard/src/components/ModuleGraph.tsx",
+        "dashboard/src/components/ModuleTable.tsx",
+        "dashboard/src/components/NavBar.tsx",
+        "dashboard/src/components/OverviewCards.tsx",
+        "dashboard/src/components/QueryPanel.tsx",
+        "dashboard/src/components/TraceLog.tsx",
+        "dashboard/src/lib/hooks.ts",
+        "dashboard/src/lib/types.ts",
+        "src/__init__.py"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning line:\"use client\";, line:import { useCartographyData } from \"@/lib/hooks\";, line:import { OverviewCards } from \"@/components/OverviewCards\";. Its business value is enabling consistent system behavior for the capability represented by page.",
+        "This module supports the codebase by owning line:\"use client\";, line:import {, line:PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend,. Its business value is enabling consistent system behavior for the capability represented by DomainChart.",
+        "This module supports the codebase by owning line:\"use client\";, line:import type { FDEAnswers as FDEAnswersType } from \"@/lib/types\";, line:interface Props { answers: FDEAnswersType | null; }. Its business value is enabling consistent system behavior for the capability represented by FDEAnswers."
+      ]
+    },
+    {
       "cluster_id": 1,
-      "domain": "ingestion",
+      "domain": "ingestion-1",
       "module_count": 6,
       "modules": [
         "dashboard/README.md",
+        "dashboard/next-env.d.ts",
         "dashboard/next.config.ts",
         "dashboard/src/app/api/cartography/route.ts",
         "dashboard/src/app/api/query/route.ts",
-        "dashboard/src/app/layout.tsx",
-        "dashboard/src/app/page.tsx"
+        "dashboard/src/app/layout.tsx"
       ],
       "sample_purposes": [
+        "This module supports the codebase by owning line:/// <reference types=\"next\" />, line:/// <reference types=\"next/image-types/global\" />, line:import \"./.next/dev/types/routes.d.ts\";. Its business value is enabling consistent system behavior for the capability represented by next-env.d.",
         "This module supports the codebase by owning line:import type { NextConfig } from \"next\";, line:const nextConfig: NextConfig = {, line:/* config options here */. Its business value is enabling consistent system behavior for the capability represented by next.config.",
-        "This module supports the codebase by owning line:This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-, line:## Getting Started, line:First, run the development server:. Its business value is enabling consistent system behavior for the capability represented by README.",
-        "This module supports the codebase by owning line:import { NextResponse } from \"next/server\";, line:import fs from \"fs\";, line:import path from \"path\";. Its business value is enabling consistent system behavior for the capability represented by route."
+        "This module supports the codebase by owning line:This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-, line:## Getting Started, line:First, run the development server:. Its business value is enabling consistent system behavior for the capability represented by README."
       ]
     },
     {
       "cluster_id": 4,
-      "domain": "serving",
-      "module_count": 6,
+      "domain": "analysis-2",
+      "module_count": 4,
       "modules": [
-        "dashboard/src/components/FDEAnswers.tsx",
-        "dashboard/src/components/ModuleTable.tsx",
-        "dashboard/src/components/OverviewCards.tsx",
-        "dashboard/src/components/TraceLog.tsx",
-        "dashboard/src/lib/hooks.ts",
-        "dashboard/src/lib/types.ts"
+        "src/agents/__init__.py",
+        "src/agents/navigator.py",
+        "src/agents/semanticist.py",
+        "src/agents/surveyor.py"
       ],
       "sample_purposes": [
-        "This module supports the codebase by owning line:\"use client\";, line:import type { FDEAnswers as FDEAnswersType } from \"@/lib/types\";, line:interface Props { answers: FDEAnswersType | null; }. Its business value is enabling consistent system behavior for the capability represented by FDEAnswers.",
-        "This module supports the codebase by owning line:\"use client\";, line:import { useState } from \"react\";, line:import type { ModulePurpose } from \"@/lib/types\";. Its business value is enabling consistent system behavior for the capability represented by ModuleTable.",
-        "This module supports the codebase by owning line:\"use client\";, line:import type { CartographyData } from \"@/lib/types\";, line:interface Props { data: CartographyData; }. Its business value is enabling consistent system behavior for the capability represented by OverviewCards."
+        "This module supports the codebase by owning import_from:src.agents.archivist, import_from:src.agents.hydrologist, import_from:src.agents.navigator. Its business value is enabling consistent system behavior for the capability represented by __init__.",
+        "This module supports the codebase by owning import_from:__future__, import:json, import:re. Its business value is enabling consistent system behavior for the capability represented by navigator.",
+        "This module supports the codebase by owning import_from:__future__, import:ast, import:json. Its business value is enabling consistent system behavior for the capability represented by semanticist."
       ]
     },
     {
       "cluster_id": 0,
-      "domain": "analysis",
+      "domain": "analysis-1",
       "module_count": 2,
       "modules": [
         "dashboard/AGENTS.md",
@@ -368,38 +906,36 @@
       ]
     },
     {
-      "cluster_id": 3,
-      "domain": "analysis",
-      "module_count": 2,
-      "modules": [
-        "dashboard/src/components/NavBar.tsx",
-        "dashboard/src/components/QueryPanel.tsx"
-      ],
-      "sample_purposes": [
-        "This module supports the codebase by owning line:\"use client\";, line:export function NavBar() {, line:const links = [. Its business value is enabling consistent system behavior for the capability represented by NavBar.",
-        "This module supports the codebase by owning line:\"use client\";, line:import { useState } from \"react\";, line:const EXAMPLES = [. Its business value is enabling consistent system behavior for the capability represented by QueryPanel."
-      ]
-    },
-    {
-      "cluster_id": 2,
+      "cluster_id": 6,
       "domain": "serving",
       "module_count": 2,
       "modules": [
-        "dashboard/src/components/DomainChart.tsx",
-        "dashboard/src/components/ModuleGraph.tsx"
+        "tests/test_agents.py",
+        "tests/test_knowledge_graph_deserialization.py"
       ],
       "sample_purposes": [
-        "This module supports the codebase by owning line:\"use client\";, line:import {, line:PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend,. Its business value is enabling consistent system behavior for the capability represented by DomainChart.",
-        "This module supports the codebase by owning line:\"use client\";, line:import { useMemo } from \"react\";, line:import ReactFlow, {. Its business value is enabling consistent system behavior for the capability represented by ModuleGraph."
+        "This module supports the codebase by owning import_from:__future__, import:json, import:tempfile. Its business value is enabling consistent system behavior for the capability represented by test_agents.",
+        "This module supports the codebase by owning import_from:__future__, import:json, import:tempfile. Its business value is enabling consistent system behavior for the capability represented by test_knowledge_graph_deserialization."
+      ]
+    },
+    {
+      "cluster_id": 3,
+      "domain": "transformation-1",
+      "module_count": 1,
+      "modules": [
+        "RECONNAISSANCE.md"
+      ],
+      "sample_purposes": [
+        "This module supports the codebase by owning line:# RECONNAISSANCE: dbt-labs/jaffle-shop (classic), line:Target repo: https://github.com/dbt-labs/jaffle-shop-classic (redirected from ht, line:This is a small, self-contained dbt project that models a fictional e\u2011commerce s. Its business value is enabling consistent system behavior for the capability represented by RECONNAISSANCE."
       ]
     }
   ],
   "five_fde_day_one_answers": {
-    "q1_primary_ingestion_path": "Primary ingestion appears to flow from source datasets not explicitly discovered into downstream transformations. Evidence: dashboard\\next.config.ts:L1-L200; dashboard\\src\\app\\api\\cartography\\route.ts:L1-L200; dashboard\\src\\app\\api\\query\\route.ts:L1-L200",
-    "q2_critical_outputs": "Most critical outputs are likely terminal lineage sinks not explicitly discovered and high-centrality modules from Surveyor PageRank. Evidence: dashboard\\next.config.ts:L1-L200; dashboard\\src\\app\\api\\cartography\\route.ts:L1-L200; dashboard\\src\\app\\api\\query\\route.ts:L1-L200",
-    "q3_blast_radius": "Blast radius is highest around sink-producing transformations and architectural hubs; recently active files include ['README.md', '.cartography/module_graph.json', 'pyproject.toml', 'src/agents/hydrologist.py', 'src/cli.py']. Evidence: dashboard\\next.config.ts:L1-L200; dashboard\\src\\app\\api\\cartography\\route.ts:L1-L200; dashboard\\src\\app\\api\\query\\route.ts:L1-L200",
-    "q4_logic_concentration": "Business logic is most concentrated in the inferred domain 'ingestion', with representative modules ['dashboard/AGENTS.md', 'dashboard/CLAUDE.md', 'dashboard/next.config.ts']. Evidence: dashboard\\next.config.ts:L1-L200; dashboard\\src\\app\\api\\cartography\\route.ts:L1-L200; dashboard\\src\\app\\api\\query\\route.ts:L1-L200",
-    "q5_git_velocity_map": "Git velocity hot spots are derived from Surveyor high-velocity core: ['README.md', '.cartography/module_graph.json', 'pyproject.toml', 'src/agents/hydrologist.py', 'src/cli.py']; dead-code candidates identified: 0. Evidence: dashboard\\next.config.ts:L1-L200; dashboard\\src\\app\\api\\cartography\\route.ts:L1-L200; dashboard\\src\\app\\api\\query\\route.ts:L1-L200"
+    "q1_primary_ingestion_path": "Primary ingestion appears to flow from source datasets not explicitly discovered into downstream transformations. Evidence: src/agents/navigator.py:L16-L16; src/tracing.py:L1-L200; src/models/lineage.py:L1-L200",
+    "q2_critical_outputs": "Most critical outputs are likely terminal lineage sinks not explicitly discovered and high-centrality modules from Surveyor PageRank. Evidence: src/agents/navigator.py:L16-L16; src/tracing.py:L1-L200; src/models/lineage.py:L1-L200",
+    "q3_blast_radius": "Blast radius is highest around sink-producing transformations and architectural hubs; recently active files include ['README.md', 'pyproject.toml', 'src/agents/hydrologist.py', 'src/cli.py', 'src/agents/surveyor.py']. Evidence: src/agents/navigator.py:L16-L16; src/tracing.py:L1-L200; src/models/lineage.py:L1-L200",
+    "q4_logic_concentration": "Business logic is most concentrated in the inferred domain 'transformation-2', with representative modules ['src/agents/archivist.py', 'src/agents/hydrologist.py', 'src/agents/navigator.py']. Evidence: src/agents/navigator.py:L16-L16; src/tracing.py:L1-L200; src/models/lineage.py:L1-L200",
+    "q5_git_velocity_map": "Git velocity hot spots are derived from Surveyor high-velocity core: ['README.md', 'pyproject.toml', 'src/agents/hydrologist.py', 'src/cli.py', 'src/agents/surveyor.py']; dead-code candidates identified: 1. Evidence: src/agents/navigator.py:L16-L16; src/tracing.py:L1-L200; src/models/lineage.py:L1-L200"
   },
   "warnings": [
     "OPENROUTER_API_KEY not configured; Semanticist is running in heuristic mode."

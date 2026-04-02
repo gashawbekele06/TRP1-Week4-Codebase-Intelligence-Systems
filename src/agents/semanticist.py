@@ -265,7 +265,9 @@ class SemanticistAgent:
         for path in sorted(self.repo_root.rglob("*")):
             if not path.is_file():
                 continue
-            if "__pycache__" in path.parts or any(part.startswith(".") for part in path.parts):
+            if "__pycache__" in path.parts or "node_modules" in path.parts:
+                continue
+            if any(part.startswith(".") for part in path.parts):
                 continue
             if ".git" in path.parts or ".venv" in path.parts or ".cartography" in path.parts:
                 continue
@@ -442,6 +444,22 @@ class SemanticistAgent:
                 }
             )
 
+        # Deduplicate domain labels: sort by size descending so the largest cluster gets suffix -1.
+        label_counts: dict[str, int] = {}
+        for cluster in clusters:
+            label_counts[cluster["domain"]] = label_counts.get(cluster["domain"], 0) + 1
+        seen: dict[str, int] = {}
+        for cluster in sorted(clusters, key=lambda c: -c["module_count"]):
+            name = cluster["domain"]
+            if label_counts[name] > 1:
+                seen[name] = seen.get(name, 0) + 1
+                new_name = f"{name}-{seen[name]}"
+                for path in cluster["modules"]:
+                    for rec in records:
+                        if rec.path == path:
+                            rec.inferred_domain = new_name
+                cluster["domain"] = new_name
+
         return sorted(clusters, key=lambda item: (-item["module_count"], item["domain"]))
 
     def _embed_purpose_statements(
@@ -469,6 +487,14 @@ class SemanticistAgent:
         idf = np.log((1.0 + len(records)) / (1.0 + doc_freq)) + 1.0
         matrix = matrix * idf
 
+        # Cap vocabulary to top-2000 terms by IDF weight to keep matrix
+        # dimensions manageable regardless of repo size.
+        max_vocab = 2000
+        if len(vocabulary) > max_vocab:
+            top_idx = np.argsort(idf)[-max_vocab:]
+            matrix = matrix[:, top_idx]
+            vocabulary = [vocabulary[i] for i in top_idx]
+
         norms = np.linalg.norm(matrix, axis=1, keepdims=True)
         norms[norms == 0] = 1.0
         matrix = matrix / norms
@@ -490,7 +516,13 @@ class SemanticistAgent:
         labels = np.zeros(matrix.shape[0], dtype=int)
 
         for _ in range(max_iter):
-            distances = np.linalg.norm(matrix[:, None, :] - centroids[None, :, :], axis=2)
+            # Compute distances one centroid at a time to avoid allocating a
+            # (N, K, D) array that can be tens of GiB for large repos.
+            dist_cols = [
+                np.linalg.norm(matrix - centroids[c], axis=1)
+                for c in range(k)
+            ]
+            distances = np.column_stack(dist_cols)  # shape (N, K)
             new_labels = np.argmin(distances, axis=1)
             if np.array_equal(new_labels, labels):
                 break
@@ -611,7 +643,13 @@ class SemanticistAgent:
         hot_files = [item.get("path") for item in surveyor_result.get("high_velocity_core", [])[:5]]
         dead_code = surveyor_result.get("dead_code_candidates", [])
         top_domain = domains[0]["domain"] if domains else "analysis"
-        module_examples = [r.path for r in records[:3]]
+        source_records = [
+            r for r in records
+            if (r.path.endswith(".py") or r.path.endswith(".sql"))
+            and Path(r.path).stem not in {"__init__", "main", "conftest", "setup"}
+            and len(Path(r.path).stem) > 3
+        ]
+        module_examples = [r.path for r in (source_records or records)[:3]]
         citation_suffix = f" Evidence: {'; '.join(citations[:3])}" if citations else ""
 
         return {

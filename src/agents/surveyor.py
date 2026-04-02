@@ -84,9 +84,11 @@ class SurveyorAgent:
         for path in sorted(self.repo_root.rglob("*")):
             if not path.is_file():
                 continue
-            if "__pycache__" in path.parts or any(part.startswith(".") for part in path.parts):
+            if "__pycache__" in path.parts or "node_modules" in path.parts:
                 continue
-            if ".git" in path.parts or ".venv" in path.parts or path.parts.count(".cartography"):
+            if any(part.startswith(".") for part in path.parts):
+                continue
+            if ".git" in path.parts or ".venv" in path.parts or ".cartography" in path.parts:
                 continue
             if path.suffix.lower() not in self.ANALYZABLE_SUFFIXES:
                 continue
@@ -140,10 +142,24 @@ class SurveyorAgent:
         except subprocess.CalledProcessError:
             return Counter()
 
+        _SKIP_DIRS = {"__pycache__", "node_modules", ".cartography", ".git", ".venv", ".next", "public", "dashboard"}
+        _SOURCE_EXTS = {".py", ".sql", ".yml", ".yaml", ".md", ".toml"}
         changes = Counter()
         for raw_line in result.stdout.splitlines():
             line = raw_line.strip()
             if not line:
+                continue
+            p = Path(line)
+            parts = p.parts
+            if any(
+                d in _SKIP_DIRS or d.endswith(".egg-info")
+                for d in parts
+            ):
+                continue
+            if p.suffix.lower() not in _SOURCE_EXTS:
+                continue
+            # Skip stub/lock files
+            if p.name in {"uv.lock", "package-lock.json"}:
                 continue
             changes[line] += 1
         return changes
@@ -214,7 +230,12 @@ class SurveyorAgent:
     def identify_dead_code_candidates(self, modules: list[ModuleNode]) -> list[dict]:
         """Find exported symbols with no internal/external usage references."""
         symbol_defs: dict[str, tuple[str, int | None]] = {}
-        python_modules = [m for m in modules if m.language == "python" and m.path.endswith(".py")]
+        python_modules = [
+            m for m in modules
+            if m.language == "python" and m.path.endswith(".py")
+            and not Path(m.path).name.startswith("test_")
+            and "/tests/" not in m.path and "\\tests\\" not in m.path
+        ]
 
         for module in python_modules:
             for fn in module.public_functions:

@@ -6,7 +6,7 @@ interface Props { data: CartographyData; }
 export function OverviewCards({ data }: Props) {
   const moduleCount = data.moduleGraph?.nodes?.length ?? 0;
   const edgeCount = (data.moduleGraph?.edges ?? data.moduleGraph?.links ?? []).length;
-  const lineageNodes = (data.lineageGraph?.graph?.nodes ?? []).length;
+  const lineageNodes = (data.lineageGraph?.nodes ?? []).length;
   const domainCount = data.semanticReport?.business_domain_boundaries?.length ?? 0;
   const driftCount = data.semanticReport?.module_purpose_statements?.filter(
     (m) => m.documentation_drift
