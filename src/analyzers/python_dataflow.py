@@ -131,6 +131,96 @@ class PythonDataFlowAnalyzer:
                 )
                 events.append(event)
 
+            # Path.read_text / Path.read_bytes
+            elif call_name.endswith("read_text") or call_name.endswith("read_bytes"):
+                dataset, note = self._extract_arg_value(node, 0, {"encoding"}, string_bindings)
+                # The path object itself is the dataset — try to resolve from the call chain
+                path_val = self._call_chain_root_name(node.func)
+                event = self._build_read_event(
+                    source_file=relative,
+                    line=node.lineno,
+                    source_dataset=path_val or dataset,
+                    transformation_type="python:file_read_text",
+                    note=note if not path_val else None,
+                )
+                events.append(event)
+
+            # Path.write_text / write_bytes
+            elif call_name.endswith("write_text") or call_name.endswith("write_bytes"):
+                path_val = self._call_chain_root_name(node.func)
+                dataset, note = self._extract_arg_value(node, 0, {"data"}, string_bindings)
+                event = TransformationEvent(
+                    source_datasets=[f"python_runtime:{relative}"],
+                    target_datasets=[path_val or "dynamic reference, cannot resolve"],
+                    transformation_type="python:file_write_text",
+                    source_file=relative,
+                    line_range=(node.lineno, getattr(node, "end_lineno", node.lineno)),
+                    notes=[note] if note and not path_val else [],
+                )
+                events.append(event)
+
+            # builtin open()
+            elif call_name == "open":
+                dataset, note = self._extract_arg_value(node, 0, {"file"}, string_bindings)
+                mode_val, _ = self._extract_arg_value(node, 1, {"mode"}, string_bindings)
+                mode = mode_val or "r"
+                if "w" in mode or "a" in mode:
+                    event = TransformationEvent(
+                        source_datasets=[f"python_runtime:{relative}"],
+                        target_datasets=[dataset or "dynamic reference, cannot resolve"],
+                        transformation_type="python:file_open_write",
+                        source_file=relative,
+                        line_range=(node.lineno, getattr(node, "end_lineno", node.lineno)),
+                        notes=[note] if note else [],
+                    )
+                else:
+                    event = self._build_read_event(
+                        source_file=relative,
+                        line=node.lineno,
+                        source_dataset=dataset,
+                        transformation_type="python:file_open_read",
+                        note=note,
+                    )
+                events.append(event)
+
+            # json.load / json.loads reading from a file variable
+            elif call_name in {"json.load", "json.loads"}:
+                dataset, note = self._extract_arg_value(node, 0, {"fp", "s"}, string_bindings)
+                event = self._build_read_event(
+                    source_file=relative,
+                    line=node.lineno,
+                    source_dataset=dataset,
+                    transformation_type="python:json_load",
+                    note=note,
+                )
+                events.append(event)
+
+            # json.dump writing to a file
+            elif call_name == "json.dump":
+                dataset, note = self._extract_arg_value(node, 1, {"fp"}, string_bindings)
+                event = TransformationEvent(
+                    source_datasets=[f"python_runtime:{relative}"],
+                    target_datasets=[dataset or "dynamic reference, cannot resolve"],
+                    transformation_type="python:json_dump",
+                    source_file=relative,
+                    line_range=(node.lineno, getattr(node, "end_lineno", node.lineno)),
+                    notes=[note] if note else [],
+                )
+                events.append(event)
+
+            # subprocess.run / subprocess.call — marks external process I/O
+            elif call_name in {"subprocess.run", "subprocess.call", "subprocess.check_output", "subprocess.Popen"}:
+                cmd_val, note = self._extract_arg_value(node, 0, {"args"}, string_bindings)
+                event = TransformationEvent(
+                    source_datasets=[f"subprocess:{cmd_val or 'dynamic'}", f"python_runtime:{relative}"],
+                    target_datasets=[f"python_runtime:{relative}"],
+                    transformation_type="python:subprocess_call",
+                    source_file=relative,
+                    line_range=(node.lineno, getattr(node, "end_lineno", node.lineno)),
+                    notes=[note] if note else [],
+                )
+                events.append(event)
+
         for event in events:
             if any(item == "dynamic reference, cannot resolve" for item in event.source_datasets + event.target_datasets):
                 warnings.append(
@@ -155,6 +245,15 @@ class PythonDataFlowAnalyzer:
             line_range=(line, line),
             notes=[note] if note else [],
         )
+
+    def _call_chain_root_name(self, func: ast.AST) -> str | None:
+        """Return the variable name at the root of a method-call chain, e.g. `p.read_text()` → 'p'."""
+        node = func
+        while isinstance(node, ast.Attribute):
+            node = node.value
+        if isinstance(node, ast.Name) and node.id not in {"self", "cls"}:
+            return node.id
+        return None
 
     def _call_name(self, func: ast.AST) -> str:
         if isinstance(func, ast.Name):

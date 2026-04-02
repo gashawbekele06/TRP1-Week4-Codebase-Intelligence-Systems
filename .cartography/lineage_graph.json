@@ -3,13 +3,1436 @@
     "directed": true,
     "multigraph": false,
     "graph": {},
-    "nodes": [],
-    "edges": [],
-    "links": []
+    "nodes": [
+      {
+        "id": "transformation::src\\agents\\hydrologist.py:259:1",
+        "node_type": "transformation",
+        "source_datasets": [
+          "python_runtime:src\\agents\\hydrologist.py"
+        ],
+        "target_datasets": [
+          "output_path"
+        ],
+        "transformation_type": "python:file_write_text",
+        "source_file": "src\\agents\\hydrologist.py",
+        "line_range": [
+          259,
+          259
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "python_runtime:src\\agents\\hydrologist.py",
+        "node_type": "dataset",
+        "name": "python_runtime:src\\agents\\hydrologist.py",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "output_path",
+        "node_type": "dataset",
+        "name": "output_path",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "transformation::src\\agents\\semanticist.py:140:2",
+        "node_type": "transformation",
+        "source_datasets": [
+          "dynamic reference, cannot resolve"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\agents\\semanticist.py"
+        ],
+        "transformation_type": "python:json_load",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          140,
+          140
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ]
+      },
+      {
+        "id": "python_runtime:src\\agents\\semanticist.py",
+        "node_type": "dataset",
+        "name": "python_runtime:src\\agents\\semanticist.py",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "transformation::src\\agents\\semanticist.py:163:3",
+        "node_type": "transformation",
+        "source_datasets": [
+          "dynamic reference, cannot resolve"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\agents\\semanticist.py"
+        ],
+        "transformation_type": "python:json_load",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          163,
+          163
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ]
+      },
+      {
+        "id": "transformation::src\\agents\\semanticist.py:715:4",
+        "node_type": "transformation",
+        "source_datasets": [
+          "python_runtime:src\\agents\\semanticist.py"
+        ],
+        "target_datasets": [
+          "output_path"
+        ],
+        "transformation_type": "python:file_write_text",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          715,
+          715
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "transformation::src\\agents\\semanticist.py:733:5",
+        "node_type": "transformation",
+        "source_datasets": [
+          "path"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\agents\\semanticist.py"
+        ],
+        "transformation_type": "python:file_read_text",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          733,
+          733
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "path",
+        "node_type": "dataset",
+        "name": "path",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "transformation::src\\agents\\semanticist.py:864:6",
+        "node_type": "transformation",
+        "source_datasets": [
+          "dynamic reference, cannot resolve"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\agents\\semanticist.py"
+        ],
+        "transformation_type": "python:json_load",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          864,
+          864
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ]
+      },
+      {
+        "id": "transformation::src\\agents\\semanticist.py:147:7",
+        "node_type": "transformation",
+        "source_datasets": [
+          "dynamic reference, cannot resolve"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\agents\\semanticist.py"
+        ],
+        "transformation_type": "python:json_load",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          147,
+          147
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ]
+      },
+      {
+        "id": "transformation::src\\agents\\semanticist.py:252:8",
+        "node_type": "transformation",
+        "source_datasets": [
+          "env_file"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\agents\\semanticist.py"
+        ],
+        "transformation_type": "python:file_read_text",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          252,
+          252
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "env_file",
+        "node_type": "dataset",
+        "name": "env_file",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "transformation::src\\agents\\semanticist.py:735:9",
+        "node_type": "transformation",
+        "source_datasets": [
+          "path"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\agents\\semanticist.py"
+        ],
+        "transformation_type": "python:file_read_text",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          735,
+          735
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "transformation::src\\agents\\semanticist.py:864:10",
+        "node_type": "transformation",
+        "source_datasets": [
+          "graph_path"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\agents\\semanticist.py"
+        ],
+        "transformation_type": "python:file_read_text",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          864,
+          864
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "graph_path",
+        "node_type": "dataset",
+        "name": "graph_path",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "transformation::src\\agents\\surveyor.py:141:11",
+        "node_type": "transformation",
+        "source_datasets": [
+          "subprocess:dynamic",
+          "python_runtime:src\\agents\\surveyor.py"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\agents\\surveyor.py"
+        ],
+        "transformation_type": "python:subprocess_call",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          141,
+          141
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ]
+      },
+      {
+        "id": "subprocess:dynamic",
+        "node_type": "dataset",
+        "name": "subprocess:dynamic",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "python_runtime:src\\agents\\surveyor.py",
+        "node_type": "dataset",
+        "name": "python_runtime:src\\agents\\surveyor.py",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "transformation::src\\agents\\surveyor.py:250:12",
+        "node_type": "transformation",
+        "source_datasets": [
+          "file_path"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\agents\\surveyor.py"
+        ],
+        "transformation_type": "python:file_read_text",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          250,
+          250
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "file_path",
+        "node_type": "dataset",
+        "name": "file_path",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "transformation::src\\analyzers\\tree_sitter_analyzer.py:65:13",
+        "node_type": "transformation",
+        "source_datasets": [
+          "module_path"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\analyzers\\tree_sitter_analyzer.py"
+        ],
+        "transformation_type": "python:file_read_text",
+        "source_file": "src\\analyzers\\tree_sitter_analyzer.py",
+        "line_range": [
+          65,
+          65
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "module_path",
+        "node_type": "dataset",
+        "name": "module_path",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "python_runtime:src\\analyzers\\tree_sitter_analyzer.py",
+        "node_type": "dataset",
+        "name": "python_runtime:src\\analyzers\\tree_sitter_analyzer.py",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "transformation::src\\orchestrator.py:189:14",
+        "node_type": "transformation",
+        "source_datasets": [
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "target_datasets": [
+          "state_path"
+        ],
+        "transformation_type": "python:file_write_text",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          189,
+          189
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "python_runtime:src\\orchestrator.py",
+        "node_type": "dataset",
+        "name": "python_runtime:src\\orchestrator.py",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "state_path",
+        "node_type": "dataset",
+        "name": "state_path",
+        "storage_type": "table",
+        "schema_snapshot": null,
+        "freshness_sla": null,
+        "owner": null,
+        "is_source_of_truth": false
+      },
+      {
+        "id": "transformation::src\\orchestrator.py:221:15",
+        "node_type": "transformation",
+        "source_datasets": [
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "target_datasets": [
+          "path"
+        ],
+        "transformation_type": "python:file_write_text",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          221,
+          221
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "transformation::src\\orchestrator.py:234:16",
+        "node_type": "transformation",
+        "source_datasets": [
+          "subprocess:dynamic",
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "transformation_type": "python:subprocess_call",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          234,
+          234
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ]
+      },
+      {
+        "id": "transformation::src\\orchestrator.py:166:17",
+        "node_type": "transformation",
+        "source_datasets": [
+          "dynamic reference, cannot resolve"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "transformation_type": "python:json_load",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          166,
+          166
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ]
+      },
+      {
+        "id": "transformation::src\\orchestrator.py:194:18",
+        "node_type": "transformation",
+        "source_datasets": [
+          "subprocess:dynamic",
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "transformation_type": "python:subprocess_call",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          194,
+          194
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ]
+      },
+      {
+        "id": "transformation::src\\orchestrator.py:202:19",
+        "node_type": "transformation",
+        "source_datasets": [
+          "subprocess:dynamic",
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "transformation_type": "python:subprocess_call",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          202,
+          202
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ]
+      },
+      {
+        "id": "transformation::src\\orchestrator.py:166:20",
+        "node_type": "transformation",
+        "source_datasets": [
+          "state_path"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "transformation_type": "python:file_read_text",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          166,
+          166
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      },
+      {
+        "id": "transformation::src\\orchestrator.py:180:21",
+        "node_type": "transformation",
+        "source_datasets": [
+          "dynamic reference, cannot resolve"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "transformation_type": "python:json_load",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          180,
+          180
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ]
+      },
+      {
+        "id": "transformation::src\\orchestrator.py:180:22",
+        "node_type": "transformation",
+        "source_datasets": [
+          "state_path"
+        ],
+        "target_datasets": [
+          "python_runtime:src\\orchestrator.py"
+        ],
+        "transformation_type": "python:file_read_text",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          180,
+          180
+        ],
+        "sql_query_if_applicable": null,
+        "notes": []
+      }
+    ],
+    "edges": [
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\hydrologist.py",
+        "line_range": [
+          259,
+          259
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\hydrologist.py:259:1",
+        "target": "output_path"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\hydrologist.py",
+        "line_range": [
+          259,
+          259
+        ],
+        "source": "python_runtime:src\\agents\\hydrologist.py",
+        "target": "transformation::src\\agents\\hydrologist.py:259:1"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          715,
+          715
+        ],
+        "source": "python_runtime:src\\agents\\semanticist.py",
+        "target": "transformation::src\\agents\\semanticist.py:715:4"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          715,
+          715
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\semanticist.py:715:4",
+        "target": "output_path"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          733,
+          733
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\semanticist.py:733:5",
+        "target": "python_runtime:src\\agents\\semanticist.py"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          733,
+          733
+        ],
+        "source": "path",
+        "target": "transformation::src\\agents\\semanticist.py:733:5"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          735,
+          735
+        ],
+        "source": "path",
+        "target": "transformation::src\\agents\\semanticist.py:735:9"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          252,
+          252
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\semanticist.py:252:8",
+        "target": "python_runtime:src\\agents\\semanticist.py"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          252,
+          252
+        ],
+        "source": "env_file",
+        "target": "transformation::src\\agents\\semanticist.py:252:8"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          735,
+          735
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\semanticist.py:735:9",
+        "target": "python_runtime:src\\agents\\semanticist.py"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          864,
+          864
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\semanticist.py:864:10",
+        "target": "python_runtime:src\\agents\\semanticist.py"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          864,
+          864
+        ],
+        "source": "graph_path",
+        "target": "transformation::src\\agents\\semanticist.py:864:10"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          141,
+          141
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ],
+        "source": "transformation::src\\agents\\surveyor.py:141:11",
+        "target": "python_runtime:src\\agents\\surveyor.py"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          141,
+          141
+        ],
+        "source": "subprocess:dynamic",
+        "target": "transformation::src\\agents\\surveyor.py:141:11"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          234,
+          234
+        ],
+        "source": "subprocess:dynamic",
+        "target": "transformation::src\\orchestrator.py:234:16"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          194,
+          194
+        ],
+        "source": "subprocess:dynamic",
+        "target": "transformation::src\\orchestrator.py:194:18"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          202,
+          202
+        ],
+        "source": "subprocess:dynamic",
+        "target": "transformation::src\\orchestrator.py:202:19"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          141,
+          141
+        ],
+        "source": "python_runtime:src\\agents\\surveyor.py",
+        "target": "transformation::src\\agents\\surveyor.py:141:11"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          250,
+          250
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\surveyor.py:250:12",
+        "target": "python_runtime:src\\agents\\surveyor.py"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          250,
+          250
+        ],
+        "source": "file_path",
+        "target": "transformation::src\\agents\\surveyor.py:250:12"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\analyzers\\tree_sitter_analyzer.py",
+        "line_range": [
+          65,
+          65
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\analyzers\\tree_sitter_analyzer.py:65:13",
+        "target": "python_runtime:src\\analyzers\\tree_sitter_analyzer.py"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\analyzers\\tree_sitter_analyzer.py",
+        "line_range": [
+          65,
+          65
+        ],
+        "source": "module_path",
+        "target": "transformation::src\\analyzers\\tree_sitter_analyzer.py:65:13"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          189,
+          189
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\orchestrator.py:189:14",
+        "target": "state_path"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          189,
+          189
+        ],
+        "source": "python_runtime:src\\orchestrator.py",
+        "target": "transformation::src\\orchestrator.py:189:14"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          221,
+          221
+        ],
+        "source": "python_runtime:src\\orchestrator.py",
+        "target": "transformation::src\\orchestrator.py:221:15"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          234,
+          234
+        ],
+        "source": "python_runtime:src\\orchestrator.py",
+        "target": "transformation::src\\orchestrator.py:234:16"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          194,
+          194
+        ],
+        "source": "python_runtime:src\\orchestrator.py",
+        "target": "transformation::src\\orchestrator.py:194:18"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          202,
+          202
+        ],
+        "source": "python_runtime:src\\orchestrator.py",
+        "target": "transformation::src\\orchestrator.py:202:19"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          166,
+          166
+        ],
+        "source": "state_path",
+        "target": "transformation::src\\orchestrator.py:166:20"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          180,
+          180
+        ],
+        "source": "state_path",
+        "target": "transformation::src\\orchestrator.py:180:22"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          221,
+          221
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\orchestrator.py:221:15",
+        "target": "path"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          234,
+          234
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ],
+        "source": "transformation::src\\orchestrator.py:234:16",
+        "target": "python_runtime:src\\orchestrator.py"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          194,
+          194
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ],
+        "source": "transformation::src\\orchestrator.py:194:18",
+        "target": "python_runtime:src\\orchestrator.py"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          202,
+          202
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ],
+        "source": "transformation::src\\orchestrator.py:202:19",
+        "target": "python_runtime:src\\orchestrator.py"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          166,
+          166
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\orchestrator.py:166:20",
+        "target": "python_runtime:src\\orchestrator.py"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          180,
+          180
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\orchestrator.py:180:22",
+        "target": "python_runtime:src\\orchestrator.py"
+      }
+    ],
+    "links": [
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\hydrologist.py",
+        "line_range": [
+          259,
+          259
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\hydrologist.py:259:1",
+        "target": "output_path",
+        "transformation_type": "python:file_write_text"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\hydrologist.py",
+        "line_range": [
+          259,
+          259
+        ],
+        "source": "python_runtime:src\\agents\\hydrologist.py",
+        "target": "transformation::src\\agents\\hydrologist.py:259:1"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          715,
+          715
+        ],
+        "source": "python_runtime:src\\agents\\semanticist.py",
+        "target": "transformation::src\\agents\\semanticist.py:715:4"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          715,
+          715
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\semanticist.py:715:4",
+        "target": "output_path",
+        "transformation_type": "python:file_write_text"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          733,
+          733
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\semanticist.py:733:5",
+        "target": "python_runtime:src\\agents\\semanticist.py",
+        "transformation_type": "python:file_read_text"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          733,
+          733
+        ],
+        "source": "path",
+        "target": "transformation::src\\agents\\semanticist.py:733:5"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          735,
+          735
+        ],
+        "source": "path",
+        "target": "transformation::src\\agents\\semanticist.py:735:9"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          252,
+          252
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\semanticist.py:252:8",
+        "target": "python_runtime:src\\agents\\semanticist.py",
+        "transformation_type": "python:file_read_text"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          252,
+          252
+        ],
+        "source": "env_file",
+        "target": "transformation::src\\agents\\semanticist.py:252:8"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          735,
+          735
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\semanticist.py:735:9",
+        "target": "python_runtime:src\\agents\\semanticist.py",
+        "transformation_type": "python:file_read_text"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          864,
+          864
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\semanticist.py:864:10",
+        "target": "python_runtime:src\\agents\\semanticist.py",
+        "transformation_type": "python:file_read_text"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\semanticist.py",
+        "line_range": [
+          864,
+          864
+        ],
+        "source": "graph_path",
+        "target": "transformation::src\\agents\\semanticist.py:864:10"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          141,
+          141
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ],
+        "source": "transformation::src\\agents\\surveyor.py:141:11",
+        "target": "python_runtime:src\\agents\\surveyor.py",
+        "transformation_type": "python:subprocess_call"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          141,
+          141
+        ],
+        "source": "subprocess:dynamic",
+        "target": "transformation::src\\agents\\surveyor.py:141:11"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          234,
+          234
+        ],
+        "source": "subprocess:dynamic",
+        "target": "transformation::src\\orchestrator.py:234:16"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          194,
+          194
+        ],
+        "source": "subprocess:dynamic",
+        "target": "transformation::src\\orchestrator.py:194:18"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          202,
+          202
+        ],
+        "source": "subprocess:dynamic",
+        "target": "transformation::src\\orchestrator.py:202:19"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          141,
+          141
+        ],
+        "source": "python_runtime:src\\agents\\surveyor.py",
+        "target": "transformation::src\\agents\\surveyor.py:141:11"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          250,
+          250
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\agents\\surveyor.py:250:12",
+        "target": "python_runtime:src\\agents\\surveyor.py",
+        "transformation_type": "python:file_read_text"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\agents\\surveyor.py",
+        "line_range": [
+          250,
+          250
+        ],
+        "source": "file_path",
+        "target": "transformation::src\\agents\\surveyor.py:250:12"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\analyzers\\tree_sitter_analyzer.py",
+        "line_range": [
+          65,
+          65
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\analyzers\\tree_sitter_analyzer.py:65:13",
+        "target": "python_runtime:src\\analyzers\\tree_sitter_analyzer.py",
+        "transformation_type": "python:file_read_text"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\analyzers\\tree_sitter_analyzer.py",
+        "line_range": [
+          65,
+          65
+        ],
+        "source": "module_path",
+        "target": "transformation::src\\analyzers\\tree_sitter_analyzer.py:65:13"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          189,
+          189
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\orchestrator.py:189:14",
+        "target": "state_path",
+        "transformation_type": "python:file_write_text"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          189,
+          189
+        ],
+        "source": "python_runtime:src\\orchestrator.py",
+        "target": "transformation::src\\orchestrator.py:189:14"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          221,
+          221
+        ],
+        "source": "python_runtime:src\\orchestrator.py",
+        "target": "transformation::src\\orchestrator.py:221:15"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          234,
+          234
+        ],
+        "source": "python_runtime:src\\orchestrator.py",
+        "target": "transformation::src\\orchestrator.py:234:16"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          194,
+          194
+        ],
+        "source": "python_runtime:src\\orchestrator.py",
+        "target": "transformation::src\\orchestrator.py:194:18"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          202,
+          202
+        ],
+        "source": "python_runtime:src\\orchestrator.py",
+        "target": "transformation::src\\orchestrator.py:202:19"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          166,
+          166
+        ],
+        "source": "state_path",
+        "target": "transformation::src\\orchestrator.py:166:20"
+      },
+      {
+        "edge_type": "CONSUMES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          180,
+          180
+        ],
+        "source": "state_path",
+        "target": "transformation::src\\orchestrator.py:180:22"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          221,
+          221
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\orchestrator.py:221:15",
+        "target": "path",
+        "transformation_type": "python:file_write_text"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          234,
+          234
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ],
+        "source": "transformation::src\\orchestrator.py:234:16",
+        "target": "python_runtime:src\\orchestrator.py",
+        "transformation_type": "python:subprocess_call"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          194,
+          194
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ],
+        "source": "transformation::src\\orchestrator.py:194:18",
+        "target": "python_runtime:src\\orchestrator.py",
+        "transformation_type": "python:subprocess_call"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          202,
+          202
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [
+          "dynamic reference, cannot resolve"
+        ],
+        "source": "transformation::src\\orchestrator.py:202:19",
+        "target": "python_runtime:src\\orchestrator.py",
+        "transformation_type": "python:subprocess_call"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          166,
+          166
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\orchestrator.py:166:20",
+        "target": "python_runtime:src\\orchestrator.py",
+        "transformation_type": "python:file_read_text"
+      },
+      {
+        "edge_type": "PRODUCES",
+        "source_file": "src\\orchestrator.py",
+        "line_range": [
+          180,
+          180
+        ],
+        "sql_query_if_applicable": null,
+        "notes": [],
+        "source": "transformation::src\\orchestrator.py:180:22",
+        "target": "python_runtime:src\\orchestrator.py",
+        "transformation_type": "python:file_read_text"
+      }
+    ]
   },
-  "sources": [],
-  "sinks": [],
-  "dataset_nodes": [],
-  "transformation_nodes": [],
-  "warnings": []
+  "sources": [
+    "env_file",
+    "file_path",
+    "graph_path",
+    "module_path",
+    "python_runtime:src\\agents\\hydrologist.py",
+    "subprocess:dynamic"
+  ],
+  "sinks": [
+    "output_path",
+    "python_runtime:src\\analyzers\\tree_sitter_analyzer.py"
+  ],
+  "dataset_nodes": [
+    "env_file",
+    "file_path",
+    "graph_path",
+    "module_path",
+    "output_path",
+    "path",
+    "python_runtime:src\\agents\\hydrologist.py",
+    "python_runtime:src\\agents\\semanticist.py",
+    "python_runtime:src\\agents\\surveyor.py",
+    "python_runtime:src\\analyzers\\tree_sitter_analyzer.py",
+    "python_runtime:src\\orchestrator.py",
+    "state_path",
+    "subprocess:dynamic"
+  ],
+  "transformation_nodes": [
+    "transformation::src\\agents\\hydrologist.py:259:1",
+    "transformation::src\\agents\\semanticist.py:140:2",
+    "transformation::src\\agents\\semanticist.py:147:7",
+    "transformation::src\\agents\\semanticist.py:163:3",
+    "transformation::src\\agents\\semanticist.py:252:8",
+    "transformation::src\\agents\\semanticist.py:715:4",
+    "transformation::src\\agents\\semanticist.py:733:5",
+    "transformation::src\\agents\\semanticist.py:735:9",
+    "transformation::src\\agents\\semanticist.py:864:10",
+    "transformation::src\\agents\\semanticist.py:864:6",
+    "transformation::src\\agents\\surveyor.py:141:11",
+    "transformation::src\\agents\\surveyor.py:250:12",
+    "transformation::src\\analyzers\\tree_sitter_analyzer.py:65:13",
+    "transformation::src\\orchestrator.py:166:17",
+    "transformation::src\\orchestrator.py:166:20",
+    "transformation::src\\orchestrator.py:180:21",
+    "transformation::src\\orchestrator.py:180:22",
+    "transformation::src\\orchestrator.py:189:14",
+    "transformation::src\\orchestrator.py:194:18",
+    "transformation::src\\orchestrator.py:202:19",
+    "transformation::src\\orchestrator.py:221:15",
+    "transformation::src\\orchestrator.py:234:16"
+  ],
+  "warnings": [
+    "src\\agents\\semanticist.py:140 dynamic reference, cannot resolve",
+    "src\\agents\\semanticist.py:163 dynamic reference, cannot resolve",
+    "src\\agents\\semanticist.py:864 dynamic reference, cannot resolve",
+    "src\\agents\\semanticist.py:147 dynamic reference, cannot resolve",
+    "src\\orchestrator.py:166 dynamic reference, cannot resolve",
+    "src\\orchestrator.py:180 dynamic reference, cannot resolve"
+  ]
 }
